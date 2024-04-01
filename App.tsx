@@ -5,6 +5,9 @@
  * @format
  */
 
+import { ReactNativeKeycloakProvider, RNKeycloak } from '@react-keycloak/native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import type {PropsWithChildren} from 'react';
 import {
@@ -17,82 +20,70 @@ import {
   View,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+import Login from './src/login/Login';
+import Home from './src/Home';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Ioncions from 'react-native-vector-icons/Ionicons';
+import Voyage from './src/Voyage';
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+const keycloak = new RNKeycloak({
+  url: 'https://sso.xfactory.vn/auth/',
+  realm: 'dev',
+  clientId: 'angular-client',
+})
+
+const Stack = createNativeStackNavigator()
+
+const Tab = createBottomTabNavigator()
+
+function HomeTab() {
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
+    <Tab.Navigator initialRouteName='Home'
+    screenOptions={({route}) => ({
+      animation: 'shift',
+      headerShown: false,
+      tabBarIcon: ({focused, color, size}) => {
+        var iconName = '';
+        let rn = route.name;
+
+        if(rn === 'Home'){
+          iconName = focused ? 'home' : 'home-outline';
+        } else if(rn === 'Voyage'){
+          iconName = focused ? 'list' : 'list-outline';
+        }
+        return <Ioncions name={iconName} color={color} size={size}/>
+
+      },
+      tabBarActiveTintColor: 'green',
+      tabBarInactiveTintColor: 'gray',
+      tabBarLabelStyle: {paddingBottom: 10, fontSize: 10},
+      tabBarStyle: {
+        height: 50
+      }
+      
+    })}
+    >
+      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name='Voyage' component={Voyage}/>
+    </Tab.Navigator>
   );
 }
 
 function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <ReactNativeKeycloakProvider
+    authClient={keycloak}
+    initOptions={{redirectUri: 'itc-mobile://auth'}}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName={keycloak?.authenticated ? 'Home' : 'Login'} screenOptions={{headerShown: false}}>
+          <Stack.Screen name='Login' component={Login}></Stack.Screen>
+          <Stack.Screen name='HomeTab' component={HomeTab}></Stack.Screen>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </ReactNativeKeycloakProvider>
   );
 }
 
