@@ -30,7 +30,12 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import HomeTab from './src/navigators/TabNavigators';
 import { environment } from './src/environment/environment.cloud';
 
-const keycloak = new RNKeycloak(environment.keycloak)
+// const keycloak = new RNKeycloak({...environment.keycloak})
+const keycloak = new RNKeycloak({
+  url: 'https://sso.xfactory.vn/auth/',
+  realm: 'dev',
+  clientId: 'angular-client',
+})
 
 const Stack = createNativeStackNavigator()
 
