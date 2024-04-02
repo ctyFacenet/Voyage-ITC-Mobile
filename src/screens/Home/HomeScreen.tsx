@@ -40,13 +40,14 @@ const Home = () => {
 
     return (
         <>
-        <Button title="Call Api" onPress={callApi}></Button>
+        <Text>Home</Text>
+        {/* <Button title="Call Api" onPress={callApi}></Button>
             <View style={{
                 position: "relative",
                 width: '100%',
                 height: '40%'
             }}>
-                <Image source={require('../assets/image/home_background_2.png')} style={{
+                <Image source={require('../../assets/image/home_background_2.png')} style={{
                     width: '100%',
                     height: '100%',
                     borderBottomRightRadius: 40,
@@ -57,7 +58,7 @@ const Home = () => {
                     width: '100%',
                     height: '40%'
                 }}>
-                    <Image source={require('../assets/image/home_background_1.png')} style={{
+                    <Image source={require('../../assets/image/home_background_1.png')} style={{
                         width: '100%',
                         borderBottomRightRadius: 40,
                         borderBottomLeftRadius: 40,
@@ -112,7 +113,7 @@ const Home = () => {
                                         [0, 1, 2, 3, 4, 5].map((index) => (
                                             <TouchableOpacity
                                                 onPressIn={() => handleFocus(index)}>
-                                                <Image key={index} source={require('../assets/image/tau_dolphin75.png')}
+                                                <Image key={index} source={require('../../assets/image/tau_dolphin75.png')}
                                                     style={getImageStyle(index)}></Image>
                                             </TouchableOpacity>
 
@@ -138,7 +139,7 @@ const Home = () => {
 
                     </View>
                 </View>
-            </View>
+            </View> */}
             {/* <FlatList 
             data={voyage}
             renderItem={({item}) => (

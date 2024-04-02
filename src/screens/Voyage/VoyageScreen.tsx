@@ -1,5 +1,5 @@
 import { ScrollView, Text, TextInput, View } from "react-native"
-import VoyageHeader from "./components/VoyageHeader"
+import VoyageHeader from "../../components/VoyageHeader"
 import React from "react"
 
 type VoyageContent = {

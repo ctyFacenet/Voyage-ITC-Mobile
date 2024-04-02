@@ -21,54 +21,22 @@ import {
 } from 'react-native';
 
 
-import Login from './src/login/Login';
-import Home from './src/Home';
+import Login from './src/screens/login/Login';
+import Home from './src/screens/Home/HomeScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ioncions from 'react-native-vector-icons/Ionicons';
-import Voyage from './src/Voyage';
+import Voyage from './src/screens/Voyage/VoyageScreen';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import HomeTab from './src/navigators/TabNavigators';
+import { environment } from './src/environment/environment.cloud';
 
-const keycloak = new RNKeycloak({
-  url: 'https://sso.xfactory.vn/auth/',
-  realm: 'dev',
-  clientId: 'angular-client',
-})
+const keycloak = new RNKeycloak(environment.keycloak)
 
 const Stack = createNativeStackNavigator()
 
 const Tab = createBottomTabNavigator()
 
-function HomeTab() {
-  return (
-    <Tab.Navigator initialRouteName='Home'
-    screenOptions={({route}) => ({
-      animation: 'shift',
-      headerShown: false,
-      tabBarIcon: ({focused, color, size}) => {
-        var iconName = '';
-        let rn = route.name;
 
-        if(rn === 'Home'){
-          iconName = focused ? 'home' : 'home-outline';
-        } else if(rn === 'Voyage'){
-          iconName = focused ? 'list' : 'list-outline';
-        }
-        return <Ioncions name={iconName} color={color} size={size}/>
-
-      },
-      tabBarActiveTintColor: 'green',
-      tabBarInactiveTintColor: 'gray',
-      tabBarLabelStyle: {paddingBottom: 10, fontSize: 10},
-      tabBarStyle: {
-        height: 50
-      }
-      
-    })}
-    >
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name='Voyage' component={Voyage}/>
-    </Tab.Navigator>
-  );
-}
 
 function App(): React.JSX.Element {
   
