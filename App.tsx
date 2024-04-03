@@ -56,7 +56,7 @@ function App(): React.JSX.Element {
         <Stack.Navigator initialRouteName={keycloak?.authenticated ? 'Home' : 'Login'} screenOptions={{headerShown: false}}>
           <Stack.Screen name='Login' component={Login}></Stack.Screen>
           <Stack.Screen name='HomeTab' component={HomeTab}></Stack.Screen>
-          <Stack.Screen name='Filter' component={Filter}></Stack.Screen>
+          <Stack.Screen name='Filter' component={Filter} options={{animation: 'slide_from_right'}}></Stack.Screen>
 
           
         </Stack.Navigator>

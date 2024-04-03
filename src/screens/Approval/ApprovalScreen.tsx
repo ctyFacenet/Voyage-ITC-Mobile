@@ -2,19 +2,12 @@ import * as React from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, DrawerLayoutAndroid, Button } from 'react-native';
 import VoyageHeader from '../../components/VoyageHeader';
 import SearchInput from '../../components/SearchInput';
-import FilterStatus from '../../components/FilterStatus';
 import  Icon  from 'react-native-vector-icons/AntDesign';
 import { COLORS, SPACING } from '../../../theme/theme';
 import { Drawer } from 'react-native-drawer-layout';
 import { useNavigation } from '@react-navigation/native';
 
-const Filter = () => {
-  return (
-    <View style={styles.container}>
-      <Text>sds</Text>
-    </View>
-  );
-};
+
 const ApprovalScreen = () => {
   const navigation: any = useNavigation()
   return (
