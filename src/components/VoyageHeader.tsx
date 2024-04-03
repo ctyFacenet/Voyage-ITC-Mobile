@@ -10,7 +10,7 @@ const VoyageHeader = ({content}: any) => {
                 height: '100%',
                 position: 'relative'
             }}>
-                <Image source={require('../../assets/image/home_background_1.png')} style={{
+                <Image source={require('../assets/image/home_background_1.png')} style={{
                     height: '100%',
                     width: '100%'
                 }}/>

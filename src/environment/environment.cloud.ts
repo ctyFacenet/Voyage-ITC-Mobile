@@ -6,7 +6,7 @@ export const environment = {
   api_end_point_download: 'http://apiitc.xfactory.vn/api/assets',
   // api_end_point: 'http://222.252.25.37:4200',  auth_api: '/api/auth/',
   keycloak: {
-    issuer: 'https://sso.xfactory.vn/auth/',
+    url: 'https://sso.xfactory.vn/auth/',
     // Realm
     realm: 'dev',
     clientId: 'angular-client',
