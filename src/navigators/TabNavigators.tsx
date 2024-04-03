@@ -9,6 +9,7 @@ import Home from "../screens/Home/HomeScreen";
 import Voyage from "../screens/Voyage/VoyageScreen";
 import Notification from "../screens/Notification/NotificationScreen";
 import { COLORS, FONTSIZE, SPACING } from "../../theme/theme";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 
 
 const Tab = createBottomTabNavigator();
@@ -43,24 +44,23 @@ function HomeTab() {
       tabBarInactiveTintColor: 'gray',
       tabBarLabelStyle: {paddingBottom: 10, fontSize: 10},
       tabBarStyle: {
-        height: 50
-      }
+        height: 60
+      },
+      headerPressColor: COLORS.primary
       
     })}
     >
-      <Tab.Screen name="Home" component={Home}  />
+      <Tab.Screen name="Home" component={Home} options={{ 
+        
+        title: 'Awesome app', 
+        headerPressColor: '#333'
+    }}    />
       <Tab.Screen name='Voyage' component={Voyage}/>
       <Tab.Screen name="Notification" component={Notification}/>
     </Tab.Navigator>
   );
 }
-const styles = StyleSheet.create({
-  activeTabBackground: {
-    backgroundColor: COLORS.Black,
-    padding: SPACING.space_18,
-    borderRadius: SPACING.space_18 * 10,
-  },
-});
+
 export default HomeTab;
 
 
