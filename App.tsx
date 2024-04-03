@@ -4,7 +4,7 @@
  *
  * @format
  */
-
+import 'react-native-gesture-handler';
 import { ReactNativeKeycloakProvider, RNKeycloak } from '@react-keycloak/native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -29,6 +29,8 @@ import Voyage from './src/screens/Voyage/VoyageScreen';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import HomeTab from './src/navigators/TabNavigators';
 import { environment } from './src/environment/environment.cloud';
+import Filter from './src/screens/Approval/FilterScreen';
+
 
 // const keycloak = new RNKeycloak({...environment.keycloak})
 const keycloak = new RNKeycloak({
@@ -54,6 +56,9 @@ function App(): React.JSX.Element {
         <Stack.Navigator initialRouteName={keycloak?.authenticated ? 'Home' : 'Login'} screenOptions={{headerShown: false}}>
           <Stack.Screen name='Login' component={Login}></Stack.Screen>
           <Stack.Screen name='HomeTab' component={HomeTab}></Stack.Screen>
+          <Stack.Screen name='Filter' component={Filter}></Stack.Screen>
+
+          
         </Stack.Navigator>
       </NavigationContainer>
     </ReactNativeKeycloakProvider>
