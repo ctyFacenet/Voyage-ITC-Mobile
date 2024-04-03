@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  api_end_point: 'http://192.168.68.87:8312',
+  api_end_point: 'https://apiitc.facenet.vn',
   auth_api: '/api/auth/',
   keycloak: {
     issuer: 'https://sso.xfactory.vn/auth/',

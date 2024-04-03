@@ -1,21 +1,22 @@
 import {View, Image, Text } from "react-native"
 import { COLORS, FONTSIZE } from "../../theme/theme";
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { verticalScale } from "react-native-size-matters";
 
 const VoyageHeader = ({content , iconBack}: { content: any, iconBack?: any }) => {
 
     return (
         <>
            <View style={{
-            width: 389.05,
-            height: 104.04, 
+            width: '100%',
+            height: verticalScale(100), 
             position: 'relative'
             }}>
                 <Image 
                     source={require('../assets/image/header_image.png')} 
                     style={{
-                        width: '93%',
-                        height: '90%',
+                        width: '100%',
+                        height: verticalScale(100),
                        
                         resizeMode: 'cover', // Chỉnh lại resizeMode cho hình ảnh
                         borderBottomLeftRadius: 20,
@@ -24,8 +25,8 @@ const VoyageHeader = ({content , iconBack}: { content: any, iconBack?: any }) =>
                     }}
                 />
                 <View style={{
-                    width: '95%',
-                    height: '100%',
+                    width: '100%',
+                    height: verticalScale(100),
                     position: 'absolute',
                     alignContent: 'center',
                     justifyContent: 'space-between',
