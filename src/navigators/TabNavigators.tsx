@@ -7,9 +7,10 @@ import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Home from "../screens/Home/HomeScreen";
 import Voyage from "../screens/Voyage/VoyageScreen";
-import Notification from "../screens/Notification/NotificationScreen";
+import NotificationScreen from "../screens/Notification/NotificationScreen";
 import { COLORS, FONTSIZE, SPACING } from "../../theme/theme";
 import { Colors } from "react-native/Libraries/NewAppScreen";
+import ApprovalScreen from "../screens/Approval/ApprovalScreen";
 
 
 const Tab = createBottomTabNavigator();
@@ -26,11 +27,10 @@ function HomeTab() {
         color = focused ? COLORS.primary : COLORS.text;
         color = focused ? 'green' : 'gray'
         if(rn === 'Home'){
-          iconName =  'home';
-          return <SimpleLineIcons name={iconName} color={color} size={size}/>
-        } else if(rn === 'Voyage'){
-          iconName = 'earth';
-          return <AntDesign name={iconName} color={color} size={size}/>
+          iconName =  'home' ;
+
+        } else if(rn === 'Approval'){
+          iconName = 'filetext1';
         }
         
         else if(rn === 'Notification'){
@@ -52,11 +52,16 @@ function HomeTab() {
     >
       <Tab.Screen name="Home" component={Home} options={{ 
         
-        title: 'Awesome app', 
+        title: 'Trang chủ', 
         headerPressColor: '#333'
     }}    />
-      <Tab.Screen name='Voyage' component={Voyage}/>
-      <Tab.Screen name="Notification" component={Notification}/>
+      <Tab.Screen name='Approval' component={ApprovalScreen}  options={{ 
+        
+        title: 'Phê duyệt', 
+        headerPressColor: '#333'
+    }} />
+      <Tab.Screen name='Notification' component={NotificationScreen}/>
+
     </Tab.Navigator>
   );
 }

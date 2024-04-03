@@ -30,23 +30,21 @@ interface Spacing {
     space_36: 36,
   };
   
-//   interface Color {
-//     primary: string;
-//     title: string;
-//     text: string;
-//     Orange: string;
-//     OrangeRGBA0: string;
-//     Grey: string;
-//     DarkGrey: string;
-//     Yellow: string;
-//     White: string;
-//     WhiteRGBA75: string;
-//     WhiteRGBA50: string;
-//     WhiteRGBA32: string;
-//     WhiteRGBA15: string;
-//   }
+  interface Color {
+    primary: string;
+    title: string;
+    text: string;
   
-  export const COLORS: any = {
+    White: string;
+    yellow: string,
+    violet: string,
+    red: string,
+    brown: string,
+    green: string,
+    green_second: string, 
+  }
+  
+  export const COLORS: Color = {
     primary: "#244A64",
     text: "#6B788E",
     title: "#404041",
@@ -56,6 +54,7 @@ interface Spacing {
     brown: '#A2948A',
     green: '#027A48',
     green_second: '#19B300', 
+    White: '#fff'
    
   };
   
