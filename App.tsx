@@ -30,6 +30,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import HomeTab from './src/navigators/TabNavigators';
 import { environment } from './src/environment/environment.cloud';
 import Filter from './src/screens/Approval/FilterScreen';
+import Account from './src/account/Account';
+import VoyageDetail from './src/screens/Voyage/VoyageDetailScreen';
 
 
 // const keycloak = new RNKeycloak({...environment.keycloak})
@@ -56,9 +58,9 @@ function App(): React.JSX.Element {
         <Stack.Navigator initialRouteName={keycloak?.authenticated ? 'Home' : 'Login'} screenOptions={{headerShown: false}}>
           <Stack.Screen name='Login' component={Login}></Stack.Screen>
           <Stack.Screen name='HomeTab' component={HomeTab}></Stack.Screen>
-          <Stack.Screen name='Filter' component={Filter} options={{animation: 'slide_from_right'}}></Stack.Screen>
-
-          
+          <Stack.Screen name='Filter' component={Filter}></Stack.Screen>
+          <Stack.Screen name='Account' component={Account}/>
+          <Stack.Screen name='VoyageDetail' component={VoyageDetail}/>
         </Stack.Navigator>
       </NavigationContainer>
     </ReactNativeKeycloakProvider>

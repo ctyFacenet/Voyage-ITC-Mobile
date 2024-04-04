@@ -1,20 +1,19 @@
-import {View, Image, Text } from "react-native"
+import {View, Image, Text, TouchableOpacity } from "react-native"
 import { COLORS, FONTSIZE } from "../../theme/theme";
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import AntIcon from 'react-native-vector-icons/AntDesign';
-
-import { verticalScale } from "react-native-size-matters";
-import { useEffect, useState } from "react";
+import { moderateScale, verticalScale } from "react-native-size-matters";
 import { useNavigation } from "@react-navigation/native";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
-const VoyageHeader = ({content , isIconBack = false}: { content: any, isIconBack?: any }) => {
+const VoyageHeader = ({content, iconBack, nameScreen}: { content: any, iconBack?: any, nameScreen?: string }) => {
+
     const navigation = useNavigation()
-   const handleGoBack = () => {
-    console.log(123);
-    
-    navigation.goBack()
-   }
+
+    const HandleScreen = () => {
+        if(nameScreen != null && nameScreen?.length > 0){
+            navigation.navigate(nameScreen);
+        }
+    }
+
     return (
         <>
            <View style={{
@@ -46,12 +45,12 @@ const VoyageHeader = ({content , isIconBack = false}: { content: any, isIconBack
                     padding: 10
 
                 }}>
-                        {
-                            !isIconBack ? ( <Icon name='user-circle' color={COLORS.White} size={20}/>) : (<AntIcon name='arrowleft' color={COLORS.White} size={20} onPress={handleGoBack}/>)
-                        }
-
+                   
+                    <TouchableOpacity onPress={HandleScreen}>
+                        <Icon name={iconBack} color={COLORS.White} size={moderateScale(20)}/>
+                    </TouchableOpacity>
                     <Text style={{
-                        fontSize: FONTSIZE.size_20,
+                        fontSize: moderateScale(FONTSIZE.size_20),
                         color: COLORS.White,
                         fontWeight: 'bold'
                     }}>{content}</Text>
