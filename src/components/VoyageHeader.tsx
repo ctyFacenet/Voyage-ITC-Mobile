@@ -1,10 +1,20 @@
 import {View, Image, Text } from "react-native"
 import { COLORS, FONTSIZE } from "../../theme/theme";
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import AntIcon from 'react-native-vector-icons/AntDesign';
+
 import { verticalScale } from "react-native-size-matters";
+import { useEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
-const VoyageHeader = ({content , iconBack}: { content: any, iconBack?: any }) => {
-
+const VoyageHeader = ({content , isIconBack = false}: { content: any, isIconBack?: any }) => {
+    const navigation = useNavigation()
+   const handleGoBack = () => {
+    console.log(123);
+    
+    navigation.goBack()
+   }
     return (
         <>
            <View style={{
@@ -36,8 +46,10 @@ const VoyageHeader = ({content , iconBack}: { content: any, iconBack?: any }) =>
                     padding: 10
 
                 }}>
-                   
-                    <Icon name='user-circle' color={COLORS.White} size={20}/>
+                        {
+                            !isIconBack ? ( <Icon name='user-circle' color={COLORS.White} size={20}/>) : (<AntIcon name='arrowleft' color={COLORS.White} size={20} onPress={handleGoBack}/>)
+                        }
+
                     <Text style={{
                         fontSize: FONTSIZE.size_20,
                         color: COLORS.White,
