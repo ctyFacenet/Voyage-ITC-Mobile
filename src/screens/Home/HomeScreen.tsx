@@ -8,13 +8,15 @@ import Fontisto from 'react-native-vector-icons/Fontisto'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Icon from "react-native-vector-icons/Ionicons";
-import { useNavigation } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Voyage from "../Voyage/VoyageScreen";
 
 
 const sizeShip = 32;
 
-const ShipOnBoard = ({onPress}: any) => {
-    
+const ShipOnBoard = ({ onPress }: any) => {
+
     return (
         <>
             <View style={{
@@ -97,23 +99,23 @@ const ShipOnBoard = ({onPress}: any) => {
                             }}>
                                 <View style={{
                                     flexDirection: 'row',
-                                    marginTop: 5,
+                                    marginTop: verticalScale(5),
                                 }}>
-                                    <Ionicons name="layers" color='#244A64' size={25} />
+                                    <Ionicons name="layers" color='#244A64' size={moderateScale(25)} />
                                     <View>
-                                        <Text style={{ color: '#244A64', fontSize: 17 }}>YUHUAN</Text>
-                                        <Text style={{ color: '#40404199', fontSize: 17 }}>Trung Quốc</Text>
+                                        <Text style={{ color: '#244A64', fontSize: moderateScale(15) }}>YUHUAN</Text>
+                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>Trung Quốc</Text>
                                     </View>
                                 </View>
 
                                 <View style={{
                                     flexDirection: 'row',
-                                    marginTop: 5,
+                                    marginTop: scale(5),
                                 }}>
-                                    <Ionicons name="layers" color='#AE0000' size={25} />
+                                    <Ionicons name="layers" color='#AE0000' size={moderateScale(25)} />
                                     <View>
-                                        <Text style={{ color: '#AE0000', fontSize: 17 }}>BUNATI</Text>
-                                        <Text style={{ color: '#40404199', fontSize: 17 }}>Trung Quốc</Text>
+                                        <Text style={{ color: '#AE0000', fontSize: moderateScale(15) }}>BUNATI</Text>
+                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>Trung Quốc</Text>
                                     </View>
                                 </View>
                             </View>
@@ -137,19 +139,18 @@ const ShipOnBoard = ({onPress}: any) => {
                                     flexDirection: 'row',
                                     alignItems: 'center',
                                     width: '100%',
-                                    top: verticalScale(-12)
+                                    top: verticalScale(-14)
                                 }}>
                                     <View style={{
                                         height: verticalScale(5),
                                         backgroundColor: '#244A64',
-                                        
                                         width: '60%',
                                     }}>
                                     </View>
                                     <FontAwesome style={{
-                                        left: -27
+                                        left: scale(-25)
                                     }} name="long-arrow-right"
-                                        color='#244A64' size={35} />
+                                        color='#244A64' size={moderateScale(35)} />
 
                                 </View>
 
@@ -167,11 +168,11 @@ const ShipOnBoard = ({onPress}: any) => {
                                     flexDirection: 'row',
                                     marginTop: 5,
                                 }}>
-                                    <Ionicons name="location" color='#244A64' size={25} />
+                                    <Ionicons name="location" color='#244A64' size={moderateScale(20)} />
                                     <View>
-                                    <Text style={{ color: '#40404199', fontSize: 17 }}>Vị trí hiện tại</Text>
-                                        <Text style={{ color: '#244A64', fontSize: 17 }}>3.755S, 115.6461E</Text>
-                                        
+                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>Vị trí hiện tại</Text>
+                                        <Text style={{ color: '#244A64', fontSize: moderateScale(15) }}>3.755S, 115.6461E</Text>
+
                                     </View>
                                 </View>
 
@@ -179,10 +180,10 @@ const ShipOnBoard = ({onPress}: any) => {
                                     flexDirection: 'row',
                                     marginTop: 5,
                                 }}>
-                                    
+
                                     <View>
-                                        <Text style={{ color: '#40404199', fontSize: 17 }}>ETD: <Text style={{ color: '#244A64', fontSize: 17 }}>18:00 15/02/2024</Text></Text>
-                                        <Text style={{ color: '#40404199', fontSize: 17 }}>8:00 15/02/2024</Text>
+                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>ETD: <Text style={{ color: '#244A64', fontSize: 17 }}>18:00 15/02/2024</Text></Text>
+                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>8:00 15/02/2024</Text>
                                     </View>
                                 </View>
                             </View>
@@ -231,18 +232,18 @@ const ShipOnPort = () => {
                                 }}>
                                     <Ionicons name="layers" color='#244A64' size={25} />
                                     <View>
-                                        <Text style={{ color: '#244A64', fontSize: 17 }}>YUHUAN</Text>
-                                        <Text style={{ color: '#40404199', fontSize: 17 }}>Trung Quốc</Text>
+                                        <Text style={{ color: '#244A64', fontSize: moderateScale(15) }}>YUHUAN</Text>
+                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>Trung Quốc</Text>
                                     </View>
                                 </View>
 
                                 <View style={{
                                     flexDirection: 'row',
-                                    marginTop: 5,
+                                    marginTop: scale(5),
                                 }}>
                                     <View>
-                                        <Text style={{ color: '#40404199', fontSize: 17 }}>ETD: <Text style={{ color: '#244A64', fontSize: 17 }}>18:00 15/02/2024</Text></Text>
-                                        <Text style={{ color: '#40404199', fontSize: 17 }}>8:00 15/02/2024</Text>
+                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>ETD: <Text style={{ color: '#244A64', fontSize: 17 }}>18:00 15/02/2024</Text></Text>
+                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>8:00 15/02/2024</Text>
                                     </View>
                                 </View>
                             </View>
@@ -282,7 +283,7 @@ const ShipNoVoyage = () => {
                     <View style={{
                         marginTop: 10
                     }}>
-                        <Text style={{color:'#40404199', fontSize: 17}}>Hiện tại không thực hiện Voyage</Text>
+                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>Hiện tại không thực hiện Voyage</Text>
 
                     </View>
 
@@ -293,15 +294,17 @@ const ShipNoVoyage = () => {
 }
 
 
-const Home = () => {
+const Stack = createNativeStackNavigator();
+
+const HomeScreen = () => {
     const { keycloak } = useKeycloak();
 
     const [voyage, setVoyage] = useState([]);
 
     const navigation = useNavigation();
-    
+
     const HandlePress = () => {
-        navigation.navigate('Voyage');
+        navigation.navigate('VoyageList');
     }
 
 
@@ -329,7 +332,7 @@ const Home = () => {
                 width: '100%',
                 backgroundColor: '#FFFFFF'
             }}>
-                <VoyageHeader content='Maritime Open Connect'></VoyageHeader>
+                <VoyageHeader content='Maritime Open Connect' iconBack='user-circle' nameScreen='Account'></VoyageHeader>
                 <ScrollView>
                     <TouchableOpacity onPress={HandlePress}>
                         <ShipOnBoard></ShipOnBoard>
@@ -348,7 +351,7 @@ const styles = StyleSheet.create({
     },
 
     shipName: {
-        fontSize: 25,
+        fontSize: moderateScale(20),
         color: '#244A64',
         fontWeight: 'bold',
         padding: 5
@@ -364,5 +367,21 @@ const styles = StyleSheet.create({
     }
 
 })
+
+const Home = () => {
+    return (
+        <>
+            <Stack.Navigator
+            initialRouteName="Home"
+            screenOptions={{
+                    headerShown: false
+                }}
+            >
+                <Stack.Screen name="HomeScreen" component={HomeScreen}></Stack.Screen>
+                <Stack.Screen name="VoyageList" component={Voyage} />
+            </Stack.Navigator>
+        </>
+    )
+}
 
 export default Home;

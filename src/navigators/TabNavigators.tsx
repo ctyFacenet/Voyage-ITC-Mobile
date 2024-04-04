@@ -31,6 +31,7 @@ function HomeTab() {
 
         } else if(rn === 'Approval'){
           iconName = 'filetext1';
+          return <AntDesign name={iconName} color={color} size={size}/>
         }
         
         else if(rn === 'Notification'){
