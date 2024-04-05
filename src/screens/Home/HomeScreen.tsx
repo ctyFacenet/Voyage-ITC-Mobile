@@ -298,6 +298,8 @@ const Stack = createNativeStackNavigator();
 
 const HomeScreen = () => {
     const { keycloak } = useKeycloak();
+    console.log(keycloak?.token);
+    
 
     const [voyage, setVoyage] = useState([]);
 
@@ -332,7 +334,7 @@ const HomeScreen = () => {
                 width: '100%',
                 backgroundColor: '#FFFFFF'
             }}>
-                <VoyageHeader content='Maritime Open Connect' iconBack='user-circle' nameScreen='Account'></VoyageHeader>
+                <VoyageHeader content='Maritime Open Connect' iconName='user-circle' nameScreen='Account'></VoyageHeader>
                 <ScrollView>
                     <TouchableOpacity onPress={HandlePress}>
                         <ShipOnBoard></ShipOnBoard>

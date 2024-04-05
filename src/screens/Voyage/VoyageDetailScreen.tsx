@@ -8,7 +8,7 @@ const VoyageDetail = () => {
         <>
             <SafeAreaView>
                 <View>
-                    <VoyageHeader content='Thông tin voyage' iconBack='arrow-left' nameScreen="VoyageList"></VoyageHeader>
+                    <VoyageHeader content='Thông tin voyage' iconName='arrow-left' nameScreen="VoyageList"></VoyageHeader>
                 </View>
                 <View>
                     <View>

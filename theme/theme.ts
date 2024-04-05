@@ -42,6 +42,12 @@ interface Spacing {
     brown: string,
     green: string,
     green_second: string, 
+    grey: string
+    backgroundYellow: string,
+    backgroundViolet: string
+    backgroundGreen: string
+    backgroundRed: string
+    backgourndGrey: string
   }
   
   export const COLORS: Color = {
@@ -54,7 +60,14 @@ interface Spacing {
     brown: '#A2948A',
     green: '#027A48',
     green_second: '#19B300', 
-    White: '#fff'
+    White: '#fff',
+    grey: 'rgba(64, 64, 65, 0.6)',
+    backgroundYellow: 'rgba(255, 184, 0, 0.2)',
+    backgroundViolet: 'rgba(174, 99, 255, 0.2)',
+    backgroundRed: 'rgba(181, 0, 0, 0.2)',
+    backgroundGreen: 'rgba(2, 122, 72, 0.2)',
+    backgourndGrey: 'rgba(243, 243, 243, 1)'
+
    
   };
   

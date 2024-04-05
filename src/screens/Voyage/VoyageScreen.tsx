@@ -79,7 +79,7 @@ const Voyage = () => {
                     width: '100%',
                     backgroundColor: '#FFFFFF'
                 }}>
-                    <VoyageHeader content='Chi tết của tàu Dolphin 75' iconBack='arrow-left' nameScreen="HomeScreen"></VoyageHeader>
+                    <VoyageHeader content='Chi tết của tàu Dolphin 75' iconName='arrow-left' nameScreen="HomeScreen"></VoyageHeader>
                 </View>
                 <View style={{
                     paddingHorizontal: scale(10),
