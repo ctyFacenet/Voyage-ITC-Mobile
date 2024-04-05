@@ -1,5 +1,5 @@
 import { useKeycloak } from "@react-keycloak/native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, FlatList, Image, ImageBackground, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import VoyageHeader from "../../components/VoyageHeader";
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
@@ -11,11 +11,15 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Voyage from "../Voyage/VoyageScreen";
+import { getDataHome } from "../../services/HomeServices/HomeServices";
+import { environment } from "../../environment/environment";
+
 
 
 const sizeShip = 32;
 
-const ShipOnBoard = ({ onPress }: any) => {
+const ShipOnBoard = ({ shipName, imageUrl, distane, speed, distanceTraveled }:
+    { shipName?: string, imageUrl?: string, distane?: number, speed?: number, distanceTraveled?: number }) => {
 
     return (
         <>
@@ -36,7 +40,7 @@ const ShipOnBoard = ({ onPress }: any) => {
                 </View>
                 <View>
                     <View style={styles.imageShip}>
-                        <Image style={[styles.imageShip, { position: 'relative' }]} source={require('../../assets/image/ship_75.png')}></Image>
+                        <Image style={[styles.imageShip, { position: 'relative' }]} source={{ uri: environment.api_end_point_preview + '/' + imageUrl }}></Image>
                         <View style={{
                             position: 'absolute'
                         }}>
@@ -299,31 +303,37 @@ const Stack = createNativeStackNavigator();
 const HomeScreen = () => {
     const { keycloak } = useKeycloak();
 
-    const [voyage, setVoyage] = useState([]);
+    const [voyage, setVoyage] = useState([{}]);
+
 
     const navigation = useNavigation();
 
-    const HandlePress = () => {
-        navigation.navigate('VoyageList');
+    const HandlePress = (id: any, name: any) => {
+        navigation.navigate('VoyageList', {
+            ship: id,
+            shipName: name
+        });
     }
 
-
-    const callApi = () => {
-        fetch('http://dev.apiitc.xfactory.vn/api/ship/tree', {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + keycloak?.token,
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // Gọi hàm getData để lấy dữ liệu
+                const responseData = await getDataHome('homepages');
+                // Cập nhật state data với dữ liệu lấy được từ hàm getData
+                setVoyage(responseData.data)
+            } catch (error) {
+                // Xử lý lỗi nếu có
+                console.error('Error fetching data:', error);
             }
-        })
-            .then((response) => response.json())
-            .then((response) => {
-                console.log(JSON.stringify(response))
-                setVoyage(response.data)
-            })
-            .catch((error) => console.log(error))
-    }
+        };
+
+        // Gọi hàm fetchData ngay lập tức khi useEffect được gọi
+        fetchData();
+    }, [])
+
+    getDataHome('homepages');
+
 
     return (
         <>
@@ -333,13 +343,39 @@ const HomeScreen = () => {
                 backgroundColor: '#FFFFFF'
             }}>
                 <VoyageHeader content='Maritime Open Connect' iconBack='user-circle' nameScreen='Account'></VoyageHeader>
-                <ScrollView>
-                    <TouchableOpacity onPress={HandlePress}>
+                <FlatList data={voyage}
+                    renderItem={({ item }) => {
+                        if (item.reportType != '' && item.reportType === 18) {
+                            return (
+                            <TouchableOpacity onPress={() => HandlePress(item.voyage.ship.id, item.voyage.ship.shipName)}>
+                                <ShipOnBoard
+                                    shipName={item.voyage.ship.shipName}
+                                    imageUrl={item.imageUrl}
+                                ></ShipOnBoard>
+                            </TouchableOpacity>)
+                        } else if (item.reportType != '' && item.reportType === 19) {
+                            return (
+                            <TouchableOpacity onPress={() => HandlePress(item.voyage.ship.id, item.voyage.ship.shipName)}>
+                                <ShipOnPort>
+
+                                </ShipOnPort>
+                            </TouchableOpacity>)
+                        } else {
+                            return (
+                            <TouchableOpacity onPress={() => HandlePress(item.voyage.ship.id, item.voyage.ship.shipName)}>
+                                <ShipNoVoyage>
+
+                                </ShipNoVoyage>
+                            </TouchableOpacity>)
+                        }
+
+                    }}>
+                    {/* <TouchableOpacity onPress={HandlePress}>
                         <ShipOnBoard></ShipOnBoard>
                     </TouchableOpacity>
                     <ShipOnPort></ShipOnPort>
-                    <ShipNoVoyage></ShipNoVoyage>
-                </ScrollView>
+                    <ShipNoVoyage></ShipNoVoyage> */}
+                </FlatList>
             </View>
         </>
     )
@@ -372,8 +408,8 @@ const Home = () => {
     return (
         <>
             <Stack.Navigator
-            initialRouteName="Home"
-            screenOptions={{
+                initialRouteName="Home"
+                screenOptions={{
                     headerShown: false
                 }}
             >
