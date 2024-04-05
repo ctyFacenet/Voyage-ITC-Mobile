@@ -12,7 +12,7 @@ export async function getData(url: any) {
     try {
         const response = await axios.get(`${API_URL}/${url}`, {
             headers: {
-                Authorization: `Bearer ${token}`,
+                'Authorization': 'Bearer ' + keycloak?.token,
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*'
             }

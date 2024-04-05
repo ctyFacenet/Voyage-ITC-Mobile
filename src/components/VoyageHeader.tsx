@@ -9,11 +9,9 @@ const VoyageHeader = ({content, iconName, nameScreen}: { content: any, iconName?
     const navigation = useNavigation()
 
     const HandleScreen = () => {
-        if(iconName == 'arrow-left') {
-            navigation.goBack()
-        } else
-        if(nameScreen != null && nameScreen?.length > 0){
-
+        if(nameScreen === 'arrow-left'){
+            navigation.goBack();
+        } else if(nameScreen != null && nameScreen?.length > 0){
             navigation.navigate(nameScreen);
         }
     }

@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
   api_end_point: 'https://dev.apiitc.facenet.vn',
-  // api_end_point: 'http://192.168.1.193:10068',
+  //api_end_point: 'http://192.168.19.1:10068',
   api_end_point_preview: 'https://dev.apiitc.facenet.vn/assets',
   api_end_point_download: 'https://dev.apiitc.facenet.vn/api/assets',
   auth_api: '/api/auth/',

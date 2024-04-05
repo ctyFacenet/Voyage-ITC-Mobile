@@ -4,12 +4,34 @@ import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import { useKeycloak } from "@react-keycloak/native";
 import { useNavigation } from "@react-navigation/native";
 import ModalConfirmLogout from "../screens/login/ModalComfirmLogout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getDataHome } from "../services/HomeServices/HomeServices";
 
 const Account = () => {
     const { keycloak } = useKeycloak();
     const navigation = useNavigation();
     const [isVisible, setIsVisibile] = useState(false)
+    const [user, setUser] = useState();
+    const [loading, setLoading] = useState(true);
+
+    const getUser = async (userIdKey: any) => {
+        try {
+            if(userIdKey !== undefined){
+                const responeData = await getDataHome('users/' + userIdKey)
+                setUser(responeData.data)
+            }
+        } catch (error) {
+            
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    useEffect(() => {
+        keycloak?.loadUserInfo().then((userInfor) => {
+            getUser(userInfor.sub)
+        })
+    }, [])
 
     const HanldeLogin = () => {
         setIsVisibile(true)
@@ -22,13 +44,15 @@ const Account = () => {
     const HandleAcceptModal = () => {
         setIsVisibile(false)
         keycloak?.logout()
-        .then(() => {
-            navigation.navigate('Login');
-        })
+            .then(() => {
+                navigation.navigate('Login');
+            })
     }
+
 
     return (
         <>
+        {loading ? (<View></View>) : (
             <View style={{
                 flexDirection: 'column',
                 height: '100%',
@@ -41,7 +65,7 @@ const Account = () => {
                     <View style={{
                         position: 'relative',
                         width: '100%',
-                        height: verticalScale(300),
+                        height: scale(310),
                         backgroundColor: '#E0ECFB',
                         borderBottomRightRadius: scale(30),
                         borderBottomLeftRadius: scale(30),
@@ -66,12 +90,12 @@ const Account = () => {
                                     fontSize: moderateScale(30),
                                     color: '#244A64',
                                     fontWeight: 'bold'
-                                }}>nhduong_id</Text>
-                                <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>Phòng ban: <Text style={{ color: '#244A64', fontSize: moderateScale(15) }}>IT</Text></Text>
-                                <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>Chức danh: <Text style={{ color: '#244A64', fontSize: moderateScale(15) }}>Nhân viên IT</Text></Text>
-                                <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>Email: <Text style={{ color: '#244A64', fontSize: moderateScale(15) }}>nguyenduon@gmail.com</Text></Text>
-                                <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>Họ: <Text style={{ color: '#244A64', fontSize: moderateScale(15) }}>Nguyễn Hải</Text></Text>
-                                <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>Tên: <Text style={{ color: '#244A64', fontSize: moderateScale(15) }}>Dương</Text></Text>
+                                }}>{user.username}</Text>
+                                <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>Phòng ban: <Text style={{ color: '#244A64', fontSize: moderateScale(15) }}>{user?.department?.departmentName}</Text></Text>
+                                <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>Chức danh: <Text style={{ color: '#244A64', fontSize: moderateScale(15) }}>{user?.jobPosition}</Text></Text>
+                                <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>Email: <Text style={{ color: '#244A64', fontSize: moderateScale(15) }}>{user?.email}</Text></Text>
+                                <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>Họ: <Text style={{ color: '#244A64', fontSize: moderateScale(15) }}>{user?.firstName}</Text></Text>
+                                <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>Tên: <Text style={{ color: '#244A64', fontSize: moderateScale(15) }}>{user?.lastName}</Text></Text>
                             </View>
                             <View style={{
                                 position: 'absolute',
@@ -145,6 +169,8 @@ const Account = () => {
                 </TouchableOpacity>
 
             </View>
+        )}
+            
         </>
     )
 }
