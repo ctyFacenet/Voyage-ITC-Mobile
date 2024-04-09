@@ -25,7 +25,7 @@ function HomeTab() {
         var iconName = '';
         let rn = route.name;
         color = focused ? COLORS.primary : COLORS.text;
-        color = focused ? 'green' : 'gray'
+        color = focused ? '#244A64' : 'gray'
         if(rn === 'Home'){
           iconName =  'home' ;
 
@@ -41,7 +41,7 @@ function HomeTab() {
         
         return <IonIcons name={iconName} color={color} size={size}/>
       },
-      tabBarActiveTintColor: 'green',
+      tabBarActiveTintColor: '#244A64',
       tabBarInactiveTintColor: 'gray',
       tabBarLabelStyle: {paddingBottom: 10, fontSize: 10},
       tabBarStyle: {
