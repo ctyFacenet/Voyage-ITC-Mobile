@@ -1,6 +1,6 @@
 import { useKeycloak } from "@react-keycloak/native";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, Button, FlatList, Image, ImageBackground, Modal, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Button, FlatList, Image, ImageBackground, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import VoyageHeader from "../../components/VoyageHeader";
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -13,29 +13,13 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Voyage from "../Voyage/VoyageScreen";
 import { getDataHome } from "../../services/HomeServices/HomeServices";
 import { environment } from "../../environment/environment";
-import NoData from "../../components/Nodata";
-import AntDesign from 'react-native-vector-icons/AntDesign'
-import { format } from "date-fns";
 
 
-const targetDateFormat = 'HH:mm dd/MM/yyyy';
+
 const sizeShip = 32;
 
-const ShipOnBoard = ({ item }: { item: any }) => {
-
-    const [distanceTraveled, setDistanceTraveled] = useState<any>(1);
-    const [distant, setDistant] = useState(1);
-    const [run, setRun] = useState(1);
-    
-
-    useEffect(() => {
-        if ((item?.distanceNextPort !== null && typeof item?.distanceNextPort === 'number') &&
-            (item?.totalDistanceRun !== null && typeof item?.totalDistanceRun === 'number')) {
-            setDistant(item?.distanceNextPort)
-            setRun(item?.totalDistanceRun)
-            setDistanceTraveled((run / distant) * 100)
-        }
-    }, [])
+const ShipOnBoard = ({ shipName, imageUrl, distane, speed, distanceTraveled }:
+    { shipName?: string, imageUrl?: string, distane?: number, speed?: number, distanceTraveled?: number }) => {
 
     return (
         <>
@@ -52,11 +36,11 @@ const ShipOnBoard = ({ item }: { item: any }) => {
                     alignItems: 'center'
                 }}>
                     <Ionicons name="boat" color='#0075FF' size={sizeShip} style={styles.iconShip} />
-                    <Text style={styles.shipName}>Tàu {item?.voyage?.ship?.shipName}</Text>
+                    <Text style={styles.shipName}>Tàu Dolphin 75</Text>
                 </View>
                 <View>
                     <View style={styles.imageShip}>
-                        <Image style={[styles.imageShip, { position: 'relative' }]} source={{ uri: environment.api_end_point_preview + '/' + item?.imageUrl }}></Image>
+                        <Image style={[styles.imageShip, { position: 'relative' }]} source={{ uri: environment.api_end_point_preview + '/' + imageUrl }}></Image>
                         <View style={{
                             position: 'absolute'
                         }}>
@@ -76,21 +60,21 @@ const ShipOnBoard = ({ item }: { item: any }) => {
                                         width: scale(60)
                                     }}>
                                         <MaterialCommunityIcons name="arrow-expand-horizontal" color='#FFFFFF' size={24}></MaterialCommunityIcons>
-                                        <Text style={{ color: '#FFFFFF', fontSize: 15 }}>{item?.distanceNextPort !== null ? item?.distanceNextPort + ' NM' : ''}</Text>
+                                        <Text style={{ color: '#FFFFFF', fontSize: 15 }}>1,200NM</Text>
                                     </View>
                                     <View style={{
                                         alignItems: 'center',
                                         width: scale(50)
                                     }}>
                                         <Ionicons name="navigate-outline" color='#FFFFFF' size={24}></Ionicons>
-                                        <Text style={{ color: '#FFFFFF', fontSize: 15 }}>{item?.course !== null ? item?.course + '°' : ''}</Text>
+                                        <Text style={{ color: '#FFFFFF', fontSize: 15 }}>223°</Text>
                                     </View>
                                     <View style={{
                                         alignItems: 'center',
                                         width: scale(60)
                                     }}>
                                         <Ionicons name="speedometer-outline" color='#FFFFFF' size={24}></Ionicons>
-                                        <Text style={{ color: '#FFFFFF', fontSize: 15 }}>{item?.speed !== null ? item?.speed + ' Kts' : ''}</Text>
+                                        <Text style={{ color: '#FFFFFF', fontSize: 15 }}>111 Kts</Text>
                                     </View>
                                     <View style={{
                                         alignItems: 'center',
@@ -105,7 +89,7 @@ const ShipOnBoard = ({ item }: { item: any }) => {
                                     width: scale(50)
                                 }}>
                                     <FontAwesome name="arrows-h" color='#FFFFFF' size={24}></FontAwesome>
-                                    <Text style={{ color: '#FFFFFF', fontSize: 15 }}>{item?.totalDistanceRun ? item?.totalDistanceRun + ' NM' : ''}</Text>
+                                    <Text style={{ color: '#FFFFFF', fontSize: 15 }}>900NM</Text>
                                 </View>
                             </View>
                         </View>
@@ -123,8 +107,8 @@ const ShipOnBoard = ({ item }: { item: any }) => {
                                 }}>
                                     <Ionicons name="layers" color='#244A64' size={moderateScale(25)} />
                                     <View>
-                                        <Text style={{ color: '#244A64', fontSize: moderateScale(15) }}>{item?.departurePort?.seaportName}</Text>
-                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>{item?.itemdeparturePort?.seaportNation}</Text>
+                                        <Text style={{ color: '#244A64', fontSize: moderateScale(15) }}>YUHUAN</Text>
+                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>Trung Quốc</Text>
                                     </View>
                                 </View>
 
@@ -134,8 +118,8 @@ const ShipOnBoard = ({ item }: { item: any }) => {
                                 }}>
                                     <Ionicons name="layers" color='#AE0000' size={moderateScale(25)} />
                                     <View>
-                                        <Text style={{ color: '#AE0000', fontSize: moderateScale(15) }}>{item?.seaport?.seaportName}</Text>
-                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>{item?.seport?.seaportNation}</Text>
+                                        <Text style={{ color: '#AE0000', fontSize: moderateScale(15) }}>BUNATI</Text>
+                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>Trung Quốc</Text>
                                     </View>
                                 </View>
                             </View>
@@ -159,25 +143,18 @@ const ShipOnBoard = ({ item }: { item: any }) => {
                                     flexDirection: 'row',
                                     alignItems: 'center',
                                     width: '100%',
-                                    top: verticalScale(-9)
+                                    top: verticalScale(-14)
                                 }}>
-                                    {item?.distanceNextPort !== null && item?.totalDistanceRun !== null ? (
-                                        <>
-                                            <View style={{
-                                                height: verticalScale(5),
-                                                backgroundColor: '#244A64',
-                                                width: `${distanceTraveled}%`,
-                                            }}>
-                                            </View>
-                                            <AntDesign style={{
-                                                left: scale(-14)
-                                            }} name="caretright"
-                                                color='#244A64' size={moderateScale(25)} />
-                                        </>
-                                    ) : (
-                                        null
-                                    )}
-
+                                    <View style={{
+                                        height: verticalScale(5),
+                                        backgroundColor: '#244A64',
+                                        width: '60%',
+                                    }}>
+                                    </View>
+                                    <FontAwesome style={{
+                                        left: scale(-25)
+                                    }} name="long-arrow-right"
+                                        color='#244A64' size={moderateScale(35)} />
 
                                 </View>
 
@@ -196,11 +173,9 @@ const ShipOnBoard = ({ item }: { item: any }) => {
                                     marginTop: 5,
                                 }}>
                                     <Ionicons name="location" color='#244A64' size={moderateScale(20)} />
-                                    <View style={{
-                                        width: scale(120)
-                                    }}>
+                                    <View>
                                         <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>Vị trí hiện tại</Text>
-                                        <Text style={{ color: '#244A64', fontSize: moderateScale(15) }}>{(item?.latitude === null ? '' : item?.latitude) + ' ' + (item?.longitude === null ? '' : item?.longitude)}</Text>
+                                        <Text style={{ color: '#244A64', fontSize: moderateScale(15) }}>3.755S, 115.6461E</Text>
 
                                     </View>
                                 </View>
@@ -211,7 +186,7 @@ const ShipOnBoard = ({ item }: { item: any }) => {
                                 }}>
 
                                     <View>
-                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>ETD: <Text style={{ color: '#244A64', fontSize: 17 }}>{item?.eta === undefined || item?.eta === null ? '' : format(new Date(item?.eta), targetDateFormat)}</Text></Text>
+                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>ETD: <Text style={{ color: '#244A64', fontSize: 17 }}>18:00 15/02/2024</Text></Text>
                                         <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>8:00 15/02/2024</Text>
                                     </View>
                                 </View>
@@ -226,7 +201,7 @@ const ShipOnBoard = ({ item }: { item: any }) => {
     )
 }
 
-const ShipOnPort = ({ item }: { item: any }) => {
+const ShipOnPort = () => {
     return (
         <>
             <View style={{
@@ -242,11 +217,11 @@ const ShipOnPort = ({ item }: { item: any }) => {
                     alignItems: 'center'
                 }}>
                     <Ionicons name="boat" color='#FF7A00' size={sizeShip} style={styles.iconShip} />
-                    <Text style={styles.shipName}>Tàu {item?.voyage?.ship?.shipName}</Text>
+                    <Text style={styles.shipName}>Tàu Dolphin 76</Text>
                 </View>
                 <View>
                     <View style={styles.imageShip}>
-                        <Image style={[styles.imageShip, { position: 'relative' }]} source={{ uri: environment.api_end_point_preview + '/' + item?.imageUrl }}></Image>
+                        <Image style={[styles.imageShip, { position: 'relative' }]} source={require('../../assets/image/ship_75.png')}></Image>
                     </View>
                     {/* Vị trí cảng */}
                     <View>
@@ -261,8 +236,8 @@ const ShipOnPort = ({ item }: { item: any }) => {
                                 }}>
                                     <Ionicons name="layers" color='#244A64' size={25} />
                                     <View>
-                                        <Text style={{ color: '#244A64', fontSize: moderateScale(15) }}>{item?.seaport?.seaportName}</Text>
-                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>{item?.seaport?.seaportNation}</Text>
+                                        <Text style={{ color: '#244A64', fontSize: moderateScale(15) }}>YUHUAN</Text>
+                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>Trung Quốc</Text>
                                     </View>
                                 </View>
 
@@ -271,7 +246,7 @@ const ShipOnPort = ({ item }: { item: any }) => {
                                     marginTop: scale(5),
                                 }}>
                                     <View>
-                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>ETD: <Text style={{ color: '#244A64', fontSize: 17 }}>{item?.eta === undefined || item?.eta === null ? '' : format(new Date(item?.eta), targetDateFormat)}</Text></Text>
+                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>ETD: <Text style={{ color: '#244A64', fontSize: 17 }}>18:00 15/02/2024</Text></Text>
                                         <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>8:00 15/02/2024</Text>
                                     </View>
                                 </View>
@@ -286,7 +261,7 @@ const ShipOnPort = ({ item }: { item: any }) => {
     )
 }
 
-const ShipNoVoyage = ({ shipName, imageUrl }: { shipName?: any, imageUrl?: any }) => {
+const ShipNoVoyage = () => {
     return (
         <>
             <View style={{
@@ -302,11 +277,11 @@ const ShipNoVoyage = ({ shipName, imageUrl }: { shipName?: any, imageUrl?: any }
                     alignItems: 'center'
                 }}>
                     <Ionicons name="boat" color='#244A64' size={sizeShip} style={styles.iconShip} />
-                    <Text style={styles.shipName}>Tàu {shipName}</Text>
+                    <Text style={styles.shipName}>Tàu Dolphin 78</Text>
                 </View>
                 <View>
                     <View style={styles.imageShip}>
-                        <Image style={[styles.imageShip, { position: 'relative' }]} source={{ uri: environment.api_end_point_preview + '/' + imageUrl }}></Image>
+                        <Image style={[styles.imageShip, { position: 'relative' }]} source={require('../../assets/image/ship_75.png')}></Image>
                     </View>
                     {/* Vị trí cảng */}
                     <View style={{
@@ -329,10 +304,8 @@ const HomeScreen = () => {
     const { keycloak } = useKeycloak();
     
 
+    const [voyage, setVoyage] = useState([{}]);
 
-    const [voyage, setVoyage] = useState<any>([]);
-    const [loading, setLoading] = useState(true)
-    const [errorData, setErrorData] = useState(false)
 
     const navigation = useNavigation();
 
@@ -353,19 +326,12 @@ const HomeScreen = () => {
             } catch (error) {
                 // Xử lý lỗi nếu có
                 console.error('Error fetching data:', error);
-                setErrorData(true)
-                setLoading(true)
-                console.log(errorData)
-            } finally {
-                setLoading(false)
-                
             }
         };
 
         // Gọi hàm fetchData ngay lập tức khi useEffect được gọi
         fetchData();
     }, [])
-
 
     getDataHome('homepages');
 
@@ -375,97 +341,42 @@ const HomeScreen = () => {
             <View style={{
                 height: '100%',
                 width: '100%',
-                backgroundColor: '#FFFFFF',
-
+                backgroundColor: '#FFFFFF'
             }}>
                 <VoyageHeader content='Maritime Open Connect' iconBack='user-circle' nameScreen='Account'></VoyageHeader>
-                <Modal
-                    visible={errorData}
-                    transparent={true}
-                    animationType="none"
-                >
-                    <View style={{
-                        justifyContent: 'center',
-                        alignItems: 'center'
+                <FlatList data={voyage}
+                    renderItem={({ item }) => {
+                        if (item.reportType != '' && item.reportType === 18) {
+                            return (
+                            <TouchableOpacity onPress={() => HandlePress(item.voyage.ship.id, item.voyage.ship.shipName)}>
+                                <ShipOnBoard
+                                    shipName={item.voyage.ship.shipName}
+                                    imageUrl={item.imageUrl}
+                                ></ShipOnBoard>
+                            </TouchableOpacity>)
+                        } else if (item.reportType != '' && item.reportType === 19) {
+                            return (
+                            <TouchableOpacity onPress={() => HandlePress(item.voyage.ship.id, item.voyage.ship.shipName)}>
+                                <ShipOnPort>
+
+                                </ShipOnPort>
+                            </TouchableOpacity>)
+                        } else {
+                            return (
+                            <TouchableOpacity onPress={() => HandlePress(item.voyage.ship.id, item.voyage.ship.shipName)}>
+                                <ShipNoVoyage>
+
+                                </ShipNoVoyage>
+                            </TouchableOpacity>)
+                        }
+
                     }}>
-                        <View style={{
-                            backgroundColor: '#FFFFFF',
-                            padding: scale(10),
-                            marginTop: scale(300),
-                            elevation: 5,
-                            width: scale(250),
-                            justifyContent: 'center',
-                            alignItems: 'center'
-                        }}>
-                            <Text style={{
-                                fontSize: moderateScale(17),
-                                color: 'red',
-                                marginBottom: 10,
-                                fontWeight: 'bold'
-                            }}>Thông báo</Text>
-                            <Text style={{ fontSize: scale(13), color: 'black' }}>Có lỗi xảy ra trong quá trình tải dữ liệu. Bạn vui lòng thử lại sau!</Text>
-                            <Pressable style={{
-                                marginTop: scale(10),
-                                height: scale(30),
-                                width: scale(100),
-                                backgroundColor: 'red',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                borderRadius: scale(5)
-                            }}
-                                onPress={() => setErrorData(false)}>
-                                <Text style={{ color: '#FFFFFF', fontSize: moderateScale(15) }}>Đóng</Text>
-                            </Pressable>
-                        </View>
-                    </View>
-                </Modal>
-
-                {loading ? (<View style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    width: '100%',
-                    height: '100%',
-                    backgroundColor: '#FFFFFF',
-                    position: 'relative'
-                }}>
-                    <ActivityIndicator
-                        size="large"
-                        style={{
-                            position: 'absolute'
-                        }}></ActivityIndicator>
-
-                </View>) : (
-                    <FlatList data={voyage}
-                        renderItem={({ item }) => {
-                            if (item.reportType != '' && (item.reportType === 18 || item.reportType === 17)) {
-                                return (
-                                    <TouchableOpacity onPress={() => HandlePress(item.voyage.ship.id, item.voyage.ship.shipName)}>
-                                        <ShipOnBoard
-                                            item={item}
-                                        ></ShipOnBoard>
-                                    </TouchableOpacity>)
-                            } else if (item.reportType != '' && item.reportType === 19) {
-                                return (
-                                    <TouchableOpacity onPress={() => HandlePress(item.voyage.ship.id, item.voyage.ship.shipName)}>
-                                        <ShipOnPort item={item}>
-
-                                        </ShipOnPort>
-                                    </TouchableOpacity>)
-                            } else if (item?.voyage === null || item?.voyage?.id === null) {
-                                return (
-                                    <TouchableOpacity onPress={() => HandlePress(item.voyage.ship.id, item.voyage.ship.shipName)}>
-                                        <ShipNoVoyage
-                                            shipName={item?.voyage?.ship?.shipName}
-                                            imageUrl={item?.imageUrl}
-                                        >
-                                        </ShipNoVoyage>
-                                    </TouchableOpacity>)
-                            }
-
-                        }}>
-                    </FlatList>
-                )}
-
+                    {/* <TouchableOpacity onPress={HandlePress}>
+                        <ShipOnBoard></ShipOnBoard>
+                    </TouchableOpacity>
+                    <ShipOnPort></ShipOnPort>
+                    <ShipNoVoyage></ShipNoVoyage> */}
+                </FlatList>
             </View>
         </>
     )

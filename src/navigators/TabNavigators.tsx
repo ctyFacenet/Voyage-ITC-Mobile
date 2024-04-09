@@ -25,7 +25,6 @@ function HomeTab() {
         var iconName = '';
         let rn = route.name;
         color = focused ? COLORS.primary : COLORS.text;
-        color = focused ? '#244A64' : 'gray'
         if(rn === 'Home'){
           iconName =  'home' ;
 
@@ -40,7 +39,7 @@ function HomeTab() {
         return <AntDesign name={iconName} color={color} size={size}/>
         
       },
-      tabBarActiveTintColor: '#244A64',
+      tabBarActiveTintColor: 'green',
       tabBarInactiveTintColor: 'gray',
       tabBarLabelStyle: {paddingBottom: 10, fontSize: 10},
       tabBarStyle: {
