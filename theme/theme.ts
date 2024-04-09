@@ -43,6 +43,7 @@ interface Spacing {
     green: string,
     green_second: string, 
   }
+
   
   export const COLORS: Color = {
     primary: "#244A64",
@@ -124,3 +125,10 @@ interface Spacing {
     radius_25: 25,
   };
   
+
+  export const listColor = [
+    '#93AAFD',
+    '#C6D2FD',
+    '#4A3AFF',
+    '#2D5BFF'
+  ]
