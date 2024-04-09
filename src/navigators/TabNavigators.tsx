@@ -36,10 +36,9 @@ function HomeTab() {
         
         else if(rn === 'Notification'){
           iconName = 'bells';
-          return <AntDesign name={iconName} color={color} size={size}/>
         }
+        return <AntDesign name={iconName} color={color} size={size}/>
         
-        return <IonIcons name={iconName} color={color} size={size}/>
       },
       tabBarActiveTintColor: '#244A64',
       tabBarInactiveTintColor: 'gray',
@@ -61,7 +60,13 @@ function HomeTab() {
         title: 'Phê duyệt', 
         headerPressColor: '#333'
     }} />
-      <Tab.Screen name='Notification' component={NotificationScreen}/>
+      <Tab.Screen name='Notification' component={NotificationScreen}
+      options={{ 
+        
+        title: 'Thông báo', 
+        headerPressColor: '#333'
+    }}
+      />
 
     </Tab.Navigator>
   );

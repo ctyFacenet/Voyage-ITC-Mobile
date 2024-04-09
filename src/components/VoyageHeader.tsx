@@ -4,12 +4,13 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import { moderateScale, verticalScale } from "react-native-size-matters";
 import { useNavigation } from "@react-navigation/native";
 
-const VoyageHeader = ({content, iconBack, nameScreen}: { content: any, iconBack?: any, nameScreen?: string }) => {
+const VoyageHeader = ({content, iconName, nameScreen}: { content: any, iconName?: any, nameScreen?: string }) => {
 
     const navigation = useNavigation()
 
     const HandleScreen = () => {
-        if(nameScreen === 'arrow-left'){
+        if(iconName === 'arrow-left'){
+            
             navigation.goBack();
         } else if(nameScreen != null && nameScreen?.length > 0){
             navigation.navigate(nameScreen);
@@ -49,7 +50,7 @@ const VoyageHeader = ({content, iconBack, nameScreen}: { content: any, iconBack?
                 }}>
                    
                     <TouchableOpacity onPress={HandleScreen}>
-                        <Icon name={iconBack} color={COLORS.White} size={moderateScale(20)}/>
+                        <Icon name={iconName} color={COLORS.White} size={moderateScale(20)}/>
                     </TouchableOpacity>
                     <Text style={{
                         fontSize: moderateScale(FONTSIZE.size_20),
@@ -57,6 +58,7 @@ const VoyageHeader = ({content, iconBack, nameScreen}: { content: any, iconBack?
                         fontWeight: 'bold'
                     }}>{content}</Text>
                     <Text></Text>
+                    
                 </View>
             </View>
         </>

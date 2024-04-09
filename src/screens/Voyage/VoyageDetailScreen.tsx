@@ -14,9 +14,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { format } from "date-fns";
 import { setVoyageContent } from "./VoyageScreen";
 
-
 const Payment = ({ content, price }: { content?: any, price?: any }) => {
-
     return (
         <>
             <View style={{
@@ -591,12 +589,15 @@ const VoyageDetail = ({ navigation, route }: { navigation?: any, route?: any }) 
         <>
             <SafeAreaView>
                 <View>
-                    <VoyageHeader content='Thông tin voyage' iconBack='arrow-left' nameScreen="VoyageList"></VoyageHeader>
+                    <VoyageHeader content='Thông tin voyage' iconName='arrow-left' nameScreen="VoyageList"></VoyageHeader>
                 </View>
-                {loading ? (
+                <ScrollView style={{
+                    paddingHorizontal: 10
+                }}>
+
+                    {/*Thông tin chung*/}
                     <View style={{
-                        height: scale(600),
-                        width: '100%',
+                        padding: scale(10),
                         backgroundColor: '#FFFFFF',
                         alignItems: 'center',
                         justifyContent: 'center'}}>
@@ -606,75 +607,48 @@ const VoyageDetail = ({ navigation, route }: { navigation?: any, route?: any }) 
                         paddingHorizontal: scale(10),
                         height: scale(570),
                     }}>
-
-                        {/*Thông tin chung*/}
                         <View style={{
-                            padding: scale(10),
-                            backgroundColor: '#FFFFFF',
-                            marginTop: scale(10),
-                            borderRadius: 10,
-                            shadowColor: '#FFFFFF',
-                            shadowOffset: {
-                                width: 0,
-                                height: 2,
-                            },
-                            shadowOpacity: 0.25,
-                            shadowRadius: 4,
-                            elevation: 5,
-
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            alignItems: 'flex-end',
                         }}>
-                            <View style={{
-                                flexDirection: 'row',
-                                justifyContent: 'space-between',
-                                alignItems: 'flex-end',
-                            }}>
-                                <Text style={{
-                                    color: '#404041',
-                                    fontSize: moderateScale(18),
-                                    fontWeight: 'bold'
-                                }}>{voyageEvaluations?.voyage?.voyageCode} - {voyageEvaluations?.voyage?.shipEntity?.shipName}</Text>
-                                <Text style={{
-                                    color: '#BFBFBF',
-                                    fontSize: moderateScale(13)
-                                }}>{voyageEvaluations?.voyage?.updatedAt !== undefined ? format(new Date(voyageEvaluations?.voyage?.updatedAt), targetDateFormat) : ''}</Text>
+                            <Text style={{
+                                color: '#404041',
+                                fontSize: moderateScale(18),
+                                fontWeight: 'bold'
+                            }}>V01.24 - Dolphin 78</Text>
+                            <Text style={{
+                                color: '#BFBFBF',
+                                fontSize: moderateScale(13)
+                            }}>08:00 14/02/2024</Text>
+                        </View>
+                        <View style={{
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            alignItems: 'center'
+                        }}>
+                            <View >
+                                <Text style={{ color: '#6B788E', fontSize: moderateScale(13) }}>Làm hàng: <Text style={{ color: '#42526D', fontSize: moderateScale(13) }}>tại cảng Hải phòng</Text></Text>
+                                <Text style={{ color: '#6B788E', fontSize: moderateScale(13) }}>ETD: <Text style={{ color: '#42526D', fontSize: moderateScale(13) }}>18:0014/02/2024</Text></Text>
                             </View>
-                            <View style={{
-                                flexDirection: 'row',
-                                justifyContent: 'space-between',
-                                alignItems: 'center'
-                            }}>
-                                <View >
-                                    <Text style={{ color: '#6B788E', fontSize: moderateScale(13) }}>Làm hàng: <Text style={{ color: '#42526D', fontSize: moderateScale(13) }}>tại cảng Hải phòng</Text></Text>
-                                    <Text style={{ color: '#6B788E', fontSize: moderateScale(13) }}>ETD: <Text style={{ color: '#42526D', fontSize: moderateScale(13) }}>18:0014/02/2024</Text></Text>
-                                </View>
-                                <View>
-                                    {setVoyageContent(voyageEvaluations?.voyage?.status)}
-                                </View>
+                            <View>
+                                <Text style={styles.status}>Đang thực hiện</Text>
                             </View>
                         </View>
+                    </View>
 
-                        {/*Doanh thu chi phí*/}
+                    {/*Doanh thu chi phí*/}
+                    <View style={{
+                        flexDirection: 'column'
+                    }}>
                         <View style={{
-                            flexDirection: 'column'
+                            flexDirection: 'row',
+                            justifyContent: 'space-between'
                         }}>
-                            <View style={{
-                                flexDirection: 'row',
-                                justifyContent: 'space-between'
-                            }}>
-                                <Payment content='Lợi nhuận dự kiến' price={PrepareCurrencyM(voyageEvaluations?.totalRevenue, voyageEvaluations?.totalExpense, 1)}></Payment>
-                                <Payment content='Doanh thu dự kiến' price={voyageEvaluations?.totalRevenue}></Payment>
-                                <Payment content='Chi phí dự kiến' price={voyageEvaluations?.totalExpense}></Payment>
-                            </View>
-                            <View style={{
-                                flexDirection: 'row',
-                                justifyContent: 'space-between'
-                            }}>
-                                <Payment content='Lợi nhuận thực tế' price={PrepareCurrencyM(voyageEvaluationsActual?.totalRevenue, voyageEvaluationsActual?.totalExpense, 1)}></Payment>
-                                <Payment content='Doanh thu thực tế' price={voyageEvaluationsActual?.totalRevenue}></Payment>
-                                <Payment content='Chi phí thực tế' price={voyageEvaluationsActual?.totalExpense}></Payment>
-                            </View>
+                            <Payment content='Doanh thu dự kiến' price='4.1'></Payment>
+                            <Payment content='Doanh thu dự kiến' price='4.1'></Payment>
+                            <Payment content='Doanh thu dự kiến' price='4.1'></Payment>
                         </View>
-
                         <View style={{
                             marginTop: scale(10),
                             backgroundColor: '#FFFFFF',
@@ -701,6 +675,7 @@ const VoyageDetail = ({ navigation, route }: { navigation?: any, route?: any }) 
                             </View>
                             <ChartExpenseRevenue item={voyageEvaluations} itemActual={voyageEvaluationsActual} />
                         </View>
+                    </View>
 
                         <View style={{
                             marginTop: scale(10),

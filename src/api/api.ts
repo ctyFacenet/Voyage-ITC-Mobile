@@ -26,8 +26,11 @@ export async function getData(url: any) {
 
 // Phương thức POST
 export async function postData(url: any, data: any) {
+    console.log(data);
+    
     try {
         const response = await axios.post(`${API_URL}/${url}`, data, {
+            method: 'POST',
             headers: {
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'application/json',

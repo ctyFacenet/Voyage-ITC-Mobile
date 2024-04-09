@@ -75,7 +75,7 @@ const Account = () => {
                             position: 'absolute',
                             width: '100%'
                         }}>
-                            <VoyageHeader content='Thông tin tài khoản' iconBack='arrow-left' nameScreen="HomeScreen"></VoyageHeader>
+                            <VoyageHeader content='Thông tin tài khoản' iconName='arrow-left' nameScreen="HomeScreen"></VoyageHeader>
                         </View>
                         <View style={{
                             alignItems: 'center',

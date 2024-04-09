@@ -326,6 +326,10 @@ const ShipNoVoyage = ({ shipName, imageUrl }: { shipName?: any, imageUrl?: any }
 const Stack = createNativeStackNavigator();
 
 const HomeScreen = () => {
+    const { keycloak } = useKeycloak();
+    
+
+
     const [voyage, setVoyage] = useState<any>([]);
     const [loading, setLoading] = useState(true)
     const [errorData, setErrorData] = useState(false)
