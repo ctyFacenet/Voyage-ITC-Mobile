@@ -226,7 +226,7 @@ const Voyage = ({ navigation, route }: { navigation?: any, route?: any }) => {
                     width: '100%',
                     backgroundColor: '#FFFFFF'
                 }}>
-                    <VoyageHeader content={'Chi tết của tàu ' + shipName} iconBack='arrow-left' nameScreen="HomeScreen"></VoyageHeader>
+                    <VoyageHeader content={'Chi tết của tàu ' + shipName} iconName='arrow-left' nameScreen="HomeScreen"></VoyageHeader>
                 </View>
                 <View style={{
                     paddingHorizontal: scale(10),

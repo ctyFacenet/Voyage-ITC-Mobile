@@ -378,7 +378,7 @@ const HomeScreen = () => {
                 backgroundColor: '#FFFFFF',
 
             }}>
-                <VoyageHeader content='Maritime Open Connect' iconBack='user-circle' nameScreen='Account'></VoyageHeader>
+                <VoyageHeader content='Maritime Open Connect' iconName='user-circle' nameScreen='Account'></VoyageHeader>
                 <Modal
                     visible={errorData}
                     transparent={true}
