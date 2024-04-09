@@ -29,7 +29,7 @@ export async function putApprovalReport(reportType: string, reportId: any, data:
 
 // Đánh dấu tất cả đã đọc
 export async function putReadAllNotification() {
-    return getData('api/notification/read-all');
+    return putData('api/notification/read-all', {});
 }
 
 

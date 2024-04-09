@@ -47,11 +47,15 @@ const NotificationItem = ({dataItem} : any) => {
             )}
             <Text style={{marginLeft: 4, color: COLORS.primary, fontSize: 16, fontWeight: '500'}}>{dataItem.title}</Text>
           </View >
-          <Text style={{marginLeft: 10}}>{getTimeDifference(dataItem.createdAt)} trước</Text>
+         
         </View>
-        <Text>
-            {dataItem.message}
-        </Text>
+        <View>
+          <Text>
+            {dataItem.message} 
+          </Text>
+            <Text style={{marginTop: 10, textAlign: 'right'}}>{getTimeDifference(dataItem.createdAt)} trước</Text>
+        </View>
+        {/* <Text style={{marginLeft: 10}}> trước</Text> */}
         
       </TouchableOpacity>
   );

@@ -163,6 +163,8 @@ const ApprovalScreen = ({route} : any) => {
           sortProperty: 'createdAt',
           sortOrder: 'DESC'
         });
+        console.log(response);
+        
         
         
         setListDataApproval(response.data)
@@ -175,7 +177,7 @@ const ApprovalScreen = ({route} : any) => {
     fetchData();
   }, [listFilterCheck])
 
-  
+
   
 
   const handleLayout = (event : any) => {

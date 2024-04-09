@@ -81,12 +81,15 @@ const notification = [
 
 const Notification = () => {
   
-  const [listNotification, setListNotification] = React.useState([])
+  const [listNotification, setListNotification] = React.useState<any>([])
   const [isEndOfList, setIsEndOfList] = React.useState(false);
+  const [isLoadingMore, setIsLoadingMore] = React.useState(false);
+
 
   const onHandleCheckReadAll = async () => {
     try {
       const response = await putReadAllNotification();
+      console.log(response);
       
       if(response.responseCode == '00') {
         let res = await getListNotification({
@@ -101,12 +104,34 @@ const Notification = () => {
       }
       
       
-      // setListNotification(response.data.notification)
-      // setIsEndOfList(response.data.length < 10); 
+      setListNotification(response.data.notification)
+      setIsEndOfList(response.data.length < 10); 
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   }
+
+  const loadMoreData = async () => {
+    if (!isEndOfList) {
+      setIsLoadingMore(true);
+      try {
+        const response = await getListNotification({
+          filter: {
+            read: null
+          },
+          pageSize: 10,
+          pageNumber: listNotification.length / 10 // Calculate next page number
+        });
+        setListNotification((prevData: any) => [...prevData, ...response.data.notification]); // Append new data to existing list
+        setIsEndOfList(response.data.notification.length < 10); // Update end of list status
+      } catch (error) {
+        console.error('Error fetching more data:', error);
+      }
+      finally {
+        setIsLoadingMore(false); // Kết thúc hiển thị ActivityIndicator
+      }
+    }
+  };
 
   React.useEffect(() => {
     
@@ -124,7 +149,7 @@ const Notification = () => {
         
         
         setListNotification(response.data.notification)
-        setIsEndOfList(response.data.length < 10); 
+        setIsEndOfList(response.data.notification.length < 10); 
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -150,10 +175,13 @@ const Notification = () => {
           renderItem={({item, index}) => (
               <NotificationItem dataItem={item} />
             )}
-          onEndReachedThreshold={0.1}
           style={{height: scale(510)}}
+          onEndReached={loadMoreData}
+          onEndReachedThreshold={0.1}
+          ListFooterComponent={
+            <ActivityIndicator size="small" color={COLORS.primary} />}
+         />
         
-       />
 
    </SafeAreaView> 
   );
