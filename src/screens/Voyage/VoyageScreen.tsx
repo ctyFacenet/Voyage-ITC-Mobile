@@ -1,4 +1,4 @@
-import { ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native"
+import { ActivityIndicator, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native"
 import VoyageHeader from "../../components/VoyageHeader"
 import React, { useEffect, useState } from "react"
 import { moderateScale, scale, verticalScale } from "react-native-size-matters"
@@ -10,6 +10,7 @@ import { create } from "../../services/HomeServices/HomeServices"
 import { FormatCurrency, PrepareCurrency, voyageStatus } from "../../../theme/Constants"
 import { format } from 'date-fns';
 import { FlatList, GestureHandlerRootView } from "react-native-gesture-handler"
+import { fi } from "date-fns/locale"
 
 
 type VoyageContent = {
@@ -20,7 +21,7 @@ type VoyageContent = {
 }
 
 
-const VoyageStatus: React.FC<VoyageContent> = ({ content, status, color, backgroundColor }) => {
+export const VoyageStatus: React.FC<VoyageContent> = ({ content, status, color, backgroundColor }) => {
 
     return (
         <>
@@ -38,7 +39,7 @@ const VoyageStatus: React.FC<VoyageContent> = ({ content, status, color, backgro
     )
 }
 
-const setVoyageContent = (status: any) => {
+export const setVoyageContent = (status: any) => {
     if (status === voyageStatus.aprroval) {
         return <VoyageStatus content='' status='Đã duyệt' color='#AE63FF' backgroundColor="#AE63FF33"></VoyageStatus>
     } else if (status == voyageStatus.processing) {
@@ -88,9 +89,11 @@ const VoyageContent = ({ status, laycan, revuenue, expectedRevenue, expense, exp
 
 
 
+
+
 const Voyage = ({ navigation, route }: { navigation?: any, route?: any }) => {
 
-    const [listVoyage, setListVoyage] = useState([]);
+    const [listVoyage, setListVoyage] = useState<any>([]);
 
     const [shipId, setShipId] = useState<string | undefined>(undefined)
 
@@ -99,6 +102,10 @@ const Voyage = ({ navigation, route }: { navigation?: any, route?: any }) => {
     const [countVoyage, setCountVoyage] = useState(0);
 
     const targetDateFormat = 'HH:mm dd/MM/yyyy';
+
+    const [loading, setLoading] = useState(true)
+
+    const [page, setPage] = useState(0)
 
     const [filter, setFilter] = useState({
         pageNumber: 0,
@@ -151,10 +158,13 @@ const Voyage = ({ navigation, route }: { navigation?: any, route?: any }) => {
     const getData = async () => {
         try {
             const responeData = await create('voyage/mobile', filter)
-            setListVoyage(responeData.data);
+            console.log('Giá trị: ' + 1);
+            setListVoyage(responeData.data); 
             setCountVoyage(responeData.dataCount)
         } catch (error) {
             console.log('Lỗi fetch Data: ' + error)
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -167,19 +177,45 @@ const Voyage = ({ navigation, route }: { navigation?: any, route?: any }) => {
                 getData()
             }
         })()
-    }, [shipId, shipName])
+    }, [shipId])
+
 
 
     //create('voyage/mobile', filter)
 
-    const HandleDetail = () => {
-        navigation.navigate('VoyageDetail')
+    const HandleDetail = (id: any) => {
+        navigation.navigate('VoyageDetail', {
+            voyageId: id
+        })
     }
 
     const setNewText = (newText: any) => {
         updateFilter.filter.voyage.voyageCode = newText;
         setFilter(updateFilter);
         getData();
+    }
+
+    const HanldeLoadMore = () => {
+        if(page <= (countVoyage / filter.pageSize) + 1){
+            setLoading(true),
+            setPage(page + 1),
+            console.log('Giá trị page: ' + page)
+            updateFilter.pageNumber = page;
+            setFilter(updateFilter)
+            console.log('Giá trị pageNumber: ' + filter.pageNumber)
+            getData()
+        }
+
+    }
+
+    const RenderLoad = () => {
+        return (
+            <>
+                {loading ? <View style={{
+                    alignItems: 'center'
+                }}><ActivityIndicator size="large"></ActivityIndicator></View> : null}
+            </>
+        )
     }
 
     return (
@@ -219,75 +255,94 @@ const Voyage = ({ navigation, route }: { navigation?: any, route?: any }) => {
                         marginTop: verticalScale(10),
                         color: '#BFBFBF',
                     }}>{countVoyage} kết quả</Text>
-
-                    {
-                        listVoyage != null && listVoyage.length > 0 ? (
-                            <GestureHandlerRootView style={{
-                                height: scale(450),
-                                width: '100%'
-
-                            }}>
-                                <FlatList
-                                    showsHorizontalScrollIndicator={false}
-                                    showsVerticalScrollIndicator={false}
-                                    decelerationRate={0}
-                                    snapToInterval={0}
-                                    snapToAlignment={"end"}
-                                    style={{
+                    {loading ? (<View>
+                        <View style={{
+                            height: scale(450),
+                            width: '100%',
+                            backgroundColor: '#FFFFFF',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}>
+                            <ActivityIndicator size='large'></ActivityIndicator>
+                        </View>
+                    </View>) : (
+                        <View style={{
+                            height: scale(450),
+                            width: '100%',
+                            backgroundColor: '#FFFFFF'
+                        }}>
+                            {
+                                listVoyage != null && listVoyage.length > 0 ? (
+                                    <GestureHandlerRootView style={{
                                         height: scale(450),
                                         width: '100%'
-
-                                    }}
-                                    data={listVoyage}
-                                    renderItem={({ item }) => {
-                                        return <TouchableOpacity
-                                            onPress={HandleDetail}
-                                            key={item.voyageName.id}
-                                        >
-                                            <View style={{
-                                                paddingBottom: verticalScale(15),
-                                                marginTop: verticalScale(15),
-                                                borderBottomWidth: 1,
-                                                borderBottomColor: '#BFBFBF',
-
-                                            }}>
-                                                <View style={{
-                                                    flexDirection: 'row',
-                                                    justifyContent: 'space-between',
-
-                                                }}>
-                                                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#404041' }}>{item.voyageName.voyageCode} - {item.voyageName.ship.shipName}</Text>
-                                                    <Text style={{ fontSize: 13, color: '#BFBFBF', textAlignVertical: 'bottom' }}>{format(new Date(item.voyageName.createdAt), targetDateFormat)}</Text>
-                                                </View>
-                                                <View style={{
-                                                    flexDirection: 'row',
-                                                    justifyContent: 'space-between',
-                                                    alignItems: 'center'
-                                                }}>
-                                                    <VoyageContent
-                                                        status={item.voyageName.status}
-                                                        laycan={item.voyageName.laycan}
-                                                        revuenue={item.revuenue}
-                                                        expectedRevenue={item.expectedRevenue}
-                                                        expense={item.expense}
-                                                        expectedExpense={item.expectedExpense}
-                                                    ></VoyageContent>
-                                                    <View>
-                                                        {setVoyageContent(item.voyageName.status)}
+                                    }}>
+                                        <FlatList
+                                            showsHorizontalScrollIndicator={false}
+                                            showsVerticalScrollIndicator={false}
+                                            style={{
+                                                height: scale(450),
+                                                width: '100%'
+    
+                                            }}
+                                            //onEndReached={HanldeLoadMore}
+                                            onEndReachedThreshold={0}
+                                            ListFooterComponent={RenderLoad}
+                                            data={listVoyage}
+                                            renderItem={({ item }) => {
+                                                return <TouchableOpacity
+                                                    onPress={() => HandleDetail(item?.voyageName?.id)}
+                                                    key={item.voyageName.id}
+                                                >
+                                                    <View style={{
+                                                        paddingBottom: verticalScale(15),
+                                                        marginTop: verticalScale(15),
+                                                        borderBottomWidth: 1,
+                                                        borderBottomColor: '#BFBFBF',
+    
+                                                    }}>
+                                                        <View style={{
+                                                            flexDirection: 'row',
+                                                            justifyContent: 'space-between',
+    
+                                                        }}>
+                                                            <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#404041' }}>{item.voyageName.voyageCode} - {item.voyageName.ship.shipName}</Text>
+                                                            <Text style={{ fontSize: 13, color: '#BFBFBF', textAlignVertical: 'bottom' }}>{format(new Date(item.voyageName.createdAt), targetDateFormat)}</Text>
+                                                        </View>
+                                                        <View style={{
+                                                            flexDirection: 'row',
+                                                            justifyContent: 'space-between',
+                                                            alignItems: 'center'
+                                                        }}>
+                                                            <VoyageContent
+                                                                status={item.voyageName.status}
+                                                                laycan={item.voyageName.laycan}
+                                                                revuenue={item.revuenue}
+                                                                expectedRevenue={item.expectedRevenue}
+                                                                expense={item.expense}
+                                                                expectedExpense={item.expectedExpense}
+                                                            ></VoyageContent>
+                                                            <View>
+                                                                {setVoyageContent(item.voyageName.status)}
+                                                            </View>
+                                                        </View>
                                                     </View>
-                                                </View>
-                                            </View>
-                                        </TouchableOpacity>
-                                    }}
-                                    keyExtractor={item => item.voyageName.id}
-                                >
-                                </FlatList>
-                            </GestureHandlerRootView>
+                                                </TouchableOpacity>
+                                            }}
+                                            keyExtractor={item => item.voyageName.id}
+                                        >
+                                        </FlatList>
+                                    </GestureHandlerRootView>
+    
+                                ) : (
+                                    <NoData></NoData>
+                                )
+                            }
+                        </View>
+                    )}
 
-                        ) : (
-                            <NoData></NoData>
-                        )
-                    }
+                    
+
                 </View>
             </SafeAreaView>
         </>
