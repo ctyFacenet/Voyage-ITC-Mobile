@@ -1,9 +1,22 @@
 
-import { SafeAreaView, StyleSheet, Text, View, ScrollView } from "react-native";
+import { SafeAreaView, StyleSheet, Text, View, ScrollView, ActivityIndicator } from "react-native";
 import VoyageHeader from "../../components/VoyageHeader"
 import { moderateScale, scale } from "react-native-size-matters";
+import { useEffect, useState } from "react";
+import { getDataHome } from "../../services/HomeServices/HomeServices";
+import { CalculatePercentage, FormatCurrency, PrepareCurrency, PrepareCurrencyM, getDate } from "../../../theme/Constants";
+import { BarChart, PieChart } from "react-native-gifted-charts";
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import { listColor } from "../../../theme/theme";
+import { validatePathConfig } from "@react-navigation/native";
+import { Dropdown } from "react-native-element-dropdown";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { format } from "date-fns";
+import { setVoyageContent } from "./VoyageScreen";
+
 
 const Payment = ({ content, price }: { content?: any, price?: any }) => {
+
     return (
         <>
             <View style={{
@@ -18,7 +31,7 @@ const Payment = ({ content, price }: { content?: any, price?: any }) => {
                 shadowColor: '#FFFFFF'
             }}>
                 <Text style={{ fontSize: scale(10), color: '#565656', fontWeight: 'bold' }}>{content}</Text>
-                <Text style={{ fontSize: scale(13), color: '#3F3F3F', fontWeight: 'bold' }}>{price}M</Text>
+                <Text style={{ fontSize: scale(13), color: '#3F3F3F', fontWeight: 'bold' }}>{FormatCurrency(price / 1000000)}M</Text>
             </View>
         </>
     )
@@ -329,7 +342,7 @@ const StackBarChartCargo = ({ voyageId }: { voyageId: any }) => {
                         backgroundColor: '#64B5F61A',
                         borderRadius: scale(5),
                         borderWidth: 1,
-                        padding: 10
+                        padding: scale(10)
                     }}
                     onChange={item => {
                         changeCargo(item.id)
@@ -471,7 +484,7 @@ const StackChartBunker = ({voyageId} : {voyageId: any}) => {
             }}>
                 <Text style={{
                     fontSize: moderateScale(20),
-                    marginBottom: 20,
+                    marginBottom: scale(20),
                     color: '#1E1B39',
                     fontWeight: 'bold'
                 }}>Bunker/FW</Text>
@@ -578,85 +591,122 @@ const VoyageDetail = ({ navigation, route }: { navigation?: any, route?: any }) 
         <>
             <SafeAreaView>
                 <View>
-                    <VoyageHeader content='Thông tin voyage' iconName='arrow-left' nameScreen="VoyageList"></VoyageHeader>
+                    <VoyageHeader content='Thông tin voyage' iconBack='arrow-left' nameScreen="VoyageList"></VoyageHeader>
                 </View>
-                <ScrollView style={{
-                    paddingHorizontal: 10
-                }}>
-
-                    {/*Thông tin chung*/}
+                {loading ? (
                     <View style={{
-                        padding: scale(10),
+                        height: scale(600),
+                        width: '100%',
                         backgroundColor: '#FFFFFF',
-                        marginTop: scale(10),
-                        borderRadius: 10,
-                        shadowColor: '#FFFFFF',
-                        shadowOffset: {
-                            width: 0,
-                            height: 2,
-                        },
-                        shadowOpacity: 0.25,
-                        shadowRadius: 4,
-                        elevation: 5,
-
+                        alignItems: 'center',
+                        justifyContent: 'center'}}>
+                        <ActivityIndicator size='large'></ActivityIndicator>
+                    </View>) : (
+                    <ScrollView style={{
+                        paddingHorizontal: scale(10),
+                        height: scale(570),
                     }}>
-                        <View style={{
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
-                            alignItems: 'flex-end',
-                        }}>
-                            <Text style={{
-                                color: '#404041',
-                                fontSize: moderateScale(18),
-                                fontWeight: 'bold'
-                            }}>V01.24 - Dolphin 78</Text>
-                            <Text style={{
-                                color: '#BFBFBF',
-                                fontSize: moderateScale(13)
-                            }}>08:00 14/02/2024</Text>
-                        </View>
-                        <View style={{
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
-                            alignItems: 'center'
-                        }}>
-                            <View >
-                                <Text style={{ color: '#6B788E', fontSize: moderateScale(13) }}>Làm hàng: <Text style={{ color: '#42526D', fontSize: moderateScale(13) }}>tại cảng Hải phòng</Text></Text>
-                                <Text style={{ color: '#6B788E', fontSize: moderateScale(13) }}>ETD: <Text style={{ color: '#42526D', fontSize: moderateScale(13) }}>18:0014/02/2024</Text></Text>
-                            </View>
-                            <View>
-                                <Text style={styles.status}>Đang thực hiện</Text>
-                            </View>
-                        </View>
-                    </View>
 
-                    {/*Doanh thu chi phí*/}
-                    <View style={{
-                        flexDirection: 'column'
-                    }}>
+                        {/*Thông tin chung*/}
                         <View style={{
-                            flexDirection: 'row',
-                            justifyContent: 'space-between'
+                            padding: scale(10),
+                            backgroundColor: '#FFFFFF',
+                            marginTop: scale(10),
+                            borderRadius: 10,
+                            shadowColor: '#FFFFFF',
+                            shadowOffset: {
+                                width: 0,
+                                height: 2,
+                            },
+                            shadowOpacity: 0.25,
+                            shadowRadius: 4,
+                            elevation: 5,
+
                         }}>
-                            <Payment content='Doanh thu dự kiến' price='4.1'></Payment>
-                            <Payment content='Doanh thu dự kiến' price='4.1'></Payment>
-                            <Payment content='Doanh thu dự kiến' price='4.1'></Payment>
+                            <View style={{
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                alignItems: 'flex-end',
+                            }}>
+                                <Text style={{
+                                    color: '#404041',
+                                    fontSize: moderateScale(18),
+                                    fontWeight: 'bold'
+                                }}>{voyageEvaluations?.voyage?.voyageCode} - {voyageEvaluations?.voyage?.shipEntity?.shipName}</Text>
+                                <Text style={{
+                                    color: '#BFBFBF',
+                                    fontSize: moderateScale(13)
+                                }}>{voyageEvaluations?.voyage?.updatedAt !== undefined ? format(new Date(voyageEvaluations?.voyage?.updatedAt), targetDateFormat) : ''}</Text>
+                            </View>
+                            <View style={{
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                alignItems: 'center'
+                            }}>
+                                <View >
+                                    <Text style={{ color: '#6B788E', fontSize: moderateScale(13) }}>Làm hàng: <Text style={{ color: '#42526D', fontSize: moderateScale(13) }}>tại cảng Hải phòng</Text></Text>
+                                    <Text style={{ color: '#6B788E', fontSize: moderateScale(13) }}>ETD: <Text style={{ color: '#42526D', fontSize: moderateScale(13) }}>18:0014/02/2024</Text></Text>
+                                </View>
+                                <View>
+                                    {setVoyageContent(voyageEvaluations?.voyage?.status)}
+                                </View>
+                            </View>
                         </View>
+
+                        {/*Doanh thu chi phí*/}
                         <View style={{
-                            flexDirection: 'row',
-                            justifyContent: 'space-between'
+                            flexDirection: 'column'
                         }}>
-                            <Payment content='Doanh thu dự kiến' price='4.1'></Payment>
-                            <Payment content='Doanh thu dự kiến' price='4.1'></Payment>
-                            <Payment content='Doanh thu dự kiến' price='4.1'></Payment>
+                            <View style={{
+                                flexDirection: 'row',
+                                justifyContent: 'space-between'
+                            }}>
+                                <Payment content='Lợi nhuận dự kiến' price={PrepareCurrencyM(voyageEvaluations?.totalRevenue, voyageEvaluations?.totalExpense, 1)}></Payment>
+                                <Payment content='Doanh thu dự kiến' price={voyageEvaluations?.totalRevenue}></Payment>
+                                <Payment content='Chi phí dự kiến' price={voyageEvaluations?.totalExpense}></Payment>
+                            </View>
+                            <View style={{
+                                flexDirection: 'row',
+                                justifyContent: 'space-between'
+                            }}>
+                                <Payment content='Lợi nhuận thực tế' price={PrepareCurrencyM(voyageEvaluationsActual?.totalRevenue, voyageEvaluationsActual?.totalExpense, 1)}></Payment>
+                                <Payment content='Doanh thu thực tế' price={voyageEvaluationsActual?.totalRevenue}></Payment>
+                                <Payment content='Chi phí thực tế' price={voyageEvaluationsActual?.totalExpense}></Payment>
+                            </View>
                         </View>
-                    </View>
 
                         <View style={{
                             marginTop: scale(10),
                             backgroundColor: '#FFFFFF',
                             width: '100%',
-                            padding: 10,
+                            padding: scale(9),
+                            borderRadius: scale(10)
+                        }}>
+                            <View style={{
+                                flexDirection: 'row',
+                                justifyContent: 'space-between'
+                            }}>
+                                <Text style={{
+                                    fontSize: moderateScale(20),
+                                    marginBottom: scale(20),
+                                    color: '#1E1B39',
+                                    fontWeight: 'bold'
+                                }}>Tài chính</Text>
+                                <View style={{
+                                    marginRight: scale(10)
+                                }}>
+                                    <Text style={{ color: '#615E83', fontSize: moderateScale(14) }}><FontAwesome name="circle" color='#4A3AFF' size={moderateScale(15)} /> Dự kiến</Text>
+                                    <Text style={{ color: '#615E83', fontSize: moderateScale(14) }}><FontAwesome name="circle" color='#C893FD' size={moderateScale(15)} /> Thực tế</Text>
+                                </View>
+                            </View>
+                            <ChartExpenseRevenue item={voyageEvaluations} itemActual={voyageEvaluationsActual} />
+                        </View>
+
+                        <View style={{
+                            marginTop: scale(10),
+                            backgroundColor: '#FFFFFF',
+                            width: '100%',
+                            padding: scale(9),
                             borderRadius: scale(10)
                         }}>
                             <View style={{
@@ -677,7 +727,7 @@ const VoyageDetail = ({ navigation, route }: { navigation?: any, route?: any }) 
                             marginTop: scale(10),
                             backgroundColor: '#FFFFFF',
                             width: '100%',
-                            padding: 10,
+                            padding: scale(9),
                             borderRadius: scale(10)
                         }}>
                             <View style={{
@@ -686,7 +736,7 @@ const VoyageDetail = ({ navigation, route }: { navigation?: any, route?: any }) 
                             }}>
                                 <Text style={{
                                     fontSize: moderateScale(20),
-                                    marginBottom: 20,
+                                    marginBottom: scale(20),
                                     color: '#1E1B39',
                                     fontWeight: 'bold'
                                 }}>Cơ cấu chi phí thực tế</Text>

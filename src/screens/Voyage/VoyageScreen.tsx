@@ -28,8 +28,9 @@ const VoyageStatus: React.FC<VoyageContent> = ({ content, status, color, backgro
                 height: verticalScale(25),
                 backgroundColor: backgroundColor,
                 width: scale(120),
-                padding: 5,
-                borderRadius: 20
+                padding: scale(4),
+                borderRadius: 20,
+                alignItems: 'center'
 
             }}>
                 <Text style={{ fontSize: 15, color: '#BFBFBF', textAlign: "center" }}>{content} <Text style={{ fontSize: 16, color: color }}>{status}</Text></Text>
