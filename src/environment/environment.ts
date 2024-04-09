@@ -11,6 +11,6 @@ export const environment = {
     clientId: 'angular-client',
   },
   BASE_API_URI: {
-    NOTIFICATION_SERVICE: 'http://dev.apiitc.xfactory.vn/api/',
+    NOTIFICATION_SERVICE: 'https://dev.apiitc.facenet.vn/api/',
   },
 };

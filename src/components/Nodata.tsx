@@ -8,7 +8,7 @@ const NoData = () => {
                 width: '100%',
                 height: '100%',
                 alignItems: 'center',
-                marginTop: scale(60)
+                marginTop: 20
             }}>
                 <Image resizeMode="cover" style={{width: scale(150), height: verticalScale(150)}} source={require('../assets/image/no_data.png')}></Image>
                 <Text>Không có dữ liệu</Text>
