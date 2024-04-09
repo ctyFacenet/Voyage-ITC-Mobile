@@ -9,7 +9,8 @@ const VoyageHeader = ({content, iconName, nameScreen}: { content: any, iconName?
     const navigation = useNavigation()
 
     const HandleScreen = () => {
-        if(nameScreen === 'arrow-left'){
+        if(iconName === 'arrow-left'){
+            
             navigation.goBack();
         } else if(nameScreen != null && nameScreen?.length > 0){
             navigation.navigate(nameScreen);
@@ -57,6 +58,7 @@ const VoyageHeader = ({content, iconName, nameScreen}: { content: any, iconName?
                         fontWeight: 'bold'
                     }}>{content}</Text>
                     <Text></Text>
+                    
                 </View>
             </View>
         </>

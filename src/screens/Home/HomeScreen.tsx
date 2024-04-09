@@ -302,7 +302,6 @@ const Stack = createNativeStackNavigator();
 
 const HomeScreen = () => {
     const { keycloak } = useKeycloak();
-    console.log(keycloak?.token);
     
 
     const [voyage, setVoyage] = useState([{}]);

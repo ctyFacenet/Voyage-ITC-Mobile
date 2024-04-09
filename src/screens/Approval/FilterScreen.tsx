@@ -17,7 +17,7 @@ const FilterScreen = ({route} : any) => {
     },
     {
       name: 'Huỷ trình',
-      id: -2,
+      id: 0,
       color: COLORS.violet
 
     },

@@ -1,14 +1,15 @@
 import * as React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign'
 import { COLORS } from '../../theme/theme';
 import moment from 'moment';
 import { scale } from 'react-native-size-matters';
+import { useNavigation } from '@react-navigation/native';
 
 
 
 const ApprovalItem = ({dataAproval} : any) => {
-
+  const navigation = useNavigation()
   const getStatus = (statusValue: number): string => {
     switch (statusValue) {
       
@@ -57,7 +58,9 @@ const ApprovalItem = ({dataAproval} : any) => {
     }
   }
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={() => {
+      navigation.push('ApprovalDetail', {dataAproval: dataAproval})
+    }}>
       <View>
 
       </View>
@@ -81,7 +84,7 @@ const ApprovalItem = ({dataAproval} : any) => {
       }}>
         <Text style={{padding: 2, color: getColorStatus(dataAproval.status)}}>{getStatus(dataAproval.status)}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

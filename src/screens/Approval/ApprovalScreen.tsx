@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, FlatList, Button, StatusBar, ScrollView } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, FlatList, Button, StatusBar, ScrollView, ActivityIndicator } from 'react-native';
 import VoyageHeader from '../../components/VoyageHeader';
 import SearchInput from '../../components/SearchInput';
 import  Icon  from 'react-native-vector-icons/AntDesign';
@@ -11,6 +11,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import IconFont from 'react-native-vector-icons/FontAwesome'
 import { scale } from 'react-native-size-matters';
 import { getListApproval } from '../../services/ApprovalServices/ApprovalServices';
+import ModalConfirmPass from '../../components/ModalConfirmPass';
 
 const dataApproval : any[] = [{
   id: 1,
@@ -128,41 +129,54 @@ const getStatus = (statusValue: number): string => {
     case -2:
       return 'Huỷ trình';
     default:
-      return 'Từ chối';
+      return 'Mới';
   }
 }
 const ApprovalScreen = ({route} : any) => {
   const navigation: any = useNavigation();
   
-  const [listDataApproval, setListDataApproval] = React.useState([]);
+  const [listDataApproval, setListDataApproval] = React.useState<any>([]);
 
   const [listFilterCheck, setListFilterCheck] = React.useState(route.params ? route.params.filterValue : [])
-  
+  const [containerHeight, setContainerHeight] = React.useState(0);
+  const [isEndOfList, setIsEndOfList] = React.useState(false);
+  const [isLoadingMore, setIsLoadingMore] = React.useState(false);
+
   React.useEffect(() => {
     if(route.params) {
       setListFilterCheck(route.params.filterValue)
     }
     
-  },[route.params])
+  },[route.params]);
+
+  
   React.useEffect(() => {
     
     const fetchData = async () => {
       try {
         const response = await getListApproval({
-          filter: {},
-          pageSize: 0,
-          pageNumber: 0
+          filter: {
+            statusList: listFilterCheck,
+          },
+          pageSize: 10,
+          pageNumber: 0,
+          sortProperty: 'createdAt',
+          sortOrder: 'DESC'
         });
-        console.log(response);
+        
+        
+        setListDataApproval(response.data)
+        setIsEndOfList(response.data.length < 10); 
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
   
     fetchData();
-  }, [])
+  }, [listFilterCheck])
+
   
-  const [containerHeight, setContainerHeight] = React.useState(0);
+  
 
   const handleLayout = (event : any) => {
     const { height } = event.nativeEvent.layout;
@@ -174,6 +188,26 @@ const ApprovalScreen = ({route} : any) => {
     let listFilterNew = listFilterCheck.filter((item: any) => item != id);
     setListFilterCheck([...listFilterNew]) 
   }
+
+  const loadMoreData = async () => {
+    if (!isEndOfList) {
+      setIsLoadingMore(true);
+      try {
+        const response = await getListApproval({
+          filter: {},
+          pageSize: 10,
+          pageNumber: listDataApproval.length / 10 // Calculate next page number
+        });
+        setListDataApproval((prevData: any) => [...prevData, ...response.data]); // Append new data to existing list
+        setIsEndOfList(response.data.length < 10); // Update end of list status
+      } catch (error) {
+        console.error('Error fetching more data:', error);
+      }
+      finally {
+        setIsLoadingMore(false); // Kết thúc hiển thị ActivityIndicator
+      }
+    }
+  };
 
   
   return (
@@ -191,7 +225,7 @@ const ApprovalScreen = ({route} : any) => {
 
       </View>
       <View style={{padding: 10, flexDirection: 'row', gap: 10, flexWrap: 'wrap'}} onLayout={handleLayout}>
-        {listFilterCheck.map((item : any, index) => (
+        {listFilterCheck.map((item : any, index: number) => (
         <TouchableOpacity key={index} onPress={() => onHandleClearFilter(item)} style={{backgroundColor : COLORS.White, display: 'flex', flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', padding: 8, borderRadius: 10}} >
           
             <IconFont name='remove' color={COLORS.text} size={17} style={{marginRight: 4}} />
@@ -204,14 +238,20 @@ const ApprovalScreen = ({route} : any) => {
       </View>
 
       <FlatList
-        data={dataApproval}
+        data={listDataApproval}
         keyExtractor={(item: any) => item.id}
         showsHorizontalScrollIndicator={false}
         renderItem={({item, index}) => (
             <ApprovalItem dataAproval={item} />
           )}
         style={{height: scale(510 - containerHeight)}}
+        onEndReached={loadMoreData}
+        onEndReachedThreshold={0.1}
+        ListFooterComponent={
+          <ActivityIndicator size="small" color={COLORS.primary} />}
        />
+
+      
 
      </SafeAreaView> 
     

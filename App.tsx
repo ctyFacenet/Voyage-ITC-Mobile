@@ -7,7 +7,7 @@
 import { ReactNativeKeycloakProvider, RNKeycloak } from '@react-keycloak/native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React from 'react';
+import React, { useEffect } from 'react';
 import type {PropsWithChildren} from 'react';
 import {
   SafeAreaView,
@@ -31,6 +31,8 @@ import { environment } from './src/environment/environment.cloud';
 import Filter from './src/screens/Approval/FilterScreen';
 import Account from './src/account/Account';
 import VoyageDetail from './src/screens/Voyage/VoyageDetailScreen';
+import ApprovalDetailScreen from './src/screens/Approval/ApprovalDetailScreen';
+import messaging from '@react-native-firebase/messaging';
 
 
 // const keycloak = new RNKeycloak({...environment.keycloak})
@@ -47,6 +49,29 @@ const Tab = createBottomTabNavigator()
 
 
 function App(): React.JSX.Element {
+
+async function requestUserPermission() {
+  const authStatus = await messaging().requestPermission();
+  const enabled =
+    authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+    authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+  if (enabled) {
+    console.log('Authorization status:', authStatus);
+  }
+
+}
+
+const getToken = async () => {
+  const token = await messaging().getToken();
+  console.log(token);
+  
+}
+  // useEffect(() => {
+  //   requestUserPermission()
+  //   getToken();
+  // }, []);
+
   
 
   return (
@@ -60,6 +85,8 @@ function App(): React.JSX.Element {
           <Stack.Screen name='Filter' component={Filter}></Stack.Screen>
           <Stack.Screen name='Account' component={Account}/>
           <Stack.Screen name='VoyageDetail' component={VoyageDetail}/>
+          <Stack.Screen name='ApprovalDetail' component={ApprovalDetailScreen}/>
+
         </Stack.Navigator>
       </NavigationContainer>
     </ReactNativeKeycloakProvider>
