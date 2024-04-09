@@ -31,7 +31,7 @@ const Payment = ({ content, price }: { content?: any, price?: any }) => {
                 shadowColor: '#FFFFFF'
             }}>
                 <Text style={{ fontSize: scale(10), color: '#565656', fontWeight: 'bold' }}>{content}</Text>
-                <Text style={{ fontSize: scale(13), color: '#3F3F3F', fontWeight: 'bold' }}>{FormatCurrency(price / 1)}M</Text>
+                <Text style={{ fontSize: scale(13), color: '#3F3F3F', fontWeight: 'bold' }}>{FormatCurrency(price / 1000000)}M</Text>
             </View>
         </>
     )
@@ -342,7 +342,7 @@ const StackBarChartCargo = ({ voyageId }: { voyageId: any }) => {
                         backgroundColor: '#64B5F61A',
                         borderRadius: scale(5),
                         borderWidth: 1,
-                        padding: 10
+                        padding: scale(10)
                     }}
                     onChange={item => {
                         changeCargo(item.id)
@@ -484,7 +484,7 @@ const StackChartBunker = ({voyageId} : {voyageId: any}) => {
             }}>
                 <Text style={{
                     fontSize: moderateScale(20),
-                    marginBottom: 20,
+                    marginBottom: scale(20),
                     color: '#1E1B39',
                     fontWeight: 'bold'
                 }}>Bunker/FW</Text>
@@ -603,7 +603,7 @@ const VoyageDetail = ({ navigation, route }: { navigation?: any, route?: any }) 
                         <ActivityIndicator size='large'></ActivityIndicator>
                     </View>) : (
                     <ScrollView style={{
-                        paddingHorizontal: 10,
+                        paddingHorizontal: scale(10),
                         height: scale(570),
                     }}>
 
@@ -679,7 +679,7 @@ const VoyageDetail = ({ navigation, route }: { navigation?: any, route?: any }) 
                             marginTop: scale(10),
                             backgroundColor: '#FFFFFF',
                             width: '100%',
-                            padding: 10,
+                            padding: scale(9),
                             borderRadius: scale(10)
                         }}>
                             <View style={{
@@ -688,7 +688,7 @@ const VoyageDetail = ({ navigation, route }: { navigation?: any, route?: any }) 
                             }}>
                                 <Text style={{
                                     fontSize: moderateScale(20),
-                                    marginBottom: 20,
+                                    marginBottom: scale(20),
                                     color: '#1E1B39',
                                     fontWeight: 'bold'
                                 }}>Tài chính</Text>
@@ -706,7 +706,7 @@ const VoyageDetail = ({ navigation, route }: { navigation?: any, route?: any }) 
                             marginTop: scale(10),
                             backgroundColor: '#FFFFFF',
                             width: '100%',
-                            padding: 10,
+                            padding: scale(9),
                             borderRadius: scale(10)
                         }}>
                             <View style={{
@@ -727,7 +727,7 @@ const VoyageDetail = ({ navigation, route }: { navigation?: any, route?: any }) 
                             marginTop: scale(10),
                             backgroundColor: '#FFFFFF',
                             width: '100%',
-                            padding: 10,
+                            padding: scale(9),
                             borderRadius: scale(10)
                         }}>
                             <View style={{
@@ -736,7 +736,7 @@ const VoyageDetail = ({ navigation, route }: { navigation?: any, route?: any }) 
                             }}>
                                 <Text style={{
                                     fontSize: moderateScale(20),
-                                    marginBottom: 20,
+                                    marginBottom: scale(20),
                                     color: '#1E1B39',
                                     fontWeight: 'bold'
                                 }}>Cơ cấu chi phí thực tế</Text>
