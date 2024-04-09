@@ -384,6 +384,172 @@ const StackBarChartCargo = ({ voyageId }: { voyageId: any }) => {
 
 }
 
+const StackChartBunker = ({voyageId} : {voyageId: any}) => {
+    const [converData, setConvertData] = useState<any>([]);
+    const [dataDropDown, setDataDropDown] = useState<any>([]);
+    const [dataBunker, setDataBunker] = useState<any>([]);
+    const [lineChart, setLineChart] = useState<any>([]);
+
+    let converDataUpdate = [...converData];
+    let dataDropDownUpdate = [...dataDropDown];
+    let dataBunkerUpdate = [...dataBunker];
+    let lineChartUpdate = [...lineChart];
+
+    const getDataBunker = async () => {
+        try {
+            const responeData = await getDataHome('voyage-reports/' + voyageId + '/oil/charts')
+            converDataUpdate = [];
+            dataDropDownUpdate = [];
+            if(responeData !== undefined){
+                await responeData?.data[0]?.series?.forEach((element: any, index: any) => {
+                    
+                    const dataUpdate = {
+                        name: element?.name,
+                        data: element?.data,
+                        categories: responeData?.data[0]?.xaxis?.categories,
+                        line: responeData?.data[1]?.series[index]?.data
+                    }
+                    const dropDown = {
+                        lable: element?.name,
+                        value: element?.name
+                    }
+                    dataDropDownUpdate.push(dropDown)
+                    converDataUpdate.push(dataUpdate)
+                });
+                setDataDropDown(dataDropDownUpdate)
+                setConvertData(converDataUpdate)
+            }
+        } catch (error) {
+            
+        }
+    }
+
+    const setDataChart = async(bunkerType: any) => {
+        if(bunkerType !== undefined){
+            converData?.forEach((element: any) => {
+                if(element.name === bunkerType){
+                    dataBunkerUpdate = [];
+                    lineChartUpdate = [];
+                    element?.data?.forEach((child: any, index: any) => {
+                        const dataChart = {
+                            stacks: [
+                                { value: child, color: '#64B5F6' }
+                            ],
+                            label: getDate(element?.categories[index])?.getDate() + '/' + getDate(element?.categories[index])?.getMonth() + 1,
+                        }
+                        const line = {
+                            value: element?.line[index]
+                        }
+                        dataBunkerUpdate.push(dataChart);
+                        lineChartUpdate.push(line)
+                    });
+                    setDataBunker(dataBunkerUpdate);
+                    setLineChart(lineChartUpdate);
+                }
+                
+            });
+        }
+
+    }
+
+    useEffect(() => {
+        (async() =>{
+            await getDataBunker()
+        })()
+    }, [voyageId])
+
+    useEffect(() => {
+        (async() =>{
+            await setDataChart(converData[0]?.name)
+        })()
+    }, [converData])
+
+    const changeValueBunker = (value: any) => {
+        setDataChart(value)
+        
+    }
+
+    return (
+        <>
+        <View style={{
+            marginTop: scale(10),
+            backgroundColor: '#FFFFFF',
+            width: '100%',
+            padding: 10,
+            borderRadius: scale(10),
+        }}>
+            <View style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between'
+            }}>
+                <Text style={{
+                    fontSize: moderateScale(20),
+                    marginBottom: 20,
+                    color: '#1E1B39',
+                    fontWeight: 'bold'
+                }}>Bunker/FW</Text>
+                <Dropdown
+                    labelField="lable"
+                    valueField="value"
+                    value={dataDropDown[0]?.name}
+                    placeholder={dataDropDown[0]?.value === undefined ? '' : dataDropDown[0]?.value}
+                    placeholderStyle={{
+                        color: '#1565C0'
+                    }}
+                    selectedTextStyle={{
+                        color: '#1565C0'
+                    }}
+                    iconColor="#1565C0"
+                    data={dataDropDown}
+                    style={{
+                        height: scale(30),
+                        width: scale(150),
+                        borderColor: '#64B5F61A',
+                        backgroundColor: '#64B5F61A',
+                        borderRadius: scale(5),
+                        borderWidth: 1,
+                        padding: 10
+                    }}
+                    onChange={item => {
+                        changeValueBunker(item.value)
+                    }}
+                >
+                </Dropdown>
+            </View>
+            {dataBunker.length > 0 && lineChart.length > 0 ? (
+                <BarChart
+                    width={scale(250)}
+                    barWidth={scale(25)}
+                    showLine
+                    lineData={lineChart}
+                    lineConfig={{
+                        color: '#1565C0',
+                        dataPointsColor: '#FFA800',
+                        thickness: 2
+                    }}
+                    noOfSections={4}
+                    stackData={dataBunker}
+                />
+            ) : null}
+
+            <View style={{
+                padding: scale(10),
+            }}>
+                <View style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between'
+                }}>
+                    <Text style={{ color: '#42526D' }}><FontAwesome name="square" color='#64B5F6' /> Bunker R.O.B</Text>
+                    <Text style={{ color: '#42526D', width: scale(100) }}><MaterialCommunityIcons name="chart-timeline-variant" size={20} /> Bunker consumed</Text>
+                </View>
+            </View>
+
+        </View>
+        </>
+    )
+
+}
+
 
 const VoyageDetail = ({ navigation, route }: { navigation?: any, route?: any }) => {
     const { voyageId } = route?.params
@@ -579,9 +745,7 @@ const VoyageDetail = ({ navigation, route }: { navigation?: any, route?: any }) 
                         </View>
 
                         <StackBarChartCargo voyageId={voyageId}></StackBarChartCargo>
-
-
-
+                        <StackChartBunker voyageId={voyageId}></StackChartBunker>
                     </ScrollView>
                 )}
 
