@@ -1,6 +1,6 @@
 import { useKeycloak } from "@react-keycloak/native";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, Button, FlatList, Image, ImageBackground, Modal, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Button, FlatList, Image, ImageBackground, Modal, Pressable, RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import VoyageHeader from "../../components/VoyageHeader";
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -16,6 +16,7 @@ import { environment } from "../../environment/environment";
 import NoData from "../../components/Nodata";
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { format } from "date-fns";
+
 
 
 const targetDateFormat = 'HH:mm dd/MM/yyyy';
@@ -326,10 +327,7 @@ const ShipNoVoyage = ({ shipName, imageUrl }: { shipName?: any, imageUrl?: any }
 const Stack = createNativeStackNavigator();
 
 const HomeScreen = () => {
-    const { keycloak } = useKeycloak();
-    
-
-
+    const [refreshing, setRefreshing] = useState(false);
     const [voyage, setVoyage] = useState<any>([]);
     const [loading, setLoading] = useState(true)
     const [errorData, setErrorData] = useState(false)
@@ -337,38 +335,48 @@ const HomeScreen = () => {
     const navigation = useNavigation();
 
     const HandlePress = (id: any, name: any) => {
-        navigation.navigate('VoyageList', {
+        navigation.navigate('VoyageList',{
             ship: id,
             shipName: name
         });
     }
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                // Gọi hàm getData để lấy dữ liệu
-                const responseData = await getDataHome('homepages');
-                // Cập nhật state data với dữ liệu lấy được từ hàm getData
-                setVoyage(responseData.data)
-            } catch (error) {
-                // Xử lý lỗi nếu có
-                console.error('Error fetching data:', error);
-                setErrorData(true)
-                setLoading(true)
-                console.log(errorData)
-            } finally {
-                setLoading(false)
-                
-            }
-        };
+    const fetchData = async () => {
+        try {
+            // Gọi hàm getData để lấy dữ liệu
+            const responseData = await getDataHome('homepages');
+            // Cập nhật state data với dữ liệu lấy được từ hàm getData
+            setVoyage(responseData.data)
+        } catch (error) {
+            // Xử lý lỗi nếu có
+            console.error('Error fetching data:', error);
+            setErrorData(true)
+            setLoading(true)
+            console.log(errorData)
+        } finally {
+            setLoading(false)
+            
+        }
+    };
 
-        // Gọi hàm fetchData ngay lập tức khi useEffect được gọi
-        fetchData();
+    useEffect(() => {
+        (async () => {
+            await fetchData();
+        })()
+        // // Gọi hàm fetchData ngay lập tức khi useEffect được gọi
+        // fetchData();
     }, [])
+
+    
 
 
     getDataHome('homepages');
 
+    const handleRefresh = () => {
+        setRefreshing(true);
+        fetchData();
+        setRefreshing(false)
+    }
 
     return (
         <>
@@ -428,14 +436,21 @@ const HomeScreen = () => {
                     backgroundColor: '#FFFFFF',
                     position: 'relative'
                 }}>
-                    <ActivityIndicator
+                    <ScrollView
+                    refreshControl={
+                        <RefreshControl refreshing={refreshing} onRefresh={handleRefresh}></RefreshControl>
+                    }
+                        >
+                        <ActivityIndicator
                         size="large"
                         style={{
                             position: 'absolute'
                         }}></ActivityIndicator>
+                    </ScrollView>
 
                 </View>) : (
-                    <FlatList data={voyage}
+                    <FlatList 
+                        data={voyage}
                         renderItem={({ item }) => {
                             if (item.reportType != '' && (item.reportType === 18 || item.reportType === 17)) {
                                 return (
@@ -462,7 +477,10 @@ const HomeScreen = () => {
                                     </TouchableOpacity>)
                             }
 
-                        }}>
+                        }}
+                        refreshing={refreshing}
+                        onRefresh={handleRefresh}
+                        >
                     </FlatList>
                 )}
 

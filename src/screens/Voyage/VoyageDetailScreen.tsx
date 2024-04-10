@@ -1,5 +1,5 @@
 
-import { SafeAreaView, StyleSheet, Text, View, ScrollView, ActivityIndicator } from "react-native";
+import { SafeAreaView, StyleSheet, Text, View, ScrollView, ActivityIndicator, RefreshControl } from "react-native";
 import VoyageHeader from "../../components/VoyageHeader"
 import { moderateScale, scale } from "react-native-size-matters";
 import { useEffect, useState } from "react";
@@ -65,9 +65,9 @@ const ChartExpenseRevenue = ({ item, itemActual }: { item?: any, itemActual?: an
             label: 'Lợi nhuận',
             spacing: 2,
             labelWidth: scale(50),
-            labelTextStyle: { color: '#615E83'},
+            labelTextStyle: { color: '#615E83' },
             frontColor: '#35729C',
-            
+
         },
         { value: PrepareCurrencyM(itemActual?.totalRevenue, itemActual?.totalExpense, 1), frontColor: '#5EBEFF' }
     ];
@@ -106,10 +106,12 @@ const ChartEvualation = ({ itemEvualation }: { itemEvualation?: any }) => {
     const [dataExpense, setDataExpense] = useState([])
     const [totalCurrency, setTotalCurrency] = useState<any>(0);
     let total = 0;
-    const dataExpenseCoppy = [...dataExpense];
+    let dataExpenseCoppy = [...dataExpense];
     let indexColor = 0;
     useEffect(() => {
         (async () => {
+            dataExpenseCoppy = [];
+            total = 0;
             await itemEvualation?.expense?.forEach((item: any) => {
                 const index = dataExpenseCoppy?.findIndex(itemCoppy => itemCoppy?.name === item?.expenseConfig?.accountingConfig?.configName);
                 if (index !== -1) {
@@ -181,9 +183,11 @@ const ChartEvualationActual = ({ itemEvualationActual }: { itemEvualationActual?
     const [totalCurrency, setTotalCurrency] = useState<any>(0);
     let total = 0;
     let indexColor = 0;
-    const dataExpenseCoppy = [...dataExpense];
+    let dataExpenseCoppy = [...dataExpense];
     useEffect(() => {
         (async () => {
+            dataExpenseCoppy = []
+            total = 0;
             await itemEvualationActual?.expense?.forEach((item: any) => {
                 const index = dataExpenseCoppy?.findIndex(itemCoppy => itemCoppy?.name === item?.expenseConfig?.accountingConfig?.configName);
                 if (index !== -1) {
@@ -398,7 +402,7 @@ const StackBarChartCargo = ({ voyageId }: { voyageId: any }) => {
 
 }
 
-const StackChartBunker = ({voyageId} : {voyageId: any}) => {
+const StackChartBunker = ({ voyageId }: { voyageId: any }) => {
     const [converData, setConvertData] = useState<any>([]);
     const [dataDropDown, setDataDropDown] = useState<any>([]);
     const [dataBunker, setDataBunker] = useState<any>([]);
@@ -414,9 +418,9 @@ const StackChartBunker = ({voyageId} : {voyageId: any}) => {
             const responeData = await getDataHome('voyage-reports/' + voyageId + '/oil/charts')
             converDataUpdate = [];
             dataDropDownUpdate = [];
-            if(responeData !== undefined){
+            if (responeData !== undefined) {
                 await responeData?.data[0]?.series?.forEach((element: any, index: any) => {
-                    
+
                     const dataUpdate = {
                         name: element?.name,
                         data: element?.data,
@@ -434,14 +438,14 @@ const StackChartBunker = ({voyageId} : {voyageId: any}) => {
                 setConvertData(converDataUpdate)
             }
         } catch (error) {
-            
+
         }
     }
 
-    const setDataChart = async(bunkerType: any) => {
-        if(bunkerType !== undefined){
+    const setDataChart = async (bunkerType: any) => {
+        if (bunkerType !== undefined) {
             converData?.forEach((element: any) => {
-                if(element.name === bunkerType){
+                if (element.name === bunkerType) {
                     dataBunkerUpdate = [];
                     lineChartUpdate = [];
                     element?.data?.forEach((child: any, index: any) => {
@@ -460,112 +464,112 @@ const StackChartBunker = ({voyageId} : {voyageId: any}) => {
                     setDataBunker(dataBunkerUpdate);
                     setLineChart(lineChartUpdate);
                 }
-                
+
             });
         }
 
     }
 
     useEffect(() => {
-        (async() =>{
+        (async () => {
             await getDataBunker()
         })()
     }, [voyageId])
 
     useEffect(() => {
-        (async() =>{
+        (async () => {
             await setDataChart(converData[0]?.name)
         })()
     }, [converData])
 
     const changeValueBunker = (value: any) => {
         setDataChart(value)
-        
+
     }
 
     return (
         <>
-        <View style={{
-            marginTop: scale(10),
-            backgroundColor: '#FFFFFF',
-            width: '100%',
-            padding: 10,
-            borderRadius: scale(10),
-        }}>
             <View style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between'
-            }}>
-                <Text style={{
-                    fontSize: moderateScale(20),
-                    marginBottom: scale(20),
-                    color: '#1E1B39',
-                    fontWeight: 'bold'
-                }}>Bunker/FW</Text>
-                <Dropdown
-                    labelField="lable"
-                    valueField="value"
-                    value={dataDropDown[0]?.name}
-                    placeholder={dataDropDown[0]?.value === undefined ? '' : dataDropDown[0]?.value}
-                    placeholderStyle={{
-                        color: '#1565C0'
-                    }}
-                    selectedTextStyle={{
-                        color: '#1565C0'
-                    }}
-                    itemTextStyle={{
-                        color: 'gray'
-                    }}
-                    iconColor="#1565C0"
-                    data={dataDropDown}
-                    style={{
-                        height: scale(30),
-                        width: scale(150),
-                        borderColor: '#64B5F61A',
-                        backgroundColor: '#64B5F61A',
-                        borderRadius: scale(5),
-                        borderWidth: 1,
-                        padding: 10,
-                        
-                    }}
-                    onChange={item => {
-                        changeValueBunker(item.value)
-                    }}
-                >
-                </Dropdown>
-            </View>
-            {dataBunker.length > 0 && lineChart.length > 0 ? (
-                <BarChart
-                    width={scale(250)}
-                    barWidth={scale(25)}
-                    showLine
-                    lineData={lineChart}
-                    lineConfig={{
-                        color: '#1565C0',
-                        dataPointsColor: '#FFA800',
-                        thickness: 2
-                    }}
-                    noOfSections={4}
-                    stackData={dataBunker}
-                    yAxisTextStyle={{
-                        color: 'gray'
-                    }}
-                />
-            ) : null}
-
-            <View style={{
-                padding: scale(10),
+                marginTop: scale(10),
+                backgroundColor: '#FFFFFF',
+                width: '100%',
+                padding: 10,
+                borderRadius: scale(10),
             }}>
                 <View style={{
                     flexDirection: 'row',
                     justifyContent: 'space-between'
                 }}>
-                    <Text style={{ color: '#42526D' }}><FontAwesome name="square" color='#64B5F6' /> Bunker R.O.B</Text>
-                    <Text style={{ color: '#42526D', width: scale(150) }}><MaterialCommunityIcons name="chart-timeline-variant" size={20} /> Bunker consumed</Text>
-                </View>
-            </View>
+                    <Text style={{
+                        fontSize: moderateScale(20),
+                        marginBottom: scale(20),
+                        color: '#1E1B39',
+                        fontWeight: 'bold'
+                    }}>Bunker/FW</Text>
+                    <Dropdown
+                        labelField="lable"
+                        valueField="value"
+                        value={dataDropDown[0]?.name}
+                        placeholder={dataDropDown[0]?.value === undefined ? '' : dataDropDown[0]?.value}
+                        placeholderStyle={{
+                            color: '#1565C0'
+                        }}
+                        selectedTextStyle={{
+                            color: '#1565C0'
+                        }}
+                        itemTextStyle={{
+                            color: 'gray'
+                        }}
+                        iconColor="#1565C0"
+                        data={dataDropDown}
+                        style={{
+                            height: scale(30),
+                            width: scale(150),
+                            borderColor: '#64B5F61A',
+                            backgroundColor: '#64B5F61A',
+                            borderRadius: scale(5),
+                            borderWidth: 1,
+                            padding: 10,
 
-        </View>
+                        }}
+                        onChange={item => {
+                            changeValueBunker(item.value)
+                        }}
+                    >
+                    </Dropdown>
+                </View>
+                {dataBunker.length > 0 && lineChart.length > 0 ? (
+                    <BarChart
+                        width={scale(250)}
+                        barWidth={scale(25)}
+                        showLine
+                        lineData={lineChart}
+                        lineConfig={{
+                            color: '#1565C0',
+                            dataPointsColor: '#FFA800',
+                            thickness: 2
+                        }}
+                        noOfSections={4}
+                        stackData={dataBunker}
+                        yAxisTextStyle={{
+                            color: 'gray'
+                        }}
+                    />
+                ) : null}
+
+                <View style={{
+                    padding: scale(10),
+                }}>
+                    <View style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between'
+                    }}>
+                        <Text style={{ color: '#42526D' }}><FontAwesome name="square" color='#64B5F6' /> Bunker R.O.B</Text>
+                        <Text style={{ color: '#42526D', width: scale(150) }}><MaterialCommunityIcons name="chart-timeline-variant" size={20} /> Bunker consumed</Text>
+                    </View>
+                </View>
+
+            </View>
         </>
     )
 
@@ -577,7 +581,8 @@ const VoyageDetail = ({ navigation, route }: { navigation?: any, route?: any }) 
     const [voyageEvaluations, setVoyageEvaluations] = useState<any>()
     const [voyageEvaluationsActual, setVoyageEvaluationsActual] = useState<any>()
     const targetDateFormat = 'HH:mm dd/MM/yyyy';
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
 
     const getDataVoyageEvaluations = async (id: any) => {
         if (id !== undefined) {
@@ -608,6 +613,13 @@ const VoyageDetail = ({ navigation, route }: { navigation?: any, route?: any }) 
         })()
     })
 
+    const handleRefreshing = () => {
+        setRefreshing(true);
+        getDataVoyageEvaluations(voyageId);
+        getDataVoyageEvaluationsActual(voyageId);
+        setRefreshing(false);
+    }
+
     return (
         <>
             <SafeAreaView>
@@ -615,18 +627,29 @@ const VoyageDetail = ({ navigation, route }: { navigation?: any, route?: any }) 
                     <VoyageHeader content='Thông tin voyage' iconName='arrow-left' nameScreen="VoyageList"></VoyageHeader>
                 </View>
                 {loading ? (
-                    <View style={{
-                        height: scale(600),
-                        width: '100%',
-                        backgroundColor: '#FFFFFF',
-                        alignItems: 'center',
-                        justifyContent: 'center'}}>
-                        <ActivityIndicator size='large'></ActivityIndicator>
-                    </View>) : (
-                    <ScrollView style={{
-                        paddingHorizontal: scale(10),
-                        height: scale(570),
-                    }}>
+                    <ScrollView
+                    refreshControl={
+                            <RefreshControl refreshing={refreshing} onRefresh={handleRefreshing}></RefreshControl>
+                        }>
+                        <View style={{
+                            height: scale(600),
+                            width: '100%',
+                            backgroundColor: '#FFFFFF',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}>
+                            <ActivityIndicator size='large'></ActivityIndicator>
+                        </View>
+                    </ScrollView>
+                ) : (
+                    <ScrollView
+                        refreshControl={
+                            <RefreshControl refreshing={refreshing} onRefresh={handleRefreshing}></RefreshControl>
+                        }
+                        style={{
+                            paddingHorizontal: scale(10),
+                            height: scale(570),
+                        }}>
 
                         {/*Thông tin chung*/}
                         <View style={{
