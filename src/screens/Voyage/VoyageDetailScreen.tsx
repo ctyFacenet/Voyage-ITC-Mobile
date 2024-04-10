@@ -48,27 +48,27 @@ const ChartExpenseRevenue = ({ item, itemActual }: { item?: any, itemActual?: an
             spacing: 2,
             labelWidth: scale(55),
             labelTextStyle: { color: '#615E83' },
-            frontColor: '#4A3AFF',
+            frontColor: '#35729C',
         },
-        { value: itemActual?.totalRevenue === undefined ? 0 : itemActual?.totalRevenue, frontColor: '#C893FD' },
+        { value: itemActual?.totalRevenue === undefined ? 0 : itemActual?.totalRevenue, frontColor: '#5EBEFF' },
         {
             value: item?.totalExpense === undefined ? 0 : item?.totalExpense,
             label: 'Chi phí',
             spacing: 2,
             labelWidth: scale(35),
             labelTextStyle: { color: '#615E83' },
-            frontColor: '#4A3AFF',
+            frontColor: '#35729C',
         },
-        { value: itemActual?.totalExpense === undefined ? 0 : itemActual?.totalExpense, frontColor: '#C893FD' },
+        { value: itemActual?.totalExpense === undefined ? 0 : itemActual?.totalExpense, frontColor: '#5EBEFF' },
         {
             value: PrepareCurrencyM(item?.totalRevenue, item?.totalExpense, 1),
             label: 'Lợi nhuận',
             spacing: 2,
             labelWidth: scale(50),
             labelTextStyle: { color: '#615E83' },
-            frontColor: '#4A3AFF',
+            frontColor: '#35729C',
         },
-        { value: PrepareCurrencyM(itemActual?.totalRevenue, itemActual?.totalExpense, 1), frontColor: '#C893FD' }
+        { value: PrepareCurrencyM(itemActual?.totalRevenue, itemActual?.totalExpense, 1), frontColor: '#5EBEFF' }
     ];
 
     console.log(barData)
@@ -695,8 +695,8 @@ const VoyageDetail = ({ navigation, route }: { navigation?: any, route?: any }) 
                                 <View style={{
                                     marginRight: scale(10)
                                 }}>
-                                    <Text style={{ color: '#615E83', fontSize: moderateScale(14) }}><FontAwesome name="circle" color='#4A3AFF' size={moderateScale(15)} /> Dự kiến</Text>
-                                    <Text style={{ color: '#615E83', fontSize: moderateScale(14) }}><FontAwesome name="circle" color='#C893FD' size={moderateScale(15)} /> Thực tế</Text>
+                                    <Text style={{ color: '#42526D', fontSize: moderateScale(14) }}><FontAwesome name="circle" color='#35729C' size={moderateScale(15)} /> Dự kiến</Text>
+                                    <Text style={{ color: '#42526D', fontSize: moderateScale(14) }}><FontAwesome name="circle" color='#5EBEFF' size={moderateScale(15)} /> Thực tế</Text>
                                 </View>
                             </View>
                             <ChartExpenseRevenue item={voyageEvaluations} itemActual={voyageEvaluationsActual} />

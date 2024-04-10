@@ -29,7 +29,7 @@ export const VoyageStatus: React.FC<VoyageContent> = ({ content, status, color, 
                 height: verticalScale(25),
                 backgroundColor: backgroundColor,
                 width: scale(120),
-                padding: scale(4),
+                padding: scale(3),
                 borderRadius: 20,
                 alignItems: 'center'
 

@@ -140,8 +140,8 @@ interface Spacing {
   
 
   export const listColor = [
-    '#93AAFD',
-    '#C6D2FD',
-    '#4A3AFF',
-    '#2D5BFF'
+    '#5EBEFF',
+    '#244A64',
+    '#35729C',
+    '#4FA4DE'
   ]
