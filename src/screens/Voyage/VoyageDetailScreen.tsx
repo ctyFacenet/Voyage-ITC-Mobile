@@ -20,12 +20,12 @@ const Payment = ({ content, price }: { content?: any, price?: any }) => {
     return (
         <>
             <View style={{
-                padding: 5,
+                padding: scale(5),
                 backgroundColor: '#FFFFFF',
                 borderRadius: 5,
                 height: scale(50),
                 justifyContent: 'center',
-                marginTop: 10,
+                marginTop: scale(10),
                 elevation: 5,
                 width: scale(100),
                 shadowColor: '#FFFFFF'
@@ -55,7 +55,7 @@ const ChartExpenseRevenue = ({ item, itemActual }: { item?: any, itemActual?: an
             value: item?.totalExpense === undefined ? 0 : item?.totalExpense,
             label: 'Chi phí',
             spacing: 2,
-            labelWidth: scale(35),
+            labelWidth: scale(50),
             labelTextStyle: { color: '#615E83' },
             frontColor: '#35729C',
         },
@@ -65,8 +65,9 @@ const ChartExpenseRevenue = ({ item, itemActual }: { item?: any, itemActual?: an
             label: 'Lợi nhuận',
             spacing: 2,
             labelWidth: scale(50),
-            labelTextStyle: { color: '#615E83' },
+            labelTextStyle: { color: '#615E83'},
             frontColor: '#35729C',
+            
         },
         { value: PrepareCurrencyM(itemActual?.totalRevenue, itemActual?.totalExpense, 1), frontColor: '#5EBEFF' }
     ];
@@ -77,21 +78,28 @@ const ChartExpenseRevenue = ({ item, itemActual }: { item?: any, itemActual?: an
         barData &&
         (<BarChart
             showYAxisIndices
-            barWidth={35}
+            barWidth={scale(30)}
             data={barData}
             width={scale(250)}
             barBorderRadius={10}
             noOfSections={5}
             frontColor="lightgray"
             barMarginBottom={1}
-            spacing={25}
+            spacing={scale(20)}
             isAnimated
+            yAxisTextStyle={{
+                color: 'gray'
+            }}
         />)
 
     )
 }
 
-
+const style = StyleSheet.create({
+    test: {
+        textAlign: 'center'
+    }
+})
 
 //chart cơ cấu chi phí dự kiến
 const ChartEvualation = ({ itemEvualation }: { itemEvualation?: any }) => {
@@ -335,6 +343,9 @@ const StackBarChartCargo = ({ voyageId }: { voyageId: any }) => {
                     }}
                     iconColor="#1565C0"
                     data={cargoDropdown}
+                    itemTextStyle={{
+                        color: 'gray'
+                    }}
                     style={{
                         height: scale(30),
                         width: scale(150),
@@ -362,6 +373,9 @@ const StackBarChartCargo = ({ voyageId }: { voyageId: any }) => {
                     }}
                     noOfSections={4}
                     stackData={dataCargo}
+                    yAxisTextStyle={{
+                        color: 'gray'
+                    }}
                 />
             ) : null}
 
@@ -411,7 +425,7 @@ const StackChartBunker = ({voyageId} : {voyageId: any}) => {
                     }
                     const dropDown = {
                         lable: element?.name,
-                        value: element?.name
+                        value: element?.name,
                     }
                     dataDropDownUpdate.push(dropDown)
                     converDataUpdate.push(dataUpdate)
@@ -499,6 +513,9 @@ const StackChartBunker = ({voyageId} : {voyageId: any}) => {
                     selectedTextStyle={{
                         color: '#1565C0'
                     }}
+                    itemTextStyle={{
+                        color: 'gray'
+                    }}
                     iconColor="#1565C0"
                     data={dataDropDown}
                     style={{
@@ -508,7 +525,8 @@ const StackChartBunker = ({voyageId} : {voyageId: any}) => {
                         backgroundColor: '#64B5F61A',
                         borderRadius: scale(5),
                         borderWidth: 1,
-                        padding: 10
+                        padding: 10,
+                        
                     }}
                     onChange={item => {
                         changeValueBunker(item.value)
@@ -529,6 +547,9 @@ const StackChartBunker = ({voyageId} : {voyageId: any}) => {
                     }}
                     noOfSections={4}
                     stackData={dataBunker}
+                    yAxisTextStyle={{
+                        color: 'gray'
+                    }}
                 />
             ) : null}
 
@@ -540,7 +561,7 @@ const StackChartBunker = ({voyageId} : {voyageId: any}) => {
                     justifyContent: 'space-between'
                 }}>
                     <Text style={{ color: '#42526D' }}><FontAwesome name="square" color='#64B5F6' /> Bunker R.O.B</Text>
-                    <Text style={{ color: '#42526D', width: scale(100) }}><MaterialCommunityIcons name="chart-timeline-variant" size={20} /> Bunker consumed</Text>
+                    <Text style={{ color: '#42526D', width: scale(150) }}><MaterialCommunityIcons name="chart-timeline-variant" size={20} /> Bunker consumed</Text>
                 </View>
             </View>
 

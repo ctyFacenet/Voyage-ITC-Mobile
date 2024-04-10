@@ -1,4 +1,4 @@
-import { ActivityIndicator, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native"
+import { ActivityIndicator, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
 import VoyageHeader from "../../components/VoyageHeader"
 import React, { useEffect, useState } from "react"
 import { moderateScale, scale, verticalScale } from "react-native-size-matters"
@@ -30,7 +30,7 @@ export const VoyageStatus: React.FC<VoyageContent> = ({ content, status, color, 
                 backgroundColor: backgroundColor,
                 width: scale(120),
                 padding: scale(3),
-                borderRadius: 20,
+                borderRadius: scale(20),
                 alignItems: 'center'
 
             }}>
@@ -58,9 +58,9 @@ const VoyageContent = ({ status, laycan, revuenue, expectedRevenue, expense, exp
             paddingRight: scale(10),
 
         }}>
-            <Text>Laycan: {laycan}</Text>
-            <Text>Doanh thu dự kiến: {expectedRevenue === undefined || expectedExpense === null ? '' : (FormatCurrency(expectedRevenue) + ' USD')}</Text>
-            <Text>Ghi chú: -</Text>
+            <Text style={styles.fontColorTiltle}>Laycan: <Text style={styles.fontColorContent}>{laycan}</Text></Text>
+            <Text style={styles.fontColorTiltle}>Doanh thu dự kiến: <Text style={styles.fontColorContent}>{expectedRevenue === undefined || expectedExpense === null ? '' : (FormatCurrency(expectedRevenue) + ' USD')}</Text></Text>
+            <Text style={styles.fontColorTiltle}>Ghi chú: -</Text>
         </View>)
     } else if (status === voyageStatus.processing) {
         return (<View style={{
@@ -68,10 +68,10 @@ const VoyageContent = ({ status, laycan, revuenue, expectedRevenue, expense, exp
             paddingRight: scale(10),
 
         }}>
-            <Text>Laycan: {laycan}</Text>
-            <Text>Doanh thu dự kiến: {expectedRevenue === undefined || expectedRevenue === null ? '' : (FormatCurrency(expectedRevenue) + ' USD')}</Text>
-            <Text>Chi phí dự kiến: {expectedExpense === undefined || expectedExpense === null ? '' : (FormatCurrency(expectedExpense) + ' USD')}</Text>
-            <Text>Lợi nhuận dự kiến: {PrepareCurrency(expectedRevenue, expectedRevenue)}</Text>
+            <Text style={styles.fontColorTiltle}>Laycan: <Text style={styles.fontColorContent}>{laycan}</Text></Text>
+            <Text style={styles.fontColorTiltle}>Doanh thu dự kiến: <Text style={styles.fontColorContent}>{expectedRevenue === undefined || expectedRevenue === null ? '' : (FormatCurrency(expectedRevenue) + ' USD')}</Text></Text>
+            <Text style={styles.fontColorTiltle}>Chi phí dự kiến: <Text style={styles.fontColorContent}>{expectedExpense === undefined || expectedExpense === null ? '' : (FormatCurrency(expectedExpense) + ' USD')}</Text></Text>
+            <Text style={styles.fontColorTiltle}>Lợi nhuận dự kiến: <Text style={styles.fontColorContent}>{PrepareCurrency(expectedRevenue, expectedRevenue)}</Text></Text>
         </View>)
     } else if (status === voyageStatus.completed) {
         return (<View style={{
@@ -79,10 +79,10 @@ const VoyageContent = ({ status, laycan, revuenue, expectedRevenue, expense, exp
             paddingRight: scale(10),
 
         }}>
-            <Text>Laycan: {laycan}</Text>
-            <Text>Doanh thu: {revuenue === undefined || revuenue === null ? '' : (FormatCurrency(revuenue) + ' USD')}</Text>
-            <Text>Chi phí: {expense === undefined || expense === null ? '' : (FormatCurrency(expense) + ' USD')}</Text>
-            <Text>Lợi nhuận: {PrepareCurrency(revuenue, expense)}</Text>
+            <Text style={styles.fontColorTiltle}>Laycan: <Text style={styles.fontColorContent}>{laycan}</Text></Text>
+            <Text style={styles.fontColorTiltle}>Doanh thu: <Text style={styles.fontColorContent}>{revuenue === undefined || revuenue === null ? '' : (FormatCurrency(revuenue) + ' USD')}</Text></Text>
+            <Text style={styles.fontColorTiltle}>Chi phí: <Text style={styles.fontColorContent}>{expense === undefined || expense === null ? '' : (FormatCurrency(expense) + ' USD')}</Text></Text>
+            <Text style={styles.fontColorTiltle}>Lợi nhuận: <Text style={styles.fontColorContent}>{PrepareCurrency(revuenue, expense)}</Text></Text>
         </View>)
     }
 }
@@ -221,7 +221,11 @@ const Voyage = ({ navigation, route }: { navigation?: any, route?: any }) => {
 
     return (
         <>
-            <SafeAreaView>
+            <SafeAreaView style={{
+                height: '100%',
+                width: '100%',
+                backgroundColor: '#FFFFFF'
+            }}>
                 <View style={{
                     width: '100%',
                     backgroundColor: '#FFFFFF'
@@ -244,9 +248,11 @@ const Voyage = ({ navigation, route }: { navigation?: any, route?: any }) => {
                         <TextInput
                             style={{
                                 fontSize: moderateScale(15),
-                                height: verticalScale(40)
+                                height: verticalScale(40),
+                                color: 'black'
                             }}
                             placeholder="Tìm kiếm..."
+                            placeholderTextColor='gray'
                             onChangeText={(newText) => { setNewText(newText) }}
                         ></TextInput>
                     </View>
@@ -268,21 +274,21 @@ const Voyage = ({ navigation, route }: { navigation?: any, route?: any }) => {
                         </View>
                     </View>) : (
                         <View style={{
-                            height: scale(450),
+                            
                             width: '100%',
                             backgroundColor: '#FFFFFF'
                         }}>
                             {
                                 listVoyage != null && listVoyage.length > 0 ? (
                                     <GestureHandlerRootView style={{
-                                        height: scale(450),
-                                        width: '100%'
+                                        width: '100%',
+                                        height: moderateScale(490)
                                     }}>
                                         <FlatList
                                             showsHorizontalScrollIndicator={false}
                                             showsVerticalScrollIndicator={false}
                                             style={{
-                                                height: scale(450),
+                                                height: '100%',
                                                 width: '100%'
     
                                             }}
@@ -350,6 +356,14 @@ const Voyage = ({ navigation, route }: { navigation?: any, route?: any }) => {
     )
 }
 
+const styles = StyleSheet.create({
+    fontColorTiltle:{
+        color: '#6B788E'
+    },
 
+    fontColorContent:{
+        color: '#42526D'
+    }
+})
 
 export default Voyage;

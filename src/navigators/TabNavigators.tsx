@@ -11,6 +11,7 @@ import NotificationScreen from "../screens/Notification/NotificationScreen";
 import { COLORS, FONTSIZE, SPACING } from "../../theme/theme";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import ApprovalScreen from "../screens/Approval/ApprovalScreen";
+import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 
 
 const Tab = createBottomTabNavigator();
@@ -42,9 +43,9 @@ function HomeTab() {
       },
       tabBarActiveTintColor: '#244A64',
       tabBarInactiveTintColor: 'gray',
-      tabBarLabelStyle: {paddingBottom: 10, fontSize: 10},
+      tabBarLabelStyle: {paddingBottom: scale(10), fontSize: scale(10)},
       tabBarStyle: {
-        height: 60
+        height: verticalScale(50)
       },
       headerPressColor: COLORS.primary
       
