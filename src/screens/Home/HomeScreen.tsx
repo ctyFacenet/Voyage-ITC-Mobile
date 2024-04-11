@@ -36,7 +36,7 @@ const ShipOnBoard = ({ item }: { item: any }) => {
             setRun(item?.totalDistanceRun)
             setDistanceTraveled((run / distant) * 100)
         }
-    }, [])
+    }, [run, distant, distanceTraveled])
 
     return (
         <>
@@ -160,7 +160,7 @@ const ShipOnBoard = ({ item }: { item: any }) => {
                                     flexDirection: 'row',
                                     alignItems: 'center',
                                     width: '100%',
-                                    top: verticalScale(-9)
+                                    top: verticalScale(-7)
                                 }}>
                                     {item?.distanceNextPort !== null && item?.totalDistanceRun !== null ? (
                                         <>
@@ -173,7 +173,7 @@ const ShipOnBoard = ({ item }: { item: any }) => {
                                             <AntDesign style={{
                                                 left: scale(-14)
                                             }} name="caretright"
-                                                color='#244A64' size={moderateScale(25)} />
+                                                color='#244A64' size={moderateScale(20)} />
                                         </>
                                     ) : (
                                         null
@@ -212,8 +212,8 @@ const ShipOnBoard = ({ item }: { item: any }) => {
                                 }}>
 
                                     <View>
-                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>ETD: <Text style={{ color: '#244A64', fontSize: 17 }}>{item?.eta === undefined || item?.eta === null ? '' : format(new Date(item?.eta), targetDateFormat)}</Text></Text>
-                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>8:00 15/02/2024</Text>
+                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>ETA: <Text style={{ color: '#244A64', fontSize: 17 }}>{item?.eta === undefined || item?.eta === null ? '' : format(new Date(item?.eta), targetDateFormat)}</Text></Text>
+                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>{item?.voyage?.createdAt}</Text>
                                     </View>
                                 </View>
                             </View>
@@ -273,7 +273,7 @@ const ShipOnPort = ({ item }: { item: any }) => {
                                 }}>
                                     <View>
                                         <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>ETD: <Text style={{ color: '#244A64', fontSize: 17 }}>{item?.eta === undefined || item?.eta === null ? '' : format(new Date(item?.eta), targetDateFormat)}</Text></Text>
-                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>8:00 15/02/2024</Text>
+                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>{item?.voyage?.createdAt}</Text>
                                     </View>
                                 </View>
                             </View>
