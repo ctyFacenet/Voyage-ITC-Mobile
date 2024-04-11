@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1134694738",
+    "project_id": "test-921bf",
+    "storage_bucket": "test-921bf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1134694738:android:5a94a2e0b94b1776ffaa8b",
+        "android_client_info": {
+          "package_name": "com.Facenet.test"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkjQUjooa1WV-Wk12lJoo1MnVNXEda8C8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
