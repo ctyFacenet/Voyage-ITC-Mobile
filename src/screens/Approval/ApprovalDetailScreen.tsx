@@ -1,198 +1,234 @@
-import * as React from 'react';
-import { Text, View, StyleSheet, TouchableOpacity , Dimensions} from 'react-native';
-import  Icon  from 'react-native-vector-icons/AntDesign';
-import  IconAwe6  from 'react-native-vector-icons/FontAwesome6';
-import  IconFea  from 'react-native-vector-icons/Feather';
+import * as React from "react";
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
+import Icon from "react-native-vector-icons/AntDesign";
+import IconAwe6 from "react-native-vector-icons/FontAwesome6";
+import IconFea from "react-native-vector-icons/Feather";
 
-import { COLORS, FONTSIZE, SPACING } from '../../../theme/theme';
-import { scale } from 'react-native-size-matters';
-import { useNavigation } from '@react-navigation/native';
-import { getApprovalDetail, putApprovalReport } from '../../services/ApprovalServices/ApprovalServices';
-import PDFView from 'react-native-pdf';
-import RNFetchBlob from 'rn-fetch-blob';
-import PDFExample from '../../components/Pdf';
-import ModalConfirmPass from '../../components/ModalConfirmPass';
-import ModalApproval from '../../components/ModalApproval';
+import { COLORS, FONTSIZE, SPACING } from "../../../theme/theme";
+import { scale } from "react-native-size-matters";
+import { useNavigation } from "@react-navigation/native";
+import {
+  getApprovalDetail,
+  putApprovalReport,
+} from "../../services/ApprovalServices/ApprovalServices";
+import PDFView from "react-native-pdf";
+import RNFetchBlob from "rn-fetch-blob";
+import PDFExample from "../../components/Pdf";
+import ModalConfirmPass from "../../components/ModalConfirmPass";
+import ModalApproval from "../../components/ModalApproval";
+import { useKeycloak } from "@react-keycloak/native";
 
-
-const ApprovalDetailScreen = ({route} : any) => {
-    const navigation = useNavigation()
-    console.log(route.params);
-
-
-    
-
-    // const [dataPdf, setDataPdf] = React.useState<any>(null)
-   
-    const {entityId, entityType} = route.params.dataAproval;
-    const [isVisibaleModalPass, setIsVisibaleModalPass] = React.useState(false)
-    const [isVisibaleModalApproval, setIsVisibaleModalApproval] = React.useState(false)
-    const [title, setTitle] = React.useState('')
-    const [content, setContent] = React.useState('')
-    const [pass, setPass] = React.useState('')
-
-    const [accepted, setAccepted] = React.useState(false)
-
-    const handleRefuse = () => {
-      setAccepted(false)
-      setIsVisibaleModalApproval(true)
-    }
-
-    const handleQuota = () => {
-      setIsVisibaleModalApproval(true)
-        
-    }
-
-    const handleApproval = () => {
-
-      setAccepted(true)
-      
-      setIsVisibaleModalApproval(true)
-        
-    }
-
-    const getReportType = (entityType : any) : string => {
-      switch (entityType) {
-    
-        case 31:
-          return 'payments';
-        case 32:
-          return 'payments';
-    
-        default:
-          return 'payments';
-      }
-    }
-
-    const onHandleConfirmApprove = async () => {
-      
-      let data = {
-        note: content,
-        accepted: accepted,
-        password: pass
-      }
-
-      
-      let response = await putApprovalReport(getReportType(entityType),entityId, data);
-
-      console.log(response);
-      
-      
-    }
-
-
-    React.useEffect(() => {
-      const fetchDataAndSavePdf = async () => {
-        try {
-          // Gọi API để lấy dữ liệu
-          const response = await getApprovalDetail(entityId, entityType);
-          // console.log(response);
-          
-          
-        //   // Chuyển đổi blob thành base64
-        //   const base64Data = await convertBlobToBase64(response);
-    
-        //   // Tạo URI cho PDF từ dữ liệu base64
-        //   const pdfUri = `data:application/pdf;base64,${base64Data}`;
-        //   console.log(pdfUri);
-          
-          
-        //   // Lưu PDF xuống thiết bị
-        //   const pdfFilePath = await savePdfToDevice(pdfUri);
-          
-        //   console.log(pdfFilePath.path());
-        } catch (error) {
-          console.error('Error fetching data or saving PDF:', error);
-        }
+const getReportType = (statusValue: number): any => {
+  switch (statusValue) {
+    case 31:
+      return {
+        entityName: "Đề xuất chi phí",
+        entiType: "payments",
       };
-    
-      // Gọi hàm fetchDataAndSavePdf khi useEffect được gọi
-      fetchDataAndSavePdf();
-    }, []);
-    
-    // Hàm chuyển đổi từ blob sang base64
-    const convertBlobToBase64 = async (blobUri: any) => {
-      try {
-        const base64Data = await RNFetchBlob.fs.readFile(blobUri, 'base64');
-        return base64Data;
-      } catch (error) {
-        throw new Error('Error converting blob to base64:');
-      }
+    case 32:
+      return {
+        entityName: "Đề nghị thanh toán",
+        entiType: "payments",
+      };
+    case 33:
+      return {
+        entityName: "Tạm ứng quỹ",
+        entiType: "payments",
+      };
+    case 36:
+      return {
+        entityName: "Quyết toán tạm ứng quỹ",
+        entiType: "payments",
+      };
+    case 37:
+      return {
+        entityName: "Ghi nhận doanh thu",
+        entiType: "payments",
+      };
+    case 40:
+      return {
+        entityName: "Phân bổ chi phí",
+        entiType: "payments",
+      };
+    case 23:
+      return {
+        entityName: "Đề nghị cấp dầu",
+        entiType: "ship-bunkering",
+      };
+
+    default:
+      return "payments";
+  }
+};
+const ApprovalDetailScreen = ({ route }: any) => {
+  const navigation = useNavigation();
+  console.log(route.params);
+  const { keycloak } = useKeycloak();
+
+  // const [dataPdf, setDataPdf] = React.useState<any>(null)
+
+  const { entityId, entityType, status } = route.params.dataAproval;
+  console.log(entityId, entityType, status);
+
+  const reportType = getReportType(entityType);
+  const [isVisibaleModalPass, setIsVisibaleModalPass] = React.useState(false);
+  const [isVisibaleModalApproval, setIsVisibaleModalApproval] =
+    React.useState(false);
+  const [content, setContent] = React.useState("");
+  const [pass, setPass] = React.useState("");
+
+  const [accepted, setAccepted] = React.useState(false);
+  const [error, setError] = React.useState(false);
+
+  const handleRefuse = () => {
+    setAccepted(false);
+    setIsVisibaleModalApproval(true);
+  };
+
+  const handleQuota = () => {
+    setIsVisibaleModalApproval(true);
+  };
+
+  const handleApproval = () => {
+    setAccepted(true);
+
+    setIsVisibaleModalApproval(true);
+  };
+
+  // const getReportType = (entityType: any): string => {
+  //   switch (entityType) {
+  //     case 31:
+  //       return "payments";
+  //     case 32:
+  //       return "payments";
+
+  //     default:
+  //       return "payments";
+  //   }
+  // };
+
+  const onHandleConfirmApprove = async () => {
+    let data = {
+      note: content,
+      accepted: accepted,
+      password: pass,
     };
-    
-    // Hàm lưu PDF xuống thiết bị
-    const savePdfToDevice = async (pdfUri: any) => {
-      try {
-        const pdfFilePath = await RNFetchBlob.config({
-          fileCache: true,
-          appendExt: 'pdf'
-        }).fetch('GET', pdfUri);
-    
-        return pdfFilePath;
-      } catch (error) {
-        throw new Error('Error saving PDF:');
-      }
-    };
-    
-    
-    
+    let reportType = getReportType(entityType);
+
+    try {
+      let response = await putApprovalReport(
+        reportType.entiType,
+        entityId,
+        data
+      );
+      // Xử lý thành công tại đây, ví dụ:
+      console.log("Response data:", response);
+      navigation.navigate("Approval");
+    } catch (error) {
+      // Xử lý lỗi tại đây
+      console.error("Có lỗi xảy ra trong quá trình duyệt báo cáo:", error);
+      setError(true);
+    }
+  };
+
+  const hanleShowModalConfirmPass = () => {
+    setIsVisibaleModalApproval(false);
+    setIsVisibaleModalPass(true);
+  };
+
+  const hanleCloseModalConfirmPass = () => {
+    setIsVisibaleModalApproval(true);
+    setIsVisibaleModalPass(false);
+  };
+
   return (
     <View style={styles.container}>
-        <View style={styles.headerApproval}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Icon name='arrowleft' color={COLORS.primary} size={20} />
+      <View style={styles.headerApproval}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Icon name="arrowleft" color={COLORS.primary} size={20} />
+        </TouchableOpacity>
+        <Text style={styles.title}>{getReportType(entityType).entityName}</Text>
+        <Text></Text>
+      </View>
 
-            </TouchableOpacity>
-            <Text style={styles.title}>Đề nghị thanh toán</Text>
-            <Text></Text>
-        </View>
-
+      {status == 2 && (
         <View style={styles.footerApproval}>
-            <TouchableOpacity onPress={() => navigation.goBack()} style={{alignItems: 'center'}}>
-                <Icon name='leftcircleo' color={COLORS.primary} size={20} />
-                <Text>Quay lại</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={handleRefuse} style={{alignItems: 'center'}}>
-                <IconAwe6 name='file-excel' color={COLORS.red} size={20} />
-                <Text style={{color: COLORS.red}}>Từ chối</Text>
-
-            </TouchableOpacity>
-            <TouchableOpacity onPress={handleQuota} style={{alignItems: 'center'}}>
-                <IconFea name='users' color={COLORS.primary} size={20} />
-                <Text  style={{color: COLORS.primary}}>Chọn ký nháy</Text>
-
-            </TouchableOpacity>
-            <TouchableOpacity onPress={handleApproval} style={{alignItems: 'center'}}>
-                <IconAwe6 name='file-circle-check' color={COLORS.green} size={20} />
-                <Text style={{color: COLORS.green}}>Phê duyệt</Text>
-
-            </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={{ alignItems: "center" }}
+          >
+            <Icon name="leftcircleo" color={COLORS.primary} size={20} />
+            <Text>Quay lại</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={handleRefuse}
+            style={{ alignItems: "center" }}
+          >
+            <IconAwe6 name="file-excel" color={COLORS.red} size={20} />
+            <Text style={{ color: COLORS.red }}>Từ chối</Text>
+          </TouchableOpacity>
+          {/* <TouchableOpacity
+            onPress={handleQuota}
+            style={{ alignItems: "center" }}
+          >
+            <IconFea name="users" color={COLORS.primary} size={20} />
+            <Text style={{ color: COLORS.primary }}>Chọn ký nháy</Text>
+          </TouchableOpacity> */}
+          <TouchableOpacity
+            onPress={handleApproval}
+            style={{ alignItems: "center" }}
+          >
+            <IconAwe6 name="file-circle-check" color={COLORS.green} size={20} />
+            <Text style={{ color: COLORS.green }}>Phê duyệt</Text>
+          </TouchableOpacity>
         </View>
-        <PDFView
-          trustAllCerts={false}
-          style={{ height: '80%' }}
-          source={{uri:`https://dev.apiitc.facenet.vn/assets/c30d3ed7-1ad2-4e5c-aee8-9013c2e9d846.pdf`,  cache: true }}
-          onLoadComplete={(numberOfPages,filePath) => {
-            console.log(`Number of pages: ${numberOfPages}`);
-          }}
-          onPageChanged={(page,numberOfPages) => {
-              console.log(`Current page: ${page}`);
-          }}
-          onError={(error) => {
-              console.log(error);
-          }}
-          onPressLink={(uri) => {
-              console.log(`Link pressed: ${uri}`);
-          }}
-        />
+      )}
+      <PDFView
+        trustAllCerts={false}
+        style={{ height: "80%" }}
+        source={{
+          uri: `https://dev.apiitc.facenet.vn/assets/approval-requests?entityId=${entityId}&entityType=${entityType}`,
 
-        <ModalConfirmPass isVisibaleModalPass={isVisibaleModalPass} setIsVisibaleModalPass={setIsVisibaleModalPass} pass={pass} setPass={setPass} onHandleConfirmApprove={onHandleConfirmApprove} />
+          cache: true,
+        }}
+        onLoadComplete={(numberOfPages, filePath) => {
+          console.log(`Number of pages: ${numberOfPages}`);
+        }}
+        onPageChanged={(page, numberOfPages) => {
+          console.log(`Current page: ${page}`);
+        }}
+        onError={(error) => {
+          console.log(error);
+        }}
+        onPressLink={(uri) => {
+          console.log(`Link pressed: ${uri}`);
+        }}
+      />
 
-        <ModalApproval isVisibaleModalApproval={isVisibaleModalApproval} setIsVisibaleModalApproval={setIsVisibaleModalApproval} setIsVisibaleModalPass={setIsVisibaleModalPass} title={'đề nghị thanh toán'} accepted={accepted} content={content} setContent={setContent} />
+      <ModalConfirmPass
+        isVisibaleModalPass={isVisibaleModalPass}
+        setIsVisibaleModalPass={hanleCloseModalConfirmPass}
+        pass={pass}
+        setPass={setPass}
+        onHandleConfirmApprove={onHandleConfirmApprove}
+        error={error}
+      />
 
-
-    
-        
+      <ModalApproval
+        isVisibaleModalApproval={isVisibaleModalApproval}
+        setIsVisibaleModalApproval={setIsVisibaleModalApproval}
+        setIsVisibaleModalPass={hanleShowModalConfirmPass}
+        title={"đề nghị thanh toán"}
+        accepted={accepted}
+        content={content}
+        setContent={setContent}
+      />
     </View>
   );
 };
@@ -201,36 +237,40 @@ export default ApprovalDetailScreen;
 
 const styles = StyleSheet.create({
   container: {
-    position: 'relative',
-    height: '100%',
-    width: '100%'
+    position: "relative",
+    height: "100%",
+    width: "100%",
   },
   headerApproval: {
     height: scale(60),
     padding: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems:'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     elevation: 5,
-    backgroundColor: COLORS.White
+    backgroundColor: COLORS.White,
   },
   footerApproval: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
     height: scale(100),
     padding: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems:'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     elevation: 5,
-    backgroundColor: COLORS.White
+    backgroundColor: COLORS.White,
   },
-  title: {color: COLORS.primary, fontWeight: '700', fontSize: FONTSIZE.size_18 },
+  title: {
+    color: COLORS.primary,
+    fontWeight: "700",
+    fontSize: FONTSIZE.size_18,
+  },
   pdf: {
-    flex:1,
-    width:Dimensions.get('window').width,
-    height:Dimensions.get('window').height,
-}
+    flex: 1,
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
+  },
 });

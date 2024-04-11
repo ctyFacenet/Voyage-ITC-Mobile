@@ -60,14 +60,19 @@ function App(): React.JSX.Element {
 
   const getTokenClient = async () => {
     const token = await messaging().getToken();
-    console.log(token);
 
     // if (token) {
-    //   await sentToken({
-    //     token: token,
-    //   });
+    //   try {
+    //     let res = await sentToken({
+    //       token: token,
+    //     });
+    //     console.log(res);
+    //   } catch (err) {
+    //     console.log("Có lỗi gửi device token:", err);
+    //   }
     // }
   };
+
   useEffect(() => {
     requestUserPermission();
     getTokenClient();
