@@ -1,34 +1,55 @@
-import * as React from 'react';
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/AntDesign'
-import { COLORS } from '../../theme/theme';
-import moment from 'moment';
-import { scale } from 'react-native-size-matters';
-import { useNavigation } from '@react-navigation/native';
+import * as React from "react";
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import Icon from "react-native-vector-icons/AntDesign";
+import { COLORS } from "../../theme/theme";
+import moment from "moment";
+import { scale } from "react-native-size-matters";
+import { useNavigation } from "@react-navigation/native";
 
-
-
-const ApprovalItem = ({dataAproval} : any) => {
-  const navigation = useNavigation()
+const ApprovalItem = ({ dataAproval }: any) => {
+  const navigation = useNavigation();
   const getStatus = (statusValue: number): string => {
     switch (statusValue) {
-      
       case 2:
-        return 'Chờ duyệt';
+        return "Chờ duyệt";
       case 3:
-        return 'Đã duyệt';
+        return "Đã duyệt";
       case -3:
-        return 'Từ chối';
+        return "Từ chối";
       case -2:
-        return 'Huỷ trình';
+        return "Huỷ trình";
       default:
-        return 'Từ chối';
+        return "Từ chối";
     }
-  }
+  };
+
+  const getReportType = (statusValue: number): any => {
+    switch (statusValue) {
+      case 31:
+        return "Đề xuất chi phí";
+      case 32:
+        return "Đề nghị thanh toán";
+
+      case 33:
+        return "Tạm ứng quỹ";
+
+      case 36:
+        return "Quyết toán tạm ứng quỹ";
+
+      case 37:
+        return "Ghi nhận doanh thu";
+      case 40:
+        return "Phân bổ chi phí";
+      case 23:
+        return "Đề nghị cấp dầu";
+
+      default:
+        return "Đề xuất chi phí";
+    }
+  };
 
   const getColorStatus = (statusValue: number): string => {
     switch (statusValue) {
-     
       case 2:
         return COLORS.yellow;
       case 3:
@@ -40,11 +61,10 @@ const ApprovalItem = ({dataAproval} : any) => {
       default:
         return COLORS.yellow;
     }
-  }
+  };
 
   const getBackgoundColorStatus = (statusValue: number): string => {
     switch (statusValue) {
-     
       case 2:
         return COLORS.backgroundYellow;
       case 3:
@@ -56,33 +76,40 @@ const ApprovalItem = ({dataAproval} : any) => {
       default:
         return COLORS.backgroundYellow;
     }
-  }
-  return (
-    <TouchableOpacity style={styles.container} onPress={() => {
-      navigation.push('ApprovalDetail', {dataAproval: dataAproval})
-    }}>
-      <View>
+  };
 
-      </View>
+  return (
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => {
+        navigation.push("ApprovalDetail", { dataAproval: dataAproval });
+      }}
+    >
+      <View></View>
       <View style={styles.headerItem}>
-        <View style={{display: 'flex', flexDirection: 'row'}}>
-          <Icon name = 'copyright' size={20} color={COLORS.primary} />
-          <Text style={{marginLeft: 4, color: COLORS.primary}}>Đề nghị thanh toán</Text>
+        <View style={{ display: "flex", flexDirection: "row" }}>
+          <Icon name="copyright" size={20} color={COLORS.primary} />
+          <Text style={{ marginLeft: 4, color: COLORS.primary }}>
+            {getReportType(dataAproval.entityType)}
+          </Text>
         </View>
-        <Text>{moment(dataAproval.approvalTime).format('DD/MM/YYYY HH:mm')}</Text>
+        <Text>
+          {moment(dataAproval.approvalTime).format("DD/MM/YYYY HH:mm")}
+        </Text>
       </View>
-      <Text>
-        Bạn vừa được trình duyệt đề nghị thanh toán DNTTV02.24
-      </Text>
-      <View style={{
-        backgroundColor: getBackgoundColorStatus(dataAproval.status),
-        width: scale(100),
-        alignItems: 'center',
-        alignSelf: 'flex-end',
-        borderRadius: 10,
-        
-      }}>
-        <Text style={{padding: 2, color: getColorStatus(dataAproval.status)}}>{getStatus(dataAproval.status)}</Text>
+      <Text>{dataAproval.message}</Text>
+      <View
+        style={{
+          backgroundColor: getBackgoundColorStatus(dataAproval.status),
+          width: scale(100),
+          alignItems: "center",
+          alignSelf: "flex-end",
+          borderRadius: 10,
+        }}
+      >
+        <Text style={{ padding: 2, color: getColorStatus(dataAproval.status) }}>
+          {getStatus(dataAproval.status)}
+        </Text>
       </View>
     </TouchableOpacity>
   );
@@ -96,13 +123,12 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.White,
     margin: 10,
     elevation: 5,
-    borderRadius: 10
-
+    borderRadius: 10,
   },
   headerItem: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  }
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
 });

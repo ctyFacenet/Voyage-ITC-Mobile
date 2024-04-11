@@ -4,8 +4,8 @@ export async function getDataHome(url: any) {
   return getData("api/" + url);
 }
 
-export async function get(data: any) {
-  return getData("api/");
+export async function getCountNotification() {
+  return getData("api/mobiles/count-notification");
 }
 
 export async function getListVoyyage(url: any, data: any){
