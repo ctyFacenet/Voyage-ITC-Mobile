@@ -1,12 +1,27 @@
-import React, {useState} from 'react';
-import {Alert, Modal, StyleSheet, Text, Pressable, View, TextInput, TouchableOpacity} from 'react-native';
-import { COLORS, FONTFAMILY, FONTSIZE } from '../../theme/theme';
-import { moderateScale, scale } from 'react-native-size-matters';
-import  Icon  from 'react-native-vector-icons/Feather';
+import React, { useState } from "react";
+import {
+  Alert,
+  Modal,
+  StyleSheet,
+  Text,
+  Pressable,
+  View,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
+import { COLORS, FONTFAMILY, FONTSIZE } from "../../theme/theme";
+import { moderateScale, scale } from "react-native-size-matters";
+import Icon from "react-native-vector-icons/Feather";
 
-const ModalApproval = ({isVisibaleModalApproval = false, setIsVisibaleModalApproval, content, setContent,  title, accepted, setIsVisibaleModalPass} : any) => {
- 
-    
+const ModalApproval = ({
+  isVisibaleModalApproval = false,
+  setIsVisibaleModalApproval,
+  content,
+  setContent,
+  title,
+  accepted,
+  setIsVisibaleModalPass,
+}: any) => {
   return (
     <View style={styles.centeredView}>
       <Modal
@@ -14,68 +29,78 @@ const ModalApproval = ({isVisibaleModalApproval = false, setIsVisibaleModalAppro
         transparent={true}
         visible={isVisibaleModalApproval}
         onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
+          Alert.alert("Modal has been closed.");
           setIsVisibaleModalApproval(!isVisibaleModalApproval);
-    }}>
+        }}
+      >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>{accepted ? 'Phê duyệt' : 'Từ chối'} {title}</Text>
-            <Text style={{marginTop: 2, fontSize: 14}}>Bạn có xác nhận {accepted ? 'phê duyệt ' : 'từ chối '}{title} không?</Text>
-            <Text style={{marginTop: 4}}>{accepted ? 'Nhận xét ' : 'Lý do '}</Text>
+            <Text style={styles.modalText}>
+              {accepted ? "Phê duyệt" : "Từ chối"} {title}
+            </Text>
+            <Text style={{ marginTop: 2, fontSize: 14 }}>
+              Bạn có xác nhận {accepted ? "phê duyệt " : "từ chối "}
+              {title} không?
+            </Text>
+            <Text style={{ marginTop: 4 }}>
+              {accepted ? "Nhận xét " : "Lý do "}
+            </Text>
 
             <View style={styles.inputBox}>
-                <TextInput
-                    editable
-                    style={styles.textInput}
-                    value={content}
-                    onChangeText={setContent}
-                    placeholder="Nhập nội dung"
-                    placeholderTextColor={COLORS.text}
-                    multiline
-                    numberOfLines={4}
-                    
-                />
-                
+              <TextInput
+                editable
+                style={styles.textInput}
+                value={content}
+                onChangeText={setContent}
+                placeholder="Nhập nội dung"
+                placeholderTextColor={COLORS.text}
+                multiline
+                numberOfLines={4}
+              />
             </View>
-           
+
             <View style={styles.containerBtn}>
               <TouchableOpacity
                 style={{
-                    width: scale(100),
-                    alignItems: 'center',
-                    marginBottom: scale(15),
-                    height: scale(35),
-                    justifyContent: 'center',
-                    borderRadius: scale(5),
-                    borderColor: COLORS.primary,
-                    borderWidth: 1
-                  
+                  width: scale(100),
+                  alignItems: "center",
+                  marginBottom: scale(15),
+                  height: scale(35),
+                  justifyContent: "center",
+                  borderRadius: scale(5),
+                  borderColor: COLORS.primary,
+                  borderWidth: 1,
                 }}
                 onPress={() => setIsVisibaleModalApproval(false)}
+              >
+                <Text
+                  style={{ fontSize: moderateScale(17), color: COLORS.primary }}
                 >
-                <Text style={{ fontSize: moderateScale(17), color: COLORS.primary }}>Huỷ bỏ</Text>
+                  Huỷ bỏ
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => setIsVisibaleModalPass(true)}
+                onPress={setIsVisibaleModalPass}
                 style={{
-                    width: scale(100),
-                    alignItems: 'center',
-                    marginBottom: scale(15),
-                    height: scale(35),
-                    backgroundColor: '#244A64',
-                    justifyContent: 'center',
-                    borderRadius: scale(5),
-                }}>
-                <Text style={{ fontSize: moderateScale(17), color: COLORS.White }}>Tiếp theo</Text>
+                  width: scale(100),
+                  alignItems: "center",
+                  marginBottom: scale(15),
+                  height: scale(35),
+                  backgroundColor: "#244A64",
+                  justifyContent: "center",
+                  borderRadius: scale(5),
+                }}
+              >
+                <Text
+                  style={{ fontSize: moderateScale(17), color: COLORS.White }}
+                >
+                  Tiếp theo
+                </Text>
               </TouchableOpacity>
             </View>
-            
-
           </View>
         </View>
-        
       </Modal>
-    
     </View>
   );
 };
@@ -83,10 +108,8 @@ const ModalApproval = ({isVisibaleModalApproval = false, setIsVisibaleModalAppro
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    
-
+    justifyContent: "center",
+    alignItems: "center",
   },
   searchIcon: {
     alignItems: "center",
@@ -99,14 +122,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingHorizontal: 6,
     paddingVertical: 2,
-    borderRadius: 10
+    borderRadius: 10,
   },
   modalView: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 20,
     padding: 20,
     // alignItems: 'center',
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -122,29 +145,35 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   buttonOpen: {
-    backgroundColor: '#F194FF',
+    backgroundColor: "#F194FF",
   },
   buttonClose: {
-    backgroundColor: '#2196F3',
+    backgroundColor: "#2196F3",
   },
   textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
   },
   modalText: {
-    textAlign: 'center',
+    textAlign: "center",
     color: COLORS.primary,
     fontSize: FONTSIZE.size_18,
-    fontWeight: '700'
+    fontWeight: "700",
   },
   textInput: {
     width: "90%",
     fontFamily: FONTFAMILY.poppins_regular,
     fontSize: FONTSIZE.size_14,
-    height: scale(70)
-
+    height: scale(70),
   },
-  containerBtn: {display: 'flex', flexDirection: 'row', justifyContent: 'space-between', elevation: 5, width: '100%', marginTop: 20}
+  containerBtn: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    elevation: 5,
+    width: "100%",
+    marginTop: 20,
+  },
 });
 
 export default ModalApproval;

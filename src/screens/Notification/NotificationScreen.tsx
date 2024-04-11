@@ -17,16 +17,32 @@ import {
   putReadAllNotification,
 } from "../../services/ApprovalServices/ApprovalServices";
 import { scale } from "react-native-size-matters";
+import NoData from "../../components/Nodata";
+import { getCountNotification } from "../../services/HomeServices/HomeServices";
 
 const Notification = () => {
   const [listNotification, setListNotification] = React.useState<any>([]);
   const [isEndOfList, setIsEndOfList] = React.useState(false);
   const [isLoadingMore, setIsLoadingMore] = React.useState(false);
 
+  const [isLoading, setisLoading] = React.useState(true);
+
+  const [notificationCount, setNotificationCount] = React.useState(0);
+  React.useEffect(() => {
+    let fetchData = async () => {
+      try {
+        let res = await getCountNotification();
+        setNotificationCount(res.data.notification || 0);
+      } catch (err) {
+        console.log("Có lỗi xảy ra", err);
+      }
+    };
+
+    fetchData();
+  }, [listNotification]);
   const onHandleCheckReadAll = async () => {
     try {
       const response = await putReadAllNotification();
-      console.log(response);
 
       if (response.result.responseCode == "00") {
         let res = await getListNotification({
@@ -36,11 +52,12 @@ const Notification = () => {
           pageSize: 10,
           pageNumber: 0,
         });
-        setListNotification(res.data.notification);
+        if (res.data) {
+          setListNotification(res.data.notification);
+          setListNotification(res.data.notification);
+          setIsEndOfList(res.data.notification.length < 10);
+        }
       }
-
-      setListNotification(response.data.notification);
-      setIsEndOfList(response.data.length < 10);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -49,7 +66,6 @@ const Notification = () => {
   const loadMoreData = async () => {
     // Kiểm tra xem đã tới cuối danh sách hay chưa
     if (!isEndOfList) {
-      setIsLoadingMore(true); // Bắt đầu tải thêm dữ liệu
       try {
         // Tính số trang tiếp theo
         const nextPageNumber = Math.ceil(listNotification.length / 10);
@@ -80,6 +96,10 @@ const Notification = () => {
   };
 
   React.useEffect(() => {
+    loadMoreData();
+  }, [isLoadingMore]);
+
+  React.useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await getListNotification({
@@ -95,6 +115,8 @@ const Notification = () => {
         setIsEndOfList(response.data.notification.length < 10);
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setisLoading(false);
       }
     };
 
@@ -122,23 +144,30 @@ const Notification = () => {
             padding: 4,
           }}
         >
-          <Text style={{ color: COLORS.primary }}>10 thông báo chưa đọc</Text>
+          <Text style={{ color: COLORS.primary }}>
+            {notificationCount} thông báo chưa đọc
+          </Text>
         </View>
         <TouchableOpacity onPress={onHandleCheckReadAll}>
           <Icon name="checkcircleo" size={20} color={COLORS.primary} />
         </TouchableOpacity>
       </View>
-      {listNotification && (
+      {isLoading ? (
+        <ActivityIndicator size="small" color={COLORS.primary} />
+      ) : (
         <FlatList
           data={listNotification}
           showsHorizontalScrollIndicator={false}
           renderItem={({ item, index }) => <NotificationItem dataItem={item} />}
-          keyExtractor={(item: any) => item.id}
+          keyExtractor={(item, index) => `notification-${item.id}-${index}`}
           style={{ height: scale(510) }}
-          onEndReached={loadMoreData}
+          onEndReached={() => setIsLoadingMore(true)}
           onEndReachedThreshold={0.1}
-          ListFooterComponent={
-            <ActivityIndicator size="small" color={COLORS.primary} />
+          ListEmptyComponent={<NoData />}
+          ListFooterComponent={() =>
+            isLoadingMore && (
+              <ActivityIndicator size="small" color={COLORS.primary} />
+            )
           }
         />
       )}
