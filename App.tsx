@@ -4,11 +4,14 @@
  *
  * @format
  */
-import { ReactNativeKeycloakProvider, RNKeycloak } from '@react-keycloak/native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React, { useEffect } from 'react';
-import type {PropsWithChildren} from 'react';
+import {
+  ReactNativeKeycloakProvider,
+  RNKeycloak,
+} from "@react-keycloak/native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import React, { useEffect } from "react";
+import type { PropsWithChildren } from "react";
 import {
   SafeAreaView,
   ScrollView,
@@ -17,76 +20,78 @@ import {
   Text,
   useColorScheme,
   View,
-} from 'react-native';
+} from "react-native";
 
-
-import Login from './src/screens/login/Login';
-import Home from './src/screens/Home/HomeScreen';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Ioncions from 'react-native-vector-icons/Ionicons';
-import Voyage from './src/screens/Voyage/VoyageScreen';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import HomeTab from './src/navigators/TabNavigators';
-import { environment } from './src/environment/environment.cloud';
-import Filter from './src/screens/Approval/FilterScreen';
-import Account from './src/account/Account';
-import VoyageDetail from './src/screens/Voyage/VoyageDetailScreen';
-import ApprovalDetailScreen from './src/screens/Approval/ApprovalDetailScreen';
-import messaging from '@react-native-firebase/messaging';
-
+import Login from "./src/screens/login/Login";
+import Home from "./src/screens/Home/HomeScreen";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Ioncions from "react-native-vector-icons/Ionicons";
+import Voyage from "./src/screens/Voyage/VoyageScreen";
+import Icon from "react-native-vector-icons/FontAwesome";
+import HomeTab from "./src/navigators/TabNavigators";
+import { environment } from "./src/environment/environment.cloud";
+import Filter from "./src/screens/Approval/FilterScreen";
+import Account from "./src/account/Account";
+import VoyageDetail from "./src/screens/Voyage/VoyageDetailScreen";
+import ApprovalDetailScreen from "./src/screens/Approval/ApprovalDetailScreen";
+import messaging from "@react-native-firebase/messaging";
+import { sentToken } from "./src/services/HomeServices/HomeServices";
 
 // const keycloak = new RNKeycloak({...environment.keycloak})
 const keycloak = new RNKeycloak({
-  url: 'https://sso.xfactory.vn/auth/',
-  realm: 'dev',
-  clientId: 'angular-client',
-})
+  url: "https://sso.xfactory.vn/auth/",
+  realm: "dev",
+  clientId: "angular-client",
+});
 
-const Stack = createNativeStackNavigator()
-
-const Tab = createBottomTabNavigator()
-
-
+const Stack = createNativeStackNavigator();
 
 function App(): React.JSX.Element {
+  async function requestUserPermission() {
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
-async function requestUserPermission() {
-  const authStatus = await messaging().requestPermission();
-  const enabled =
-    authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-    authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-
-  if (enabled) {
-    console.log('Authorization status:', authStatus);
+    if (enabled) {
+      console.log("Authorization status:", authStatus);
+    }
   }
 
-}
+  const getTokenClient = async () => {
+    const token = await messaging().getToken();
+    console.log(token);
 
-const getToken = async () => {
-  const token = await messaging().getToken();
-  console.log(token);
-  
-}
-  // useEffect(() => {
-  //   requestUserPermission()
-  //   getToken();
-  // }, []);
-
-  
+    // if (token) {
+    //   await sentToken({
+    //     token: token,
+    //   });
+    // }
+  };
+  useEffect(() => {
+    requestUserPermission();
+    getTokenClient();
+  }, []);
 
   return (
     <ReactNativeKeycloakProvider
-    authClient={keycloak}
-    initOptions={{redirectUri: 'itc-mobile://auth'}}>
+      authClient={keycloak}
+      initOptions={{ redirectUri: "itc-mobile://auth" }}
+    >
       <NavigationContainer>
-        <Stack.Navigator initialRouteName={keycloak?.authenticated ? 'Home' : 'Login'} screenOptions={{headerShown: false}}>
-          <Stack.Screen name='Login' component={Login}></Stack.Screen>
-          <Stack.Screen name='HomeTab' component={HomeTab}></Stack.Screen>
-          <Stack.Screen name='Filter' component={Filter}></Stack.Screen>
-          <Stack.Screen name='Account' component={Account}/>
-          <Stack.Screen name='VoyageDetail' component={VoyageDetail}/>
-          <Stack.Screen name='ApprovalDetail' component={ApprovalDetailScreen}/>
-
+        <Stack.Navigator
+          initialRouteName={keycloak?.authenticated ? "Home" : "Login"}
+          screenOptions={{ headerShown: false }}
+        >
+          <Stack.Screen name="Login" component={Login}></Stack.Screen>
+          <Stack.Screen name="HomeTab" component={HomeTab}></Stack.Screen>
+          <Stack.Screen name="Filter" component={Filter}></Stack.Screen>
+          <Stack.Screen name="Account" component={Account} />
+          <Stack.Screen name="VoyageDetail" component={VoyageDetail} />
+          <Stack.Screen
+            name="ApprovalDetail"
+            component={ApprovalDetailScreen}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </ReactNativeKeycloakProvider>
@@ -100,15 +105,15 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 24,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   sectionDescription: {
     marginTop: 8,
     fontSize: 18,
-    fontWeight: '400',
+    fontWeight: "400",
   },
   highlight: {
-    fontWeight: '700',
+    fontWeight: "700",
   },
 });
 

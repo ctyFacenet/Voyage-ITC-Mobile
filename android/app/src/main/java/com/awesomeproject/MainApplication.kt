@@ -1,4 +1,4 @@
-package com.awesomeproject
+package com.Facenet.test
 
 import android.app.Application
 import com.facebook.react.PackageList
