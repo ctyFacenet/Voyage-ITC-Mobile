@@ -98,7 +98,7 @@ const ShipOnBoard = ({ item }: { item: any }) => {
                                         width: scale(60)
                                     }}>
                                         <MaterialCommunityIcons name="fan" color='#FFFFFF' size={24}></MaterialCommunityIcons>
-                                        <Text style={{ color: '#FFFFFF', fontSize: 15 }}>100 Kts</Text>
+                                        <Text style={{ color: '#FFFFFF', fontSize: 15 }}>{item?.windForce !== null ? item?.windForce : ' Kts'}</Text>
                                     </View>
                                 </View>
                                 <View style={{

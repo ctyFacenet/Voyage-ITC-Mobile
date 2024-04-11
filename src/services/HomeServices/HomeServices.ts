@@ -8,6 +8,10 @@ export async function get(data: any) {
   return getData("api/");
 }
 
+export async function getListVoyyage(url: any, data: any){
+  return postData(url, data);
+}
+
 export async function sentToken(data: any) {
   return postData("api/mobiles/tokens", data);
 }
