@@ -147,7 +147,9 @@ const ApprovalScreen = ({ route }: any) => {
       setIsLoadingMore(true);
       try {
         const response = await getListApproval({
-          filter: {},
+          filter: {
+            statusList: listFilterCheck,
+          },
           pageSize: 10,
           pageNumber: listDataApproval.length / 10, // Calculate next page number
         });

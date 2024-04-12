@@ -14,18 +14,24 @@ import ApprovalScreen from "../screens/Approval/ApprovalScreen";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import { getCountNotification } from "../services/HomeServices/HomeServices";
 import { Badge } from "react-native-elements";
+import { useNotifications } from "../context/NotificationContext";
 
 const Tab = createBottomTabNavigator();
 
 function HomeTab() {
-  const [approvalCount, setApprovalCount] = React.useState(0);
-  const [notificationCount, setNotificationCount] = React.useState(0);
+  const {
+    countApproval,
+    setCountApproval,
+    setCountNotification,
+    countNotification,
+  } = useNotifications();
+
   useEffect(() => {
     let fetchData = async () => {
       try {
         let res = await getCountNotification();
-        setApprovalCount(res.data.approval || 0);
-        setNotificationCount(res.data.notification || 0);
+        setCountApproval(res.data.approval || 0);
+        setCountNotification(res.data.notification || 0);
       } catch (err) {
         console.log("Có lỗi xảy ra", err);
       }
@@ -52,11 +58,11 @@ function HomeTab() {
           } else if (rn === "Approval") {
             iconName = "filetext1";
             // Giả sử badgeCount cho Approval là:
-            badgeCount = approvalCount; // thay số 3 bằng số lượng thực tế
+            badgeCount = countApproval; // thay số 3 bằng số lượng thực tế
           } else if (rn === "Notification") {
             iconName = "bells";
             // Giả sử badgeCount cho Notification là:
-            badgeCount = notificationCount; // thay số 5 bằng số lượng thực tế
+            badgeCount = countNotification; // thay số 5 bằng số lượng thực tế
           }
 
           return (

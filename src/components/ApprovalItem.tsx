@@ -93,9 +93,7 @@ const ApprovalItem = ({ dataAproval }: any) => {
             {getReportType(dataAproval.entityType)}
           </Text>
         </View>
-        <Text>
-          {moment(dataAproval.approvalTime).format("DD/MM/YYYY HH:mm")}
-        </Text>
+        <Text>{moment(dataAproval.createdAt).format("DD/MM/YYYY HH:mm")}</Text>
       </View>
       <Text>{dataAproval.message}</Text>
       <View
