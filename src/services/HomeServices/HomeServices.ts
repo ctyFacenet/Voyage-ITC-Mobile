@@ -9,6 +9,8 @@ export async function getCountNotification() {
 }
 
 export async function sentToken(data: any) {
+  console.log(data);
+
   return postData("api/mobiles/tokens", data);
 }
 

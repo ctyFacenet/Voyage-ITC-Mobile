@@ -14,7 +14,6 @@ import VoyageHeader from "../../components/VoyageHeader";
 import SearchInput from "../../components/SearchInput";
 import Icon from "react-native-vector-icons/AntDesign";
 import { COLORS, SPACING } from "../../../theme/theme";
-import { Drawer } from "react-native-drawer-layout";
 import { useNavigation } from "@react-navigation/native";
 import ApprovalItem from "../../components/ApprovalItem";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -34,11 +33,11 @@ const listFilterApproval = [
     name: "Đã duyệt",
   },
   {
-    id: -2,
+    id: 0,
     name: "Huỷ trình",
   },
   {
-    id: -3,
+    id: -2,
     name: "Từ chối",
   },
 ];
