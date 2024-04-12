@@ -25,8 +25,8 @@ const SearchInput = (props: any) => {
     </View>
 
   );
-};
-
+}
+;
 export default SearchInput;
 const styles = StyleSheet.create({
     inputBox: {
