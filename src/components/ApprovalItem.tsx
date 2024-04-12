@@ -16,7 +16,7 @@ const ApprovalItem = ({ dataAproval }: any) => {
         return "Đã duyệt";
       case -3:
         return "Từ chối";
-      case -2:
+      case 0:
         return "Huỷ trình";
       default:
         return "Từ chối";
@@ -54,7 +54,7 @@ const ApprovalItem = ({ dataAproval }: any) => {
         return COLORS.yellow;
       case 3:
         return COLORS.green;
-      case -3:
+      case 0:
         return COLORS.red;
       case -2:
         return COLORS.violet;
@@ -69,7 +69,7 @@ const ApprovalItem = ({ dataAproval }: any) => {
         return COLORS.backgroundYellow;
       case 3:
         return COLORS.backgroundGreen;
-      case -3:
+      case 0:
         return COLORS.backgroundRed;
       case -2:
         return COLORS.backgroundViolet;
