@@ -143,5 +143,13 @@ interface Spacing {
     '#5EBEFF',
     '#244A64',
     '#35729C',
-    '#4FA4DE'
+    '#4FA4DE',
+    '#2F5496',
+    '#2B4064',
+    '#226EA3',
+    '#459CD9',
+    '#8EAADB',
+    '#7FC4F4',
+    '#D9EFFF',
+    '#DDE8FD'
   ]

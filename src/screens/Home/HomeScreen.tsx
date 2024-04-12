@@ -53,7 +53,7 @@ const ShipOnBoard = ({ item }: { item: any }) => {
                     alignItems: 'center'
                 }}>
                     <Ionicons name="boat" color='#0075FF' size={sizeShip} style={styles.iconShip} />
-                    <Text style={styles.shipName}>Tàu {item?.voyage?.ship?.shipName}</Text>
+                    <Text style={styles.shipName}>Tàu {item?.voyage?.ship?.shipName} - {item?.voyage?.voyageName}</Text>
                 </View>
                 <View>
                     <View style={styles.imageShip}>
