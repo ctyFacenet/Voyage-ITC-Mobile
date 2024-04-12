@@ -24,6 +24,7 @@ import ModalConfirmPass from "../../components/ModalConfirmPass";
 import ModalApproval from "../../components/ModalApproval";
 import { useKeycloak } from "@react-keycloak/native";
 import { useNotifications } from "../../context/NotificationContext";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const getReportType = (statusValue: number): any => {
   switch (statusValue) {
@@ -152,7 +153,7 @@ const ApprovalDetailScreen = ({ route }: any) => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.headerApproval}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Icon name="arrowleft" color={COLORS.primary} size={20} />
@@ -233,7 +234,7 @@ const ApprovalDetailScreen = ({ route }: any) => {
         content={content}
         setContent={setContent}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
