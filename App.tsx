@@ -10,7 +10,7 @@ import {
 } from "@react-keycloak/native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import type { PropsWithChildren } from "react";
 import {
   SafeAreaView,
@@ -36,7 +36,10 @@ import VoyageDetail from "./src/screens/Voyage/VoyageDetailScreen";
 import ApprovalDetailScreen from "./src/screens/Approval/ApprovalDetailScreen";
 import messaging from "@react-native-firebase/messaging";
 import { sentToken } from "./src/services/HomeServices/HomeServices";
-import { NotificationProvider } from "./src/context/NotificationContext";
+import {
+  NotificationProvider,
+  useNotifications,
+} from "./src/context/NotificationContext";
 
 // const keycloak = new RNKeycloak({...environment.keycloak})
 const keycloak = new RNKeycloak({
@@ -48,7 +51,9 @@ const keycloak = new RNKeycloak({
 const Stack = createNativeStackNavigator();
 
 function App(): React.JSX.Element {
-  async function requestUserPermission() {
+  const { tokenDivice, setTokenDivice } = useNotifications();
+
+  const requestUserPermission = async () => {
     const authStatus = await messaging().requestPermission();
     const enabled =
       authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
@@ -57,51 +62,38 @@ function App(): React.JSX.Element {
     if (enabled) {
       console.log("Authorization status:", authStatus);
     }
-  }
+  };
 
   const getTokenClient = async () => {
     const token = await messaging().getToken();
-
-    // if (token) {
-    //   try {
-    //     let res = await sentToken({
-    //       token: token,
-    //     });
-    //     console.log(res);
-    //   } catch (err) {
-    //     console.log("Có lỗi gửi device token:", err);
-    //   }
-    // }
+    setTokenDivice(token);
   };
 
   useEffect(() => {
     requestUserPermission();
     getTokenClient();
   }, []);
-
   return (
     <ReactNativeKeycloakProvider
       authClient={keycloak}
       initOptions={{ redirectUri: "itc-mobile://auth" }}
     >
-      <NotificationProvider>
-        <NavigationContainer>
-          <Stack.Navigator
-            initialRouteName={keycloak?.authenticated ? "Home" : "Login"}
-            screenOptions={{ headerShown: false }}
-          >
-            <Stack.Screen name="Login" component={Login}></Stack.Screen>
-            <Stack.Screen name="HomeTab" component={HomeTab}></Stack.Screen>
-            <Stack.Screen name="Filter" component={Filter}></Stack.Screen>
-            <Stack.Screen name="Account" component={Account} />
-            <Stack.Screen name="VoyageDetail" component={VoyageDetail} />
-            <Stack.Screen
-              name="ApprovalDetail"
-              component={ApprovalDetailScreen}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </NotificationProvider>
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName={keycloak?.authenticated ? "Home" : "Login"}
+          screenOptions={{ headerShown: false }}
+        >
+          <Stack.Screen name="Login" component={Login}></Stack.Screen>
+          <Stack.Screen name="HomeTab" component={HomeTab}></Stack.Screen>
+          <Stack.Screen name="Filter" component={Filter}></Stack.Screen>
+          <Stack.Screen name="Account" component={Account} />
+          <Stack.Screen name="VoyageDetail" component={VoyageDetail} />
+          <Stack.Screen
+            name="ApprovalDetail"
+            component={ApprovalDetailScreen}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
     </ReactNativeKeycloakProvider>
   );
 }

@@ -5,6 +5,8 @@ interface NotificationContextType {
   countNotification: number;
   setCountNotification: (count: number) => void;
   countApproval: number;
+  tokenDivice: string;
+  setTokenDivice: (token: string) => void;
   setCountApproval: (count: number) => void;
 }
 
@@ -18,6 +20,7 @@ export const NotificationProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [countNotification, setCountNotification] = useState<number>(0);
   const [countApproval, setCountApproval] = useState<number>(0);
+  const [tokenDivice, setTokenDivice] = useState<string>("");
 
   // Truyền cả hai biến và hàm setter tương ứng vào context
   return (
@@ -27,6 +30,8 @@ export const NotificationProvider: React.FC<{ children: ReactNode }> = ({
         setCountNotification,
         countApproval,
         setCountApproval,
+        tokenDivice,
+        setTokenDivice,
       }}
     >
       {children}
