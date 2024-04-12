@@ -622,7 +622,6 @@ const VoyageDetail = ({ navigation, route }: { navigation?: any, route?: any }) 
 
     return (
         <>
-            <SafeAreaView>
                 <View>
                     <VoyageHeader content='Thông tin voyage' iconName='arrow-left' nameScreen="VoyageList"></VoyageHeader>
                 </View>
@@ -793,8 +792,6 @@ const VoyageDetail = ({ navigation, route }: { navigation?: any, route?: any }) 
                     </ScrollView>
                 )}
 
-
-            </SafeAreaView>
         </>
     )
 }

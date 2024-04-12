@@ -233,11 +233,7 @@ const Voyage = ({ navigation, route }: { navigation?: any, route?: any }) => {
 
     return (
         <>
-            <SafeAreaView style={{
-                height: '100%',
-                width: '100%',
-                backgroundColor: '#FFFFFF'
-            }}>
+            
                 <View style={{
                     width: '100%',
                     backgroundColor: '#FFFFFF'
@@ -291,12 +287,14 @@ const Voyage = ({ navigation, route }: { navigation?: any, route?: any }) => {
                         </View>
                     </ScrollView>) : (
                         <View style={{
-
+                            
                             width: '100%',
-                            backgroundColor: '#FFFFFF'
+                            backgroundColor: '#FFFFFF',
+                            
                         }}>
                             {
                                 listVoyage != null && listVoyage.length > 0 ? (
+                                
                                     <FlatList
                                         refreshing={refreshing}
                                         onRefresh={handleRefresh}
@@ -304,8 +302,7 @@ const Voyage = ({ navigation, route }: { navigation?: any, route?: any }) => {
                                         showsVerticalScrollIndicator={false}
                                         style={{
                                             width: '100%',
-                                            height: moderateScale(490)
-
+                                            height: scale(490)
                                         }}
                                         //onEndReached={HanldeLoadMore}
                                         onEndReachedThreshold={0}
@@ -355,18 +352,15 @@ const Voyage = ({ navigation, route }: { navigation?: any, route?: any }) => {
                                     >
                                     </FlatList>
 
-
                                 ) : (
                                     <NoData></NoData>
                                 )
                             }
+                            
                         </View>
-                    )}
-
-
-
+                    )}         
                 </View>
-            </SafeAreaView>
+            
         </>
     )
 }

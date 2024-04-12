@@ -160,7 +160,7 @@ const ShipOnBoard = ({ item }: { item: any }) => {
                                     flexDirection: 'row',
                                     alignItems: 'center',
                                     width: '100%',
-                                    top: verticalScale(-7)
+                                    top: verticalScale(-5.7)
                                 }}>
                                     {item?.distanceNextPort !== null && item?.totalDistanceRun !== null ? (
                                         <>
@@ -171,7 +171,7 @@ const ShipOnBoard = ({ item }: { item: any }) => {
                                             }}>
                                             </View>
                                             <AntDesign style={{
-                                                left: scale(-14)
+                                                left: scale(-13)
                                             }} name="caretright"
                                                 color='#244A64' size={moderateScale(20)} />
                                         </>
