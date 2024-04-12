@@ -68,6 +68,8 @@ const FilterItem = ({
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "space-between",
+            marginBottom: 8,
+            paddingHorizontal: 10
           }}
         >
           <Text style={{ color: COLORS.text }}>Tất cả</Text>
@@ -89,6 +91,7 @@ const FilterItem = ({
                 flexDirection: "row",
                 alignItems: "center",
                 justifyContent: "space-between",
+                paddingHorizontal: 10
               }}
             >
               <Text style={{ color: item.color }}>{item.name}</Text>
@@ -109,10 +112,11 @@ export default FilterItem;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
+    padding: 12,
   },
   containerGap36: {
-    gap: SPACING.space_8,
+    gap: SPACING.space_12,
+    marginVertical: 4
   },
   buttonText: {
     borderRadius: BORDERRADIUS.radius_25,
