@@ -42,7 +42,7 @@ const FilterItem = ({title, listItem, listFilterStatusCheck, setListFilterStatus
         color: COLORS.primary,
         fontWeight: '700'
       }}>{title}</Text>
-      <View style={{ flexDirection: 'row', alignItems: 'center',  justifyContent: 'space-between'  }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center',  justifyContent: 'space-between', marginBottom: 6  }}>
           <Text>Tất cả</Text>
         <CheckBox
           value={selectAll}
