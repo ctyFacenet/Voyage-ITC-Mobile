@@ -36,6 +36,7 @@ import VoyageDetail from "./src/screens/Voyage/VoyageDetailScreen";
 import ApprovalDetailScreen from "./src/screens/Approval/ApprovalDetailScreen";
 import messaging from "@react-native-firebase/messaging";
 import { sentToken } from "./src/services/HomeServices/HomeServices";
+import { NotificationProvider } from "./src/context/NotificationContext";
 
 // const keycloak = new RNKeycloak({...environment.keycloak})
 const keycloak = new RNKeycloak({
@@ -83,22 +84,24 @@ function App(): React.JSX.Element {
       authClient={keycloak}
       initOptions={{ redirectUri: "itc-mobile://auth" }}
     >
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName={keycloak?.authenticated ? "Home" : "Login"}
-          screenOptions={{ headerShown: false }}
-        >
-          <Stack.Screen name="Login" component={Login}></Stack.Screen>
-          <Stack.Screen name="HomeTab" component={HomeTab}></Stack.Screen>
-          <Stack.Screen name="Filter" component={Filter}></Stack.Screen>
-          <Stack.Screen name="Account" component={Account} />
-          <Stack.Screen name="VoyageDetail" component={VoyageDetail} />
-          <Stack.Screen
-            name="ApprovalDetail"
-            component={ApprovalDetailScreen}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <NotificationProvider>
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName={keycloak?.authenticated ? "Home" : "Login"}
+            screenOptions={{ headerShown: false }}
+          >
+            <Stack.Screen name="Login" component={Login}></Stack.Screen>
+            <Stack.Screen name="HomeTab" component={HomeTab}></Stack.Screen>
+            <Stack.Screen name="Filter" component={Filter}></Stack.Screen>
+            <Stack.Screen name="Account" component={Account} />
+            <Stack.Screen name="VoyageDetail" component={VoyageDetail} />
+            <Stack.Screen
+              name="ApprovalDetail"
+              component={ApprovalDetailScreen}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </NotificationProvider>
     </ReactNativeKeycloakProvider>
   );
 }
