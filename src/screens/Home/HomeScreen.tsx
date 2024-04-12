@@ -160,7 +160,7 @@ const ShipOnBoard = ({ item }: { item: any }) => {
                                     flexDirection: 'row',
                                     alignItems: 'center',
                                     width: '100%',
-                                    top: verticalScale(-5.7)
+                                    top: verticalScale(-6.5)
                                 }}>
                                     {item?.distanceNextPort !== null && item?.totalDistanceRun !== null ? (
                                         <>
