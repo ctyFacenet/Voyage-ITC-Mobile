@@ -40,7 +40,8 @@ const styles = StyleSheet.create({
       width: "90%",
       fontFamily: FONTFAMILY.poppins_regular,
       fontSize: FONTSIZE.size_14,
-      color: COLORS.White,
+      color: COLORS.text,
+      height: 40
     },
     searchIcon: {
       alignItems: "center",

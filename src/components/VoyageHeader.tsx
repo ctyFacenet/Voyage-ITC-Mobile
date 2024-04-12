@@ -28,7 +28,7 @@ const VoyageHeader = ({
       <View
         style={{
           width: "100%",
-          height: verticalScale(100),
+          height: verticalScale(80),
           position: "relative",
         }}
       >
@@ -36,7 +36,7 @@ const VoyageHeader = ({
           source={require("../assets/image/header_image.png")}
           style={{
             width: "100%",
-            height: verticalScale(100),
+            height: verticalScale(80),
 
             resizeMode: "cover", // Chỉnh lại resizeMode cho hình ảnh
             borderBottomLeftRadius: 20,

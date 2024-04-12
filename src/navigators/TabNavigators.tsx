@@ -20,7 +20,6 @@ import { Badge } from "react-native-elements";
 import { useNotifications } from "../context/NotificationContext";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-
 const Tab = createBottomTabNavigator();
 
 function HomeTab() {
@@ -31,7 +30,7 @@ function HomeTab() {
     countNotification,
     tokenDivice,
   } = useNotifications();
-  const insets = useSafeAreaInsets()
+  const insets = useSafeAreaInsets();
 
   useEffect(() => {
     let fetchData = async () => {
@@ -62,7 +61,6 @@ function HomeTab() {
     };
     fetchData();
   }, []);
-  const insets = useSafeAreaInsets();
   return (
     <Tab.Navigator
       initialRouteName="Home"
