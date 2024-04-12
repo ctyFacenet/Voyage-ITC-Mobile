@@ -25,7 +25,7 @@ const Notification = () => {
   const [listNotification, setListNotification] = React.useState<any>([]);
   const [isEndOfList, setIsEndOfList] = React.useState(false);
   const [isLoadingMore, setIsLoadingMore] = React.useState(false);
-
+  const [refreshing, setRefreshing] = React.useState(false);
   const [isLoading, setisLoading] = React.useState(true);
 
   const { setCountNotification, countNotification } = useNotifications();
@@ -92,28 +92,33 @@ const Notification = () => {
   }, [isLoadingMore]);
 
   React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getListNotification({
-          filter: {
-            read: null,
-          },
-          pageSize: 10,
-          pageNumber: 0,
-        });
-        // console.log(response.data.notification);
-
-        setListNotification(response.data.notification);
-        setIsEndOfList(response.data.notification.length < 10);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setisLoading(false);
-      }
-    };
-
     fetchData();
   }, []);
+  const fetchData = async () => {
+    try {
+      const response = await getListNotification({
+        filter: {
+          read: null,
+        },
+        pageSize: 10,
+        pageNumber: 0,
+      });
+      // console.log(response.data.notification);
+
+      setListNotification(response.data.notification);
+      setIsEndOfList(response.data.notification.length < 10);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setisLoading(false);
+    }
+  };
+
+  const handleRefresh = () => {
+    setRefreshing(true);
+    fetchData();
+    setRefreshing(false);
+  };
   return (
     <View style={styles.container}>
       <VoyageHeader
@@ -155,6 +160,8 @@ const Notification = () => {
           style={{ height: scale(610) }}
           onEndReached={() => setIsLoadingMore(true)}
           onEndReachedThreshold={0.1}
+          refreshing={refreshing}
+          onRefresh={handleRefresh}
           ListEmptyComponent={<NoData />}
           ListFooterComponent={() =>
             isLoadingMore && (

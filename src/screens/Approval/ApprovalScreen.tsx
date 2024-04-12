@@ -67,6 +67,7 @@ const ApprovalScreen = ({ route }: any) => {
   const [isEndOfList, setIsEndOfList] = React.useState(false);
   const [isLoadingMore, setIsLoadingMore] = React.useState(false);
   const [isLoading, setisLoading] = React.useState(true);
+  const [refreshing, setRefreshing] = React.useState(false);
 
   React.useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
@@ -106,28 +107,6 @@ const ApprovalScreen = ({ route }: any) => {
   }, [route.params]);
 
   React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getListApproval({
-          filter: {
-            statusList: listFilterCheck,
-          },
-          pageSize: 10,
-          pageNumber: 0,
-          sortProperty: "createdAt",
-          sortOrder: "DESC",
-        });
-        // console.log(response);
-
-        setListDataApproval(response.data);
-        setIsEndOfList(response.data.length < 10);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setisLoading(false);
-      }
-    };
-
     fetchData();
   }, [listFilterCheck]);
 
@@ -160,6 +139,33 @@ const ApprovalScreen = ({ route }: any) => {
         setIsLoadingMore(false); // Kết thúc hiển thị ActivityIndicator
       }
     }
+  };
+  const fetchData = async () => {
+    try {
+      const response = await getListApproval({
+        filter: {
+          statusList: listFilterCheck,
+        },
+        pageSize: 10,
+        pageNumber: 0,
+        sortProperty: "createdAt",
+        sortOrder: "DESC",
+      });
+      // console.log(response);
+
+      setListDataApproval(response.data);
+      setIsEndOfList(response.data.length < 10);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setisLoading(false);
+    }
+  };
+
+  const handleRefresh = () => {
+    setRefreshing(true);
+    fetchData();
+    setRefreshing(false);
   };
 
   return (
@@ -225,6 +231,8 @@ const ApprovalScreen = ({ route }: any) => {
           onEndReached={loadMoreData}
           onEndReachedThreshold={0.1}
           ListEmptyComponent={<NoData />}
+          refreshing={refreshing}
+          onRefresh={handleRefresh}
           ListFooterComponent={() =>
             isLoadingMore && (
               <ActivityIndicator size="small" color={COLORS.primary} />
