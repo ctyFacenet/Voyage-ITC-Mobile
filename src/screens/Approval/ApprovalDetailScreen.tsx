@@ -38,7 +38,7 @@ const getReportType = (statusValue: number): any => {
         entityName: "Đề nghị thanh toán",
         entiType: "payments",
       };
-    case 33:
+    case 35:
       return {
         entityName: "Tạm ứng quỹ",
         entiType: "payments",

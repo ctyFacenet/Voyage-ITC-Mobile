@@ -30,7 +30,7 @@ const ApprovalItem = ({ dataAproval }: any) => {
       case 32:
         return "Đề nghị thanh toán";
 
-      case 33:
+      case 35:
         return "Tạm ứng quỹ";
 
       case 36:
