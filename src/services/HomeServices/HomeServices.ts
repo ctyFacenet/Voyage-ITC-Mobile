@@ -13,6 +13,8 @@ export async function getListVoyyage(url: any, data: any){
 }
 
 export async function sentToken(data: any) {
+  console.log(data);
+
   return postData("api/mobiles/tokens", data);
 }
 

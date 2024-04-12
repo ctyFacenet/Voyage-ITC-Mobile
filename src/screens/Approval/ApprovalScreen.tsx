@@ -14,7 +14,6 @@ import VoyageHeader from "../../components/VoyageHeader";
 import SearchInput from "../../components/SearchInput";
 import Icon from "react-native-vector-icons/AntDesign";
 import { COLORS, SPACING } from "../../../theme/theme";
-import { Drawer } from "react-native-drawer-layout";
 import { useNavigation } from "@react-navigation/native";
 import ApprovalItem from "../../components/ApprovalItem";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -34,11 +33,11 @@ const listFilterApproval = [
     name: "Đã duyệt",
   },
   {
-    id: -2,
+    id: 0,
     name: "Huỷ trình",
   },
   {
-    id: -3,
+    id: -2,
     name: "Từ chối",
   },
 ];
@@ -164,7 +163,7 @@ const ApprovalScreen = ({ route }: any) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <VoyageHeader
         content={"Phê duyệt"}
         iconName="user-circle"
@@ -222,7 +221,7 @@ const ApprovalScreen = ({ route }: any) => {
           keyExtractor={(item, index) => `approval-${item.id}-${index}`}
           showsHorizontalScrollIndicator={false}
           renderItem={({ item, index }) => <ApprovalItem dataAproval={item} />}
-          style={{ height: scale(510 - containerHeight) }}
+          style={{ height: scale(610 - containerHeight) }}
           onEndReached={loadMoreData}
           onEndReachedThreshold={0.1}
           ListEmptyComponent={<NoData />}
@@ -233,7 +232,7 @@ const ApprovalScreen = ({ route }: any) => {
           }
         />
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 

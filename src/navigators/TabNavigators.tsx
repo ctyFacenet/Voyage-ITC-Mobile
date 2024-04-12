@@ -12,9 +12,14 @@ import { COLORS, FONTSIZE, SPACING } from "../../theme/theme";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import ApprovalScreen from "../screens/Approval/ApprovalScreen";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
-import { getCountNotification } from "../services/HomeServices/HomeServices";
+import {
+  getCountNotification,
+  sentToken,
+} from "../services/HomeServices/HomeServices";
 import { Badge } from "react-native-elements";
 import { useNotifications } from "../context/NotificationContext";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+
 
 const Tab = createBottomTabNavigator();
 
@@ -24,7 +29,9 @@ function HomeTab() {
     setCountApproval,
     setCountNotification,
     countNotification,
+    tokenDivice,
   } = useNotifications();
+  const insets = useSafeAreaInsets()
 
   useEffect(() => {
     let fetchData = async () => {
@@ -39,6 +46,23 @@ function HomeTab() {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    console.log(tokenDivice);
+    let fetchData = async () => {
+      try {
+        let res = await sentToken({
+          token: tokenDivice,
+        });
+        console.log(res);
+        console.log("Thành công");
+      } catch (err) {
+        console.log("Không gủi đc", err);
+      }
+    };
+    fetchData();
+  }, []);
+  const insets = useSafeAreaInsets();
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -80,9 +104,10 @@ function HomeTab() {
         },
         tabBarActiveTintColor: "#244A64",
         tabBarInactiveTintColor: "gray",
-        tabBarLabelStyle: { paddingBottom: scale(10), fontSize: scale(10) },
+        // tabBarLabelStyle: { paddingBottom: scale(10), fontSize: scale(10) },
         tabBarStyle: {
-          height: verticalScale(50),
+          // height: verticalScale(50),
+          paddingBottom: insets.bottom,
         },
         headerPressColor: COLORS.primary,
       })}
