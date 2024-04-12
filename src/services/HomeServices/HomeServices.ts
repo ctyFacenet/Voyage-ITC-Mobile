@@ -8,6 +8,10 @@ export async function getCountNotification() {
   return getData("api/mobiles/count-notification");
 }
 
+export async function getListVoyyage(url: any, data: any){
+  return postData(url, data);
+}
+
 export async function sentToken(data: any) {
   console.log(data);
 

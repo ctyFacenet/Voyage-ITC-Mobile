@@ -6,7 +6,7 @@ import EvilIcons from "react-native-vector-icons/EvilIcons"
 import NoData from "../../components/Nodata"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { getDataStore, saveDataStore } from "../../services/HomeServices/StoreData"
-import { create } from "../../services/HomeServices/HomeServices"
+import { getListVoyyage } from "../../services/HomeServices/HomeServices"
 import { FormatCurrency, PrepareCurrency, voyageStatus } from "../../../theme/Constants"
 import { format } from 'date-fns';
 import { fi } from "date-fns/locale"
@@ -159,7 +159,7 @@ const Voyage = ({ navigation, route }: { navigation?: any, route?: any }) => {
 
     const getData = async () => {
         try {
-            const responeData = await create('voyage/mobile', filter)
+            const responeData = await getListVoyyage('/api/voyage/mobile', filter)
             console.log('Giá trị: ' + 1);
             setListVoyage(responeData.data);
             setCountVoyage(responeData.dataCount)
