@@ -19,6 +19,7 @@ import {
 import { scale } from "react-native-size-matters";
 import NoData from "../../components/Nodata";
 import { getCountNotification } from "../../services/HomeServices/HomeServices";
+import { useNotifications } from "../../context/NotificationContext";
 
 const Notification = () => {
   const [listNotification, setListNotification] = React.useState<any>([]);
@@ -27,19 +28,8 @@ const Notification = () => {
 
   const [isLoading, setisLoading] = React.useState(true);
 
-  const [notificationCount, setNotificationCount] = React.useState(0);
-  React.useEffect(() => {
-    let fetchData = async () => {
-      try {
-        let res = await getCountNotification();
-        setNotificationCount(res.data.notification || 0);
-      } catch (err) {
-        console.log("Có lỗi xảy ra", err);
-      }
-    };
+  const { setCountNotification, countNotification } = useNotifications();
 
-    fetchData();
-  }, [listNotification]);
   const onHandleCheckReadAll = async () => {
     try {
       const response = await putReadAllNotification();
@@ -52,10 +42,12 @@ const Notification = () => {
           pageSize: 10,
           pageNumber: 0,
         });
+
         if (res.data) {
           setListNotification(res.data.notification);
           setListNotification(res.data.notification);
           setIsEndOfList(res.data.notification.length < 10);
+          setCountNotification(0);
         }
       }
     } catch (error) {
@@ -145,7 +137,7 @@ const Notification = () => {
           }}
         >
           <Text style={{ color: COLORS.primary }}>
-            {notificationCount} thông báo chưa đọc
+            {countNotification} thông báo chưa đọc
           </Text>
         </View>
         <TouchableOpacity onPress={onHandleCheckReadAll}>

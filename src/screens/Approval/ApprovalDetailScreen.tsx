@@ -23,6 +23,7 @@ import PDFExample from "../../components/Pdf";
 import ModalConfirmPass from "../../components/ModalConfirmPass";
 import ModalApproval from "../../components/ModalApproval";
 import { useKeycloak } from "@react-keycloak/native";
+import { useNotifications } from "../../context/NotificationContext";
 
 const getReportType = (statusValue: number): any => {
   switch (statusValue) {
@@ -68,6 +69,8 @@ const getReportType = (statusValue: number): any => {
 };
 const ApprovalDetailScreen = ({ route }: any) => {
   const navigation = useNavigation();
+  const { countApproval, setCountApproval } = useNotifications();
+
   console.log(route.params);
   const { keycloak } = useKeycloak();
 
@@ -129,6 +132,7 @@ const ApprovalDetailScreen = ({ route }: any) => {
       );
       // Xử lý thành công tại đây, ví dụ:
       console.log("Response data:", response);
+      setCountApproval(countApproval - 1);
       navigation.navigate("Approval");
     } catch (error) {
       // Xử lý lỗi tại đây
