@@ -15,6 +15,8 @@ import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import { getCountNotification } from "../services/HomeServices/HomeServices";
 import { Badge } from "react-native-elements";
 import { useNotifications } from "../context/NotificationContext";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+
 
 const Tab = createBottomTabNavigator();
 
@@ -25,6 +27,7 @@ function HomeTab() {
     setCountNotification,
     countNotification,
   } = useNotifications();
+  const insets = useSafeAreaInsets()
 
   useEffect(() => {
     let fetchData = async () => {
@@ -80,9 +83,10 @@ function HomeTab() {
         },
         tabBarActiveTintColor: "#244A64",
         tabBarInactiveTintColor: "gray",
-        tabBarLabelStyle: { paddingBottom: scale(10), fontSize: scale(10) },
+        // tabBarLabelStyle: { paddingBottom: scale(10), fontSize: scale(10) },
         tabBarStyle: {
-          height: verticalScale(50),
+          // height: verticalScale(50),
+          paddingBottom: insets.bottom
         },
         headerPressColor: COLORS.primary,
       })}

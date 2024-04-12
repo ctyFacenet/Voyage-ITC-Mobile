@@ -115,7 +115,7 @@ const Notification = () => {
     fetchData();
   }, []);
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <VoyageHeader
         content={"Thông báo"}
         iconName="user-circle"
@@ -152,7 +152,7 @@ const Notification = () => {
           showsHorizontalScrollIndicator={false}
           renderItem={({ item, index }) => <NotificationItem dataItem={item} />}
           keyExtractor={(item, index) => `notification-${item.id}-${index}`}
-          style={{ height: scale(510) }}
+          style={{ height: scale(610) }}
           onEndReached={() => setIsLoadingMore(true)}
           onEndReachedThreshold={0.1}
           ListEmptyComponent={<NoData />}
@@ -163,7 +163,7 @@ const Notification = () => {
           }
         />
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 

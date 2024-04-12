@@ -18,7 +18,7 @@ import {
   putApprovalReport,
 } from "../../services/ApprovalServices/ApprovalServices";
 import PDFView from "react-native-pdf";
-import RNFetchBlob from "rn-fetch-blob";
+
 import PDFExample from "../../components/Pdf";
 import ModalConfirmPass from "../../components/ModalConfirmPass";
 import ModalApproval from "../../components/ModalApproval";

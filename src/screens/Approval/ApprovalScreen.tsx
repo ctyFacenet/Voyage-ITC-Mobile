@@ -164,7 +164,7 @@ const ApprovalScreen = ({ route }: any) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <VoyageHeader
         content={"Phê duyệt"}
         iconName="user-circle"
@@ -222,7 +222,7 @@ const ApprovalScreen = ({ route }: any) => {
           keyExtractor={(item, index) => `approval-${item.id}-${index}`}
           showsHorizontalScrollIndicator={false}
           renderItem={({ item, index }) => <ApprovalItem dataAproval={item} />}
-          style={{ height: scale(510 - containerHeight) }}
+          style={{ height: scale(610 - containerHeight) }}
           onEndReached={loadMoreData}
           onEndReachedThreshold={0.1}
           ListEmptyComponent={<NoData />}
@@ -233,7 +233,7 @@ const ApprovalScreen = ({ route }: any) => {
           }
         />
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 
