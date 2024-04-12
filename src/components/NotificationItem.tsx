@@ -60,12 +60,11 @@ const NotificationItem = ({ dataItem }: any) => {
         </View>
       </View>
       <View>
-        <Text>{dataItem.message}</Text>
-        <Text style={{ marginTop: 10, textAlign: "right" }}>
+        <Text style={{ color: COLORS.text }}>{dataItem.message}</Text>
+        <Text style={{ marginTop: 10, textAlign: "right", color: COLORS.text }}>
           {getTimeDifference(dataItem.createdAt)} trước
         </Text>
       </View>
-      {/* <Text style={{marginLeft: 10}}> trước</Text> */}
     </TouchableOpacity>
   );
 };

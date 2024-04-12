@@ -50,7 +50,7 @@ const getStatus = (statusValue: number): string => {
       return "Đã duyệt";
     case -3:
       return "Từ chối";
-    case -2:
+    case 0:
       return "Huỷ trình";
     default:
       return "Mới";
@@ -214,7 +214,7 @@ const ApprovalScreen = ({ route }: any) => {
               style={{ marginRight: 4 }}
             />
 
-            <Text>{getStatus(item)}</Text>
+            <Text style={{ color: COLORS.text }}>{getStatus(item)}</Text>
           </TouchableOpacity>
         ))}
       </View>
