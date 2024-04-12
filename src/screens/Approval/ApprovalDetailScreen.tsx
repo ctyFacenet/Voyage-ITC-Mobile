@@ -169,7 +169,7 @@ const ApprovalDetailScreen = ({ route }: any) => {
             style={{ alignItems: "center" }}
           >
             <Icon name="leftcircleo" color={COLORS.primary} size={20} />
-            <Text>Quay lại</Text>
+            <Text style={{ color: COLORS.primary }}>Quay lại</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={handleRefuse}
@@ -261,7 +261,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: scale(100),
-    padding: 10,
+    padding: 20,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
