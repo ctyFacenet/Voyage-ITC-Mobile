@@ -1,5 +1,6 @@
 import { Image, Text, View } from "react-native";
 import { scale, verticalScale } from "react-native-size-matters";
+import { COLORS } from "../../theme/theme";
 
 const NoData = () => {
   return (
@@ -17,7 +18,7 @@ const NoData = () => {
           style={{ width: scale(100), height: verticalScale(100) }}
           source={require("../assets/image/no_data.png")}
         ></Image>
-        <Text>Không có dữ liệu</Text>
+        <Text style={{ color: COLORS.primary }}>Không có dữ liệu</Text>
       </View>
     </>
   );

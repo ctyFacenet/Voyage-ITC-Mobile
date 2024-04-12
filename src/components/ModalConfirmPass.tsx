@@ -37,7 +37,7 @@ const ModalConfirmPass = ({
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.modalText}>Mật khẩu tài khoản</Text>
-            <Text style={{}}>
+            <Text style={{ color: COLORS.text }}>
               Nhập mật khẩu tài khoản của bạn để tiếp tục thực hiện phê duyệt!
             </Text>
             <View style={styles.inputBox}>
@@ -179,7 +179,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     elevation: 5,
     width: "100%",
-    marginTop: 20,
   },
 });
 

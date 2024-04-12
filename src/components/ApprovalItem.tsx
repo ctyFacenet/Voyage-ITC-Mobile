@@ -93,9 +93,11 @@ const ApprovalItem = ({ dataAproval }: any) => {
             {getReportType(dataAproval.entityType)}
           </Text>
         </View>
-        <Text>{moment(dataAproval.createdAt).format("DD/MM/YYYY HH:mm")}</Text>
+        <Text style={{ color: COLORS.text }}>
+          {moment(dataAproval.createdAt).format("DD/MM/YYYY HH:mm")}
+        </Text>
       </View>
-      <Text>{dataAproval.message}</Text>
+      <Text style={{ color: COLORS.text }}>{dataAproval.message}</Text>
       <View
         style={{
           backgroundColor: getBackgoundColorStatus(dataAproval.status),

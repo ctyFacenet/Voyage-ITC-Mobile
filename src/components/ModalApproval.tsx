@@ -38,11 +38,11 @@ const ModalApproval = ({
             <Text style={styles.modalText}>
               {accepted ? "Phê duyệt" : "Từ chối"} {title}
             </Text>
-            <Text style={{ marginTop: 2, fontSize: 14 }}>
+            <Text style={{ marginTop: 2, fontSize: 14, color: COLORS.text }}>
               Bạn có xác nhận {accepted ? "phê duyệt " : "từ chối "}
               {title} không?
             </Text>
-            <Text style={{ marginTop: 4 }}>
+            <Text style={{ marginTop: 4, color: COLORS.primary }}>
               {accepted ? "Nhận xét " : "Lý do "}
             </Text>
 
