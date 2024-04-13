@@ -6,10 +6,12 @@ import Icon from "react-native-vector-icons/Entypo";
 
 const NotificationItem = ({ dataItem }: any) => {
   const navigation = useNavigation();
+  const { entityType, entityId } = dataItem;
+  console.log(entityId, entityType);
 
   function getTimeDifference(time: any) {
     const currentTime: any = new Date();
-    currentTime.setHours(currentTime.getHours() + 7);
+    currentTime.setHours(currentTime.getHours());
 
     const targetTime: any = new Date(time);
 
@@ -28,13 +30,16 @@ const NotificationItem = ({ dataItem }: any) => {
       return `${daysDiff} ngày`;
     }
   }
+  const hanldeNavigationApprovalDetail = () => {
+    if (entityId && entityType) {
+      navigation.push("ApprovalDetail", { dataAproval: dataItem });
+    }
+  };
 
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => {
-        navigation.push("ApprovalDetail", { dataAproval: dataItem });
-      }}
+      onPress={hanldeNavigationApprovalDetail}
     >
       <View style={styles.headerItem}>
         <View

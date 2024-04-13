@@ -179,6 +179,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     elevation: 5,
     width: "100%",
+    marginTop: 12,
   },
 });
 
