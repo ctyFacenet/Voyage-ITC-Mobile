@@ -159,7 +159,7 @@ const Voyage = ({ navigation, route }: { navigation?: any, route?: any }) => {
 
     const getData = async () => {
         try {
-            const responeData = await getListVoyyage('/api/voyage/mobile', filter)
+            const responeData = await getListVoyyage('api/voyage/mobile', filter)
             console.log('Giá trị: ' + 1);
             setListVoyage(responeData.data);
             setCountVoyage(responeData.dataCount)

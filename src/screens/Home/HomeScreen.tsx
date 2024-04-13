@@ -53,7 +53,7 @@ const ShipOnBoard = ({ item }: { item: any }) => {
                     alignItems: 'center'
                 }}>
                     <Ionicons name="boat" color='#0075FF' size={sizeShip} style={styles.iconShip} />
-                    <Text style={styles.shipName}>Tàu {item?.voyage?.ship?.shipName} - {item?.voyage?.voyageName}</Text>
+                    <Text style={styles.shipName}>Tàu {item?.voyage?.ship?.shipName} - {item?.voyage?.voyageCode}</Text>
                 </View>
                 <View>
                     <View style={styles.imageShip}>
@@ -452,7 +452,7 @@ const HomeScreen = () => {
                     <FlatList 
                         data={voyage}
                         renderItem={({ item }) => {
-                            if (item.reportType != '' && (item.reportType === 18 || item.reportType === 17)) {
+                            if (item.reportType != '' && (item.reportType === 18 || item.reportType === 17 || item.reportType === 16)) {
                                 return (
                                     <TouchableOpacity onPress={() => HandlePress(item.voyage.ship.id, item.voyage.ship.shipName)}>
                                         <ShipOnBoard

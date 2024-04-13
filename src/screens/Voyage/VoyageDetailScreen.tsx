@@ -105,6 +105,7 @@ const style = StyleSheet.create({
 const ChartEvualation = ({ itemEvualation }: { itemEvualation?: any }) => {
     const [dataExpense, setDataExpense] = useState([])
     const [totalCurrency, setTotalCurrency] = useState<any>(0);
+    let check = false;
     let total = 0;
     let dataExpenseCoppy = [...dataExpense];
     let indexColor = 0;
@@ -147,6 +148,7 @@ const ChartEvualation = ({ itemEvualation }: { itemEvualation?: any }) => {
                 }
                 dataExpenseCoppy.push(objectChart)
                 total += totalFuel
+                setTotalCurrency(total)
             }
         })()
     }, [itemEvualation])
@@ -223,6 +225,7 @@ const ChartEvualationActual = ({ itemEvualationActual }: { itemEvualationActual?
                 }
                 dataExpenseCoppy.push(objectChart)
                 total += totalFuel
+                setTotalCurrency(total)
             }
         })()
     }, [itemEvualationActual])
@@ -704,17 +707,17 @@ const VoyageDetail = ({ navigation, route }: { navigation?: any, route?: any }) 
                                 flexDirection: 'row',
                                 justifyContent: 'space-between'
                             }}>
-                                <Payment content='Lợi nhuận dự kiến' price={PrepareCurrencyM(voyageEvaluations?.totalRevenue, voyageEvaluations?.totalExpense, 1)}></Payment>
-                                <Payment content='Doanh thu dự kiến' price={voyageEvaluations?.totalRevenue}></Payment>
-                                <Payment content='Chi phí dự kiến' price={voyageEvaluations?.totalExpense}></Payment>
+                                <Payment content='Lợi nhuận dự kiến' price={PrepareCurrencyM(voyageEvaluations?.totalRevenue, voyageEvaluations?.totalExpense + voyageEvaluations?.totalFuel, 1)}></Payment>
+                                <Payment content='Doanh thu dự kiến' price={voyageEvaluations?.totalRevenue + voyageEvaluations?.totalFuel}></Payment>
+                                <Payment content='Chi phí dự kiến' price={voyageEvaluations?.totalExpense + voyageEvaluations?.totalFuel}></Payment>
                             </View>
                             <View style={{
                                 flexDirection: 'row',
                                 justifyContent: 'space-between'
                             }}>
-                                <Payment content='Lợi nhuận thực tế' price={PrepareCurrencyM(voyageEvaluationsActual?.totalRevenue, voyageEvaluationsActual?.totalExpense, 1)}></Payment>
-                                <Payment content='Doanh thu thực tế' price={voyageEvaluationsActual?.totalRevenue}></Payment>
-                                <Payment content='Chi phí thực tế' price={voyageEvaluationsActual?.totalExpense}></Payment>
+                                <Payment content='Lợi nhuận thực tế' price={PrepareCurrencyM(voyageEvaluationsActual?.totalRevenue, voyageEvaluationsActual?.totalExpense + voyageEvaluationsActual?.totalFuel, 1)}></Payment>
+                                <Payment content='Doanh thu thực tế' price={voyageEvaluationsActual?.totalRevenue + voyageEvaluationsActual?.totalFuel}></Payment>
+                                <Payment content='Chi phí thực tế' price={voyageEvaluationsActual?.totalExpense + voyageEvaluationsActual?.totalFuel}></Payment>
                             </View>
                         </View>
 
