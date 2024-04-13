@@ -196,7 +196,7 @@ const ApprovalDetailScreen = ({ route }: any) => {
       )}
       <PDFView
         trustAllCerts={false}
-        style={{ height: "80%" }}
+        style={{ height: "90%" }}
         source={{
           uri: `https://dev.apiitc.facenet.vn/assets/approval-requests?entityId=${entityId}&entityType=${entityType}`,
 
@@ -267,6 +267,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     elevation: 5,
     backgroundColor: COLORS.White,
+    zIndex: 10
   },
   title: {
     color: COLORS.primary,

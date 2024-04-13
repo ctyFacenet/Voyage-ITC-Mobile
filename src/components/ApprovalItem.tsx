@@ -1,6 +1,8 @@
 import * as React from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/AntDesign";
+import IconMaterial from "react-native-vector-icons/MaterialIcons";
+
 import { COLORS } from "../../theme/theme";
 import moment from "moment";
 import { scale } from "react-native-size-matters";
@@ -85,10 +87,17 @@ const ApprovalItem = ({ dataAproval }: any) => {
         navigation.push("ApprovalDetail", { dataAproval: dataAproval });
       }}
     >
-      <View></View>
       <View style={styles.headerItem}>
         <View style={{ display: "flex", flexDirection: "row" }}>
-          <Icon name="copyright" size={20} color={COLORS.primary} />
+          {dataAproval.entityType == 37 ? (
+            <IconMaterial
+              name="attach-money"
+              size={20}
+              color={COLORS.primary}
+            />
+          ) : (
+            <Icon name="copyright" size={20} color={COLORS.primary} />
+          )}
           <Text style={{ marginLeft: 4, color: COLORS.primary }}>
             {getReportType(dataAproval.entityType)}
           </Text>
