@@ -54,9 +54,9 @@ const Login = () => {
                             alignItems: 'center',
                             marginTop: 0.25 * dimensionsHeigt
                             }}>
-                            <Text style={{fontSize: 32, fontWeight: "bold", color:'#FFFFFF', paddingBottom: 10}}>Marialtime</Text>
-                            <Text style={{fontSize: 32, fontWeight: "bold", color:'#FFFFFF', paddingBottom: 10}}>Open</Text>
-                            <Text style={{fontSize: 32, fontWeight: "bold", color:'#FFFFFF', paddingBottom: 10}}>Connect</Text>
+                            <Text style={{fontSize: 32, fontWeight: "bold", color:'#FFFFFF', paddingBottom: 10}}>MARITIME</Text>
+                            <Text style={{fontSize: 32, fontWeight: "bold", color:'#FFFFFF', paddingBottom: 10}}>OPEN</Text>
+                            <Text style={{fontSize: 32, fontWeight: "bold", color:'#FFFFFF', paddingBottom: 10}}>CONNECT</Text>
                         </View>
                         <TouchableOpacity style={{
                             borderWidth: 2,
