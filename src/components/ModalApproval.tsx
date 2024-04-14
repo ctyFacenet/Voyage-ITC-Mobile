@@ -162,6 +162,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     width: "90%",
+    color: 'black',
     fontFamily: FONTFAMILY.poppins_regular,
     fontSize: FONTSIZE.size_14,
     height: scale(70),
