@@ -30,8 +30,8 @@ const Payment = ({ content, price }: { content?: any, price?: any }) => {
                 width: scale(100),
                 shadowColor: '#FFFFFF'
             }}>
-                <Text style={{ fontSize: scale(10), color: '#565656', fontWeight: 'bold' }}>{content}</Text>
-                <Text style={{ fontSize: scale(13), color: '#3F3F3F', fontWeight: 'bold' }}>{FormatCurrency(price / 1000000)}M</Text>
+                <Text style={{ fontSize: scale(9), color: '#565656', fontWeight: 'bold' }}>{content}</Text>
+                <Text style={{ fontSize: scale(11), color: '#3F3F3F', fontWeight: 'bold' }}>{FormatCurrency(price / 1000000)}M</Text>
             </View>
         </>
     )
