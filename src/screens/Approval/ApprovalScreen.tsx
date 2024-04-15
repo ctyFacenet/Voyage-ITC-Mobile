@@ -101,13 +101,16 @@ const ApprovalScreen = ({ route }: any) => {
   }, [navigation]);
 
   React.useEffect(() => {
+    
     if (route.params) {
       setListFilterCheck(route.params.filterValue);
     }
   }, [route.params]);
 
   React.useEffect(() => {
+    setisLoading(true)
     fetchData();
+
   }, [listFilterCheck]);
 
   const handleLayout = (event: any) => {
@@ -116,6 +119,7 @@ const ApprovalScreen = ({ route }: any) => {
   };
 
   const onHandleClearFilter = (id: any) => {
+    setisLoading(true)
     let listFilterNew = listFilterCheck.filter((item: any) => item != id);
     setListFilterCheck([...listFilterNew]);
   };
