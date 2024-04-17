@@ -40,6 +40,7 @@ import {
   NotificationProvider,
   useNotifications,
 } from "./src/context/NotificationContext";
+import { getFcmToken, registerListenerWithFCM } from "./src/utils/fcmHelper";
 
 // const keycloak = new RNKeycloak({...environment.keycloak})
 const keycloak = new RNKeycloak({
@@ -51,28 +52,36 @@ const keycloak = new RNKeycloak({
 const Stack = createNativeStackNavigator();
 
 function App(): React.JSX.Element {
-  const { tokenDivice, setTokenDivice } = useNotifications();
+  // const { tokenDivice, setTokenDivice } = useNotifications();
 
-  const requestUserPermission = async () => {
-    const authStatus = await messaging().requestPermission();
-    const enabled =
-      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+  // const requestUserPermission = async () => {
+  //   const authStatus = await messaging().requestPermission();
+  //   const enabled =
+  //     authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+  //     authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
-    if (enabled) {
-      console.log("Authorization status:", authStatus);
-    }
-  };
+  //   if (enabled) {
+  //     console.log("Authorization status:", authStatus);
+  //   }
+  // };
 
-  const getTokenClient = async () => {
-    const token = await messaging().getToken();
-    setTokenDivice(token);
-  };
+  // const getTokenClient = async () => {
+  //   const token = await messaging().getToken();
+  //   setTokenDivice(token);
+  // };
+  useEffect(() => {
+    getFcmToken();
+  }, []);
 
   useEffect(() => {
-    requestUserPermission();
-    getTokenClient();
+    const unsubscribe = registerListenerWithFCM();
+    return unsubscribe;
   }, []);
+
+  // useEffect(() => {
+  //   requestUserPermission();
+  //   getTokenClient();
+  // }, []);
   return (
     <ReactNativeKeycloakProvider
       authClient={keycloak}
