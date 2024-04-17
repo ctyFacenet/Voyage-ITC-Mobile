@@ -52,7 +52,7 @@ const keycloak = new RNKeycloak({
 const Stack = createNativeStackNavigator();
 
 function App(): React.JSX.Element {
-  // const { tokenDivice, setTokenDivice } = useNotifications();
+  const { tokenDivice, setTokenDivice } = useNotifications();
 
   // const requestUserPermission = async () => {
   //   const authStatus = await messaging().requestPermission();
@@ -70,7 +70,11 @@ function App(): React.JSX.Element {
   //   setTokenDivice(token);
   // };
   useEffect(() => {
-    getFcmToken();
+    let getToken = async () => {
+      let token: any = await getFcmToken();
+      setTokenDivice(token);
+    };
+    getToken();
   }, []);
 
   useEffect(() => {
