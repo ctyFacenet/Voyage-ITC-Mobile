@@ -81,7 +81,7 @@ const ShipOnBoard = ({ item }: { item: any }) => {
                                     </View>
                                     <View style={{
                                         alignItems: 'center',
-                                        width: scale(50)
+                                        width: scale(60)
                                     }}>
                                         <Ionicons name="navigate-outline" color='#FFFFFF' size={24}></Ionicons>
                                         <Text style={{ color: '#FFFFFF', fontSize: 15 }}>{item?.course !== null ? item?.course + '°' : ''}</Text>
@@ -103,7 +103,7 @@ const ShipOnBoard = ({ item }: { item: any }) => {
                                 </View>
                                 <View style={{
                                     alignItems: 'center',
-                                    width: scale(50)
+                                    width: scale(70)
                                 }}>
                                     <FontAwesome name="arrows-h" color='#FFFFFF' size={24}></FontAwesome>
                                     <Text style={{ color: '#FFFFFF', fontSize: 15 }}>{item?.totalDistanceRun ? item?.totalDistanceRun + ' NM' : ''}</Text>
@@ -136,7 +136,7 @@ const ShipOnBoard = ({ item }: { item: any }) => {
                                     <Ionicons name="layers" color='#AE0000' size={moderateScale(25)} />
                                     <View>
                                         <Text style={{ color: '#AE0000', fontSize: moderateScale(15) }}>{item?.seaport?.seaportName}</Text>
-                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>{item?.seport?.seaportNation}</Text>
+                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>{item?.seaport?.seaportNation}</Text>
                                     </View>
                                 </View>
                             </View>
@@ -243,7 +243,7 @@ const ShipOnPort = ({ item }: { item: any }) => {
                     alignItems: 'center'
                 }}>
                     <Ionicons name="boat" color='#FF7A00' size={sizeShip} style={styles.iconShip} />
-                    <Text style={styles.shipName}>Tàu {item?.voyage?.ship?.shipName}</Text>
+                    <Text style={styles.shipName}>Tàu {item?.voyage?.ship?.shipName} - {item?.voyage?.voyaegCode}</Text>
                 </View>
                 <View>
                     <View style={styles.imageShip}>
