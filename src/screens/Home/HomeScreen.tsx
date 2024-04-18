@@ -77,28 +77,28 @@ const ShipOnBoard = ({ item }: { item: any }) => {
                                         width: scale(60)
                                     }}>
                                         <MaterialCommunityIcons name="arrow-expand-horizontal" color='#FFFFFF' size={24}></MaterialCommunityIcons>
-                                        <Text style={{ color: '#FFFFFF', fontSize: 15 }}>{item?.distanceNextPort !== null ? item?.distanceNextPort + ' NM' : ''}</Text>
+                                        <Text style={{ color: '#FFFFFF', fontSize: 15 }}>{item?.distanceNextPort !== null ? item?.distanceNextPort + ' NM' : '-'}</Text>
                                     </View>
                                     <View style={{
                                         alignItems: 'center',
                                         width: scale(60)
                                     }}>
                                         <Ionicons name="navigate-outline" color='#FFFFFF' size={24}></Ionicons>
-                                        <Text style={{ color: '#FFFFFF', fontSize: 15 }}>{item?.course !== null ? item?.course + '°' : ''}</Text>
+                                        <Text style={{ color: '#FFFFFF', fontSize: 15 }}>{item?.course !== null ? item?.course + '°' : '-'}</Text>
                                     </View>
                                     <View style={{
                                         alignItems: 'center',
                                         width: scale(60)
                                     }}>
                                         <Ionicons name="speedometer-outline" color='#FFFFFF' size={24}></Ionicons>
-                                        <Text style={{ color: '#FFFFFF', fontSize: 15 }}>{item?.speed !== null ? item?.speed + ' Kts' : ''}</Text>
+                                        <Text style={{ color: '#FFFFFF', fontSize: 15 }}>{item?.speed !== null ? item?.speed + ' Kts' : '-'}</Text>
                                     </View>
                                     <View style={{
                                         alignItems: 'center',
                                         width: scale(60)
                                     }}>
                                         <MaterialCommunityIcons name="fan" color='#FFFFFF' size={24}></MaterialCommunityIcons>
-                                        <Text style={{ color: '#FFFFFF', fontSize: 15 }}>{item?.windForce !== null ? item?.windForce : ' Kts'}</Text>
+                                        <Text style={{ color: '#FFFFFF', fontSize: 15 }}>{item?.windForce !== null ? item?.windForce + ' Kts' : '-'}</Text>
                                     </View>
                                 </View>
                                 <View style={{
@@ -106,7 +106,7 @@ const ShipOnBoard = ({ item }: { item: any }) => {
                                     width: scale(70)
                                 }}>
                                     <FontAwesome name="arrows-h" color='#FFFFFF' size={24}></FontAwesome>
-                                    <Text style={{ color: '#FFFFFF', fontSize: 15 }}>{item?.totalDistanceRun ? item?.totalDistanceRun + ' NM' : ''}</Text>
+                                    <Text style={{ color: '#FFFFFF', fontSize: 15 }}>{item?.totalDistanceRun ? item?.totalDistanceRun + ' NM' : '-'}</Text>
                                 </View>
                             </View>
                         </View>
@@ -201,7 +201,7 @@ const ShipOnBoard = ({ item }: { item: any }) => {
                                         width: scale(120)
                                     }}>
                                         <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>Vị trí hiện tại</Text>
-                                        <Text style={{ color: '#244A64', fontSize: moderateScale(15) }}>{(item?.latitude === null ? '' : item?.latitude) + ' ' + (item?.longitude === null ? '' : item?.longitude)}</Text>
+                                        <Text style={{ color: '#244A64', fontSize: moderateScale(15) }}>{(item?.latitude === null ? '-' : item?.latitude) + ' ' + (item?.longitude === null ? '-' : item?.longitude)}</Text>
 
                                     </View>
                                 </View>
@@ -212,8 +212,8 @@ const ShipOnBoard = ({ item }: { item: any }) => {
                                 }}>
 
                                     <View>
-                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>ETA: <Text style={{ color: '#244A64', fontSize: 17 }}>{item?.eta === undefined || item?.eta === null ? '' : format(new Date(item?.eta), targetDateFormat)}</Text></Text>
-                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>{item?.voyage?.createdAt}</Text>
+                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>ETA: <Text style={{ color: '#244A64', fontSize: 17 }}>{item?.eta === undefined || item?.eta === null ? '-' : format(new Date(item?.eta), targetDateFormat)}</Text></Text>
+                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>{item?.voyage?.createdAt  === null ? '-' : item?.voyage?.createdAt}</Text>
                                     </View>
                                 </View>
                             </View>
@@ -262,8 +262,8 @@ const ShipOnPort = ({ item }: { item: any }) => {
                                 }}>
                                     <Ionicons name="layers" color='#244A64' size={25} />
                                     <View>
-                                        <Text style={{ color: '#244A64', fontSize: moderateScale(15) }}>{item?.seaport?.seaportName}</Text>
-                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>{item?.seaport?.seaportNation}</Text>
+                                        <Text style={{ color: '#244A64', fontSize: moderateScale(15) }}>{item?.seaport?.seaportName === null ? '-' : item?.seaport?.seaportName}</Text>
+                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>{item?.seaport?.seaportNation === null ? '-' : item?.seaport?.seaportNation}</Text>
                                     </View>
                                 </View>
 
@@ -273,7 +273,7 @@ const ShipOnPort = ({ item }: { item: any }) => {
                                 }}>
                                     <View>
                                         <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>ETD: <Text style={{ color: '#244A64', fontSize: 17 }}>{item?.eta === undefined || item?.eta === null ? '' : format(new Date(item?.eta), targetDateFormat)}</Text></Text>
-                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>{item?.voyage?.createdAt}</Text>
+                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>{item?.voyage?.createdAt === null ? '-' : item?.voyage?.createdAt}</Text>
                                     </View>
                                 </View>
                             </View>
