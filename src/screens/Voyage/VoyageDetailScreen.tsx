@@ -679,23 +679,23 @@ const VoyageDetail = ({ navigation, route }: { navigation?: any, route?: any }) 
                                     fontSize: moderateScale(18),
                                     fontWeight: 'bold'
                                 }}>{voyageEvaluations?.voyage?.voyageCode} - {voyageEvaluations?.voyage?.shipEntity?.shipName}</Text>
-                                <Text style={{
+                                {/* <Text style={{
                                     color: '#BFBFBF',
                                     fontSize: moderateScale(13)
-                                }}>{voyageEvaluations?.voyage?.updatedAt !== undefined ? format(new Date(voyageEvaluations?.voyage?.updatedAt), targetDateFormat) : ''}</Text>
+                                }}>{voyageEvaluations?.voyage?.updatedAt !== undefined ? format(new Date(voyageEvaluations?.voyage?.updatedAt), targetDateFormat) : ''}</Text> */}
+                                <View>
+                                    {setVoyageContent(voyageEvaluations?.voyage?.status)}
+                                </View>
                             </View>
                             <View style={{
                                 flexDirection: 'row',
                                 justifyContent: 'space-between',
                                 alignItems: 'center'
                             }}>
-                                <View >
+                                {/* <View >
                                     <Text style={{ color: '#6B788E', fontSize: moderateScale(13) }}>Làm hàng: <Text style={{ color: '#42526D', fontSize: moderateScale(13) }}>tại cảng Hải phòng</Text></Text>
                                     <Text style={{ color: '#6B788E', fontSize: moderateScale(13) }}>ETD: <Text style={{ color: '#42526D', fontSize: moderateScale(13) }}>18:0014/02/2024</Text></Text>
-                                </View>
-                                <View>
-                                    {setVoyageContent(voyageEvaluations?.voyage?.status)}
-                                </View>
+                                </View> */}
                             </View>
                         </View>
 
