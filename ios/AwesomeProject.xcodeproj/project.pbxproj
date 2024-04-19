@@ -14,6 +14,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		DCAF01992BCE76B700BC91D6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DCAF01982BCE76B700BC91D6 /* GoogleService-Info.plist */; };
+		DCDE0AA02BD21EF700D24207 /* React_Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCDE0A9F2BD21EF700D24207 /* React_Fabric.framework */; };
 		F236FB84C672137D9AFECE51 /* Pods_AwesomeProject_AwesomeProjectTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C75B31A2C265CB609BA1E841 /* Pods_AwesomeProject_AwesomeProjectTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +47,7 @@
 		C75B31A2C265CB609BA1E841 /* Pods_AwesomeProject_AwesomeProjectTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AwesomeProject_AwesomeProjectTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCAF01972BCE15F000BC91D6 /* AwesomeProject.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = AwesomeProject.entitlements; path = AwesomeProject/AwesomeProject.entitlements; sourceTree = "<group>"; };
 		DCAF01982BCE76B700BC91D6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		DCDE0A9F2BD21EF700D24207 /* React_Fabric.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = React_Fabric.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -62,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCDE0AA02BD21EF700D24207 /* React_Fabric.framework in Frameworks */,
 				03EBE8658037AC4A2698DD59 /* Pods_AwesomeProject.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -104,6 +107,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DCDE0A9F2BD21EF700D24207 /* React_Fabric.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				6EC9B232600719BA9D2BFC1D /* Pods_AwesomeProject.framework */,
 				C75B31A2C265CB609BA1E841 /* Pods_AwesomeProject_AwesomeProjectTests.framework */,
@@ -623,10 +627,7 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
@@ -705,10 +706,7 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
