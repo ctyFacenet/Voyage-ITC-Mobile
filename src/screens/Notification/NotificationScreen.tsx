@@ -164,7 +164,7 @@ const Notification = () => {
           onRefresh={handleRefresh}
           ListEmptyComponent={<NoData />}
           ListFooterComponent={() =>
-            isLoadingMore && (
+            isLoadingMore  && (
               <ActivityIndicator size="small" color={COLORS.primary} />
             )
           }

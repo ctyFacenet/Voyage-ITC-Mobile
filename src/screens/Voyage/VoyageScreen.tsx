@@ -254,15 +254,16 @@ const Voyage = ({ navigation, route }: { navigation?: any, route?: any }) => {
                 </View>
                 <View style={{
                     paddingHorizontal: scale(10),
-                    backgroundColor: '#FFFFFF'
+                    backgroundColor: '#FFFFFF',
+                    height: '100%'
                 }}>
                     <View style={{
-
                         height: verticalScale(40),
                         borderBottomWidth: 1,
                         borderBottomColor: '#E3E3E3',
                         flexDirection: 'row',
-                        alignItems: 'center'
+                        alignItems: 'center',
+                        backgroundColor: '#FFFFFF'
                     }}>
                         <EvilIcons name="search" color='#E3E3E3' size={30} />
                         <TextInput
