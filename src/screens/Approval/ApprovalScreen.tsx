@@ -180,21 +180,22 @@ const ApprovalScreen = ({ route }: any) => {
         nameScreen="Account"
       ></VoyageHeader>
       <View style={styles.searchContainer}>
+        <View style={{ flex: 1 }}>
           {/* <SearchInput /> */}
+        </View>
 
         <TouchableOpacity
-          style={{ marginRight: SPACING.space_2, padding: 2, flexDirection: "row" }}
+          style={{ marginRight: SPACING.space_4, padding: 4, flexDirection: 'row', alignItems: 'center' }}
           onPress={() =>
             navigation.push("Filter", { listFilterCheck: listFilterCheck })
           }
         >
-          <Text style={{marginRight: 4, color: COLORS.primary, fontSize: FONTSIZE.size_18
-}}>  Trạng thái</Text>
+          <Text style={{fontSize: FONTSIZE.size_18, color: COLORS.primary}}>Trạng thái</Text>
           <Icon name="filter" color={COLORS.primary} size={25} />
         </TouchableOpacity>
       </View>
       <View
-        style={{ paddingBottom: 10, flexDirection: "row", gap: 6, flexWrap: "wrap" }}
+        style={{ paddingHorizontal: 10, flexDirection: "row", gap: 10, flexWrap: "wrap" }}
         onLayout={handleLayout}
       >
         {listFilterCheck.map((item: any, index: number) => (

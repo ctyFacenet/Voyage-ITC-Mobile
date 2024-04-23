@@ -16,6 +16,7 @@ import { useNavigation } from "@react-navigation/native";
 import {
   getApprovalDetail,
   putApprovalReport,
+  getStatusReport,
 } from "../../services/ApprovalServices/ApprovalServices";
 import PDFView from "react-native-pdf";
 
@@ -26,8 +27,8 @@ import { useKeycloak } from "@react-keycloak/native";
 import { useNotifications } from "../../context/NotificationContext";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const getReportType = (statusValue: number): any => {
-  switch (statusValue) {
+const getReportType = (statusReportValue: number): any => {
+  switch (statusReportValue) {
     case 31:
       return {
         entityName: "Đề xuất chi phí",
@@ -78,7 +79,9 @@ const ApprovalDetailScreen = ({ route }: any) => {
   // const [dataPdf, setDataPdf] = React.useState<any>(null)
 
   const { entityId, entityType, status } = route.params.dataAproval;
-  console.log(entityId, entityType, status);
+  console.log(status);
+
+  const [statusReport, setStatusReport] = React.useState(false);
 
   const reportType = getReportType(entityType);
   const [isVisibaleModalPass, setIsVisibaleModalPass] = React.useState(false);
@@ -116,6 +119,17 @@ const ApprovalDetailScreen = ({ route }: any) => {
   //       return "payments";
   //   }
   // };
+
+  React.useEffect(() => {
+    let getStatus = async () => {
+      let res = await getStatusReport(entityId, entityType);
+      if (res.data == true) {
+        setStatusReport(true);
+      }
+    };
+
+    getStatus();
+  }, []);
 
   const onHandleConfirmApprove = async () => {
     let data = {
@@ -162,7 +176,7 @@ const ApprovalDetailScreen = ({ route }: any) => {
         <Text></Text>
       </View>
 
-      {status == 2 && (
+      {statusReport && status == 2 && (
         <View style={styles.footerApproval}>
           <TouchableOpacity
             onPress={() => navigation.goBack()}
@@ -267,7 +281,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     elevation: 5,
     backgroundColor: COLORS.White,
-    zIndex: 10
+    zIndex: 10,
   },
   title: {
     color: COLORS.primary,

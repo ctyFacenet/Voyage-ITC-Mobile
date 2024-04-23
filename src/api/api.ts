@@ -26,7 +26,6 @@ export async function getData(url: any) {
 
 // Phương thức POST
 export async function postData(url: any, data: any) {
-  console.log(API_URL, url, data);
 
   try {
     const response = await axios.post(`${API_URL}/${url}`, data, {
