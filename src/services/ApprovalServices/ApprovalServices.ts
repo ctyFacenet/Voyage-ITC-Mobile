@@ -37,6 +37,11 @@ export async function putReadAllNotification() {
   return putData("api/notification/read-all", {});
 }
 
+// Xem thong bao 
+export async function putReadNotification(id: any) {
+  return postData(`api/notification/update-read/${id}`, {});
+}
+
 export async function deleteAny(id: any) {
   return deleteData(`api/${id}`);
 }

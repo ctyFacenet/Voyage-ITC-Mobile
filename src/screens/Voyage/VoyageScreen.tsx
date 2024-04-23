@@ -10,6 +10,7 @@ import { getListVoyyage } from "../../services/HomeServices/HomeServices"
 import { FormatCurrency, PrepareCurrency, voyageStatus } from "../../../theme/Constants"
 import { format } from 'date-fns';
 import { fi } from "date-fns/locale"
+import { FONTSIZE } from "../../../theme/theme"
 
 
 type VoyageContent = {
@@ -27,13 +28,14 @@ export const VoyageStatus: React.FC<VoyageContent> = ({ content, status, color, 
             <View style={{
                 height: verticalScale(25),
                 backgroundColor: backgroundColor,
-                width: scale(120),
+                width: scale(110),
                 padding: scale(3),
-                borderRadius: scale(20),
-                alignItems: 'center'
+                borderRadius: scale(15),
+                alignItems: 'center',
+                justifyContent: 'center'
 
             }}>
-                <Text style={{ fontSize: 15, color: '#BFBFBF', textAlign: "center" }}>{content} <Text style={{ fontSize: 16, color: color }}>{status}</Text></Text>
+                <Text style={{ fontSize: FONTSIZE.size_12, color: '#BFBFBF', textAlign: "center" }}>{content} <Text style={{ fontSize: 16, color: color }}>{status}</Text></Text>
             </View>
         </>
     )
