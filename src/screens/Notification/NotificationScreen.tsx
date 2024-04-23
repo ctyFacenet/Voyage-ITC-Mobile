@@ -58,6 +58,8 @@ const Notification = () => {
   const loadMoreData = async () => {
     // Kiểm tra xem đã tới cuối danh sách hay chưa
     if (!isEndOfList) {
+      console.log(1234);
+
       try {
         // Tính số trang tiếp theo
         const nextPageNumber = Math.ceil(listNotification.length / 10);
@@ -88,6 +90,8 @@ const Notification = () => {
   };
 
   React.useEffect(() => {
+    console.log(123);
+
     loadMoreData();
   }, [isLoadingMore]);
 
@@ -103,7 +107,7 @@ const Notification = () => {
         pageSize: 10,
         pageNumber: 0,
       });
-      // console.log(response.data.notification);
+      console.log(response.data.notification);
 
       setListNotification(response.data.notification);
       setIsEndOfList(response.data.notification.length < 10);
@@ -157,7 +161,7 @@ const Notification = () => {
           showsHorizontalScrollIndicator={false}
           renderItem={({ item, index }) => <NotificationItem dataItem={item} />}
           keyExtractor={(item, index) => `notification-${item.id}-${index}`}
-          style={{ height: scale(610) }}
+          style={{ height: scale(540) }}
           onEndReached={() => setIsLoadingMore(true)}
           onEndReachedThreshold={0.1}
           refreshing={refreshing}
