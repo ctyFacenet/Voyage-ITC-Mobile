@@ -123,7 +123,6 @@ const ApprovalDetailScreen = ({ route }: any) => {
   React.useEffect(() => {
     let getStatus = async () => {
       let res = await getStatusReport(entityId, entityType);
-      console.log("Trạng thái duyệt:", res);
       if (res.data == true) {
         setStatusReport(true);
       }

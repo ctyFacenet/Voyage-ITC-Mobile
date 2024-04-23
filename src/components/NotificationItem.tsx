@@ -14,7 +14,6 @@ const NotificationItem = ({ dataItem }: any) => {
   const { setCountNotification, countNotification } = useNotifications();
 
   const { entityType, entityId } = dataItem;
-  console.log(entityId, entityType);
 
   function getTimeDifference(time: any) {
     const currentTime: any = new Date();
@@ -40,7 +39,6 @@ const NotificationItem = ({ dataItem }: any) => {
   const hanldeNavigationApprovalDetail = async () => {
     if (!dataItem.read) {
       let res = await putReadNotification(dataItem.id);
-      console.log("kết quả", res);
 
       if (res.data) {
         setCountNotification(countNotification - 1);

@@ -13,7 +13,7 @@ import {
 import VoyageHeader from "../../components/VoyageHeader";
 import SearchInput from "../../components/SearchInput";
 import Icon from "react-native-vector-icons/AntDesign";
-import { COLORS, SPACING } from "../../../theme/theme";
+import { COLORS, FONTSIZE, SPACING } from "../../../theme/theme";
 import { useNavigation } from "@react-navigation/native";
 import ApprovalItem from "../../components/ApprovalItem";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -181,20 +181,21 @@ const ApprovalScreen = ({ route }: any) => {
       ></VoyageHeader>
       <View style={styles.searchContainer}>
         <View style={{ flex: 1 }}>
-          <SearchInput />
+          {/* <SearchInput /> */}
         </View>
 
         <TouchableOpacity
-          style={{ marginRight: SPACING.space_2, padding: 2 }}
+          style={{ marginRight: SPACING.space_4, padding: 4, flexDirection: 'row', alignItems: 'center' }}
           onPress={() =>
             navigation.push("Filter", { listFilterCheck: listFilterCheck })
           }
         >
+          <Text style={{fontSize: FONTSIZE.size_18, color: COLORS.primary}}>Trạng thái</Text>
           <Icon name="filter" color={COLORS.primary} size={25} />
         </TouchableOpacity>
       </View>
       <View
-        style={{ padding: 10, flexDirection: "row", gap: 10, flexWrap: "wrap" }}
+        style={{ paddingHorizontal: 10, flexDirection: "row", gap: 10, flexWrap: "wrap" }}
         onLayout={handleLayout}
       >
         {listFilterCheck.map((item: any, index: number) => (

@@ -14,7 +14,6 @@ const VoyageHeader = ({
   nameScreen?: string;
 }) => {
   const navigation = useNavigation();
-  console.log(iconName);
 
   const HandleScreen = () => {
     if (iconName === "arrow-left") {

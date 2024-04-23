@@ -10,7 +10,6 @@ const token = keycloak?.token;
 // Phương thức GET
 export async function getData(url: any) {
   try {
-    console.log(url);
     const response = await axios.get(`${API_URL}/${url}`, {
       headers: {
         Authorization: "Bearer " + keycloak?.token,
@@ -27,7 +26,6 @@ export async function getData(url: any) {
 
 // Phương thức POST
 export async function postData(url: any, data: any) {
-  console.log(API_URL, url, data);
 
   try {
     const response = await axios.post(`${API_URL}/${url}`, data, {
