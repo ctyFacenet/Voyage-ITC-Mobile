@@ -37,9 +37,18 @@ export async function putReadAllNotification() {
   return putData("api/notification/read-all", {});
 }
 
-// Xem thong bao 
+// Xem thông báo
 export async function putReadNotification(id: any) {
   return postData(`api/notification/update-read/${id}`, {});
+}
+
+// Lấy trạng thái duyệt của báo cáo
+export async function getStatusReport(entityId: any, entityType: any) {
+  return getData(
+    `api/approval-requests/payments/${entityId}/is-approving${
+      entityType == 31 ? "?isPayment=false" : ""
+    }`
+  );
 }
 
 export async function deleteAny(id: any) {

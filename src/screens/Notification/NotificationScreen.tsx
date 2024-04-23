@@ -20,8 +20,10 @@ import { scale } from "react-native-size-matters";
 import NoData from "../../components/Nodata";
 import { getCountNotification } from "../../services/HomeServices/HomeServices";
 import { useNotifications } from "../../context/NotificationContext";
+import { useNavigation } from "@react-navigation/native";
 
 const Notification = () => {
+  const navigation: any = useNavigation();
   const [listNotification, setListNotification] = React.useState<any>([]);
   const [isEndOfList, setIsEndOfList] = React.useState(false);
   const [isLoadingMore, setIsLoadingMore] = React.useState(false);
@@ -58,8 +60,6 @@ const Notification = () => {
   const loadMoreData = async () => {
     // Kiểm tra xem đã tới cuối danh sách hay chưa
     if (!isEndOfList) {
-      console.log(1234);
-
       try {
         // Tính số trang tiếp theo
         const nextPageNumber = Math.ceil(listNotification.length / 10);
@@ -70,8 +70,6 @@ const Notification = () => {
           pageSize: 10,
           pageNumber: nextPageNumber,
         });
-
-        console.log(response);
 
         // Nối thêm danh sách mới vào danh sách hiện tại
         setListNotification((prevListNotification: any) => [
@@ -90,8 +88,36 @@ const Notification = () => {
   };
 
   React.useEffect(() => {
-    console.log(123);
+    const unsubscribe = navigation.addListener("focus", () => {
+      const fetchData = async () => {
+        try {
+          const response = await getListNotification({
+            filter: {
+              read: null,
+            },
+            pageSize: 10,
+            pageNumber: 0,
+          });
+          let res = await getCountNotification();
+          setCountNotification(res.data.notification || 0);
 
+          setListNotification(response.data.notification);
+          setIsEndOfList(response.data.notification.length < 10);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        } finally {
+          setisLoading(false);
+        }
+      };
+
+      fetchData();
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
+
+  React.useEffect(() => {
     loadMoreData();
   }, [isLoadingMore]);
 
@@ -108,6 +134,9 @@ const Notification = () => {
         pageNumber: 0,
       });
       console.log(response.data.notification);
+
+      let res = await getCountNotification();
+      setCountNotification(res.data.notification || 0);
 
       setListNotification(response.data.notification);
       setIsEndOfList(response.data.notification.length < 10);

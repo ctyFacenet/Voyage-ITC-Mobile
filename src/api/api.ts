@@ -10,6 +10,7 @@ const token = keycloak?.token;
 // Phương thức GET
 export async function getData(url: any) {
   try {
+    console.log(url);
     const response = await axios.get(`${API_URL}/${url}`, {
       headers: {
         Authorization: "Bearer " + keycloak?.token,

@@ -3,9 +3,16 @@ import * as React from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { COLORS } from "../../theme/theme";
 import Icon from "react-native-vector-icons/Entypo";
+import {
+  putReadAllNotification,
+  putReadNotification,
+} from "../services/ApprovalServices/ApprovalServices";
+import { useNotifications } from "../context/NotificationContext";
 
 const NotificationItem = ({ dataItem }: any) => {
   const navigation = useNavigation();
+  const { setCountNotification, countNotification } = useNotifications();
+
   const { entityType, entityId } = dataItem;
   console.log(entityId, entityType);
 
@@ -30,10 +37,19 @@ const NotificationItem = ({ dataItem }: any) => {
       return `${daysDiff} ngày`;
     }
   }
-  const hanldeNavigationApprovalDetail = () => {
+  const hanldeNavigationApprovalDetail = async () => {
+    if (!dataItem.read) {
+      let res = await putReadNotification(dataItem.id);
+      console.log("kết quả", res);
+
+      if (res.data) {
+        setCountNotification(countNotification - 1);
+      }
+    }
     if (entityId && entityType) {
       navigation.push("ApprovalDetail", { dataAproval: dataItem });
     }
+    console.log(dataItem);
   };
 
   return (
