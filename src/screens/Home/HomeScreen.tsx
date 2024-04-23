@@ -465,44 +465,6 @@ const ShipOnPort = ({ item }: { item: any }) => {
                     </Text>
                   </View>
                 </View>
-<<<<<<< Updated upstream
-                <View>
-                    <View style={styles.imageShip}>
-                        <Image style={[styles.imageShip, { position: 'relative' }]} source={{ uri: environment.api_end_point_preview + '/' + item?.imageUrl }}></Image>
-                    </View>
-                    {/* Vị trí cảng */}
-                    <View>
-                        <View>
-                            <View style={{
-                                flexDirection: 'row',
-                                justifyContent: 'space-between'
-                            }}>
-                                <View style={{
-                                    flexDirection: 'row',
-                                    marginTop: 5,
-                                }}>
-                                    <Ionicons name="layers" color='#244A64' size={25} />
-                                    <View>
-                                        <Text style={{ color: '#244A64', fontSize: moderateScale(15) }}>{item?.seaport?.seaportName}</Text>
-                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>{item?.seaport?.seaportNation}</Text>
-                                    </View>
-                                </View>
-
-                                <View style={{
-                                    flexDirection: 'row',
-                                    marginTop: scale(5),
-                                }}>
-                                    <View>
-                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>ETD: <Text style={{ color: '#244A64', fontSize: 17 }}>{item?.eta === undefined || item?.eta === null ? '' : format(new Date(item?.eta), targetDateFormat)}</Text></Text>
-                                        <Text style={{ color: '#40404199', fontSize: moderateScale(15) }}>{item?.voyage?.createdAt}</Text>
-                                    </View>
-                                </View>
-                            </View>
-                        </View>
-
-                    </View>
-=======
->>>>>>> Stashed changes
 
                 <View
                   style={{
