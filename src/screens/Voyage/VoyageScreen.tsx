@@ -47,10 +47,10 @@ export const VoyageStatus: React.FC<VoyageContent> = ({
     <>
       <View
         style={{
-          height: verticalScale(25),
+          // height: verticalScale(25),
           backgroundColor: backgroundColor,
-          width: scale(120),
-          padding: scale(3),
+          // width: scale(122),
+          padding: 5,
           borderRadius: scale(15),
           alignItems: "center",
           justifyContent: "center",
@@ -155,6 +155,7 @@ const VoyageContent = ({
             {expectedRevenue === undefined || expectedRevenue === null
               ? ""
               : FormatCurrency(expectedRevenue) + " USD"}
+              
           </Text>
         </Text>
         <Text style={styles.fontColorTiltle}>
@@ -483,6 +484,7 @@ const Voyage = ({ navigation, route }: { navigation?: any; route?: any }) => {
                               fontSize: 13,
                               color: "#BFBFBF",
                               textAlignVertical: "bottom",
+                              marginRight: 2
                             }}
                           >
                             {format(
@@ -506,7 +508,7 @@ const Voyage = ({ navigation, route }: { navigation?: any; route?: any }) => {
                             expense={item.expense}
                             expectedExpense={item.expectedExpense}
                           ></VoyageContent>
-                          <View>
+                          <View style={{marginRight: 2}}>
                             {setVoyageContent(item.voyageName.status)}
                           </View>
                         </View>

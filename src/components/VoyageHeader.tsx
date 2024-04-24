@@ -67,7 +67,7 @@ const VoyageHeader = ({
           </TouchableOpacity>
           <Text
             style={{
-              fontSize: moderateScale(FONTSIZE.size_20),
+              fontSize: moderateScale(FONTSIZE.size_18),
               color: COLORS.White,
               fontWeight: "bold",
             }}
