@@ -157,7 +157,7 @@ const ApprovalScreen = ({ route }: any) => {
         sortProperty: "createdAt",
         sortOrder: "DESC",
       });
-      // console.log(response);
+      console.log(response);
       setTotal(response.dataCount)
 
       setListDataApproval(response.data);

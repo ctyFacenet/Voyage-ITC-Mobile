@@ -123,6 +123,7 @@ const ApprovalDetailScreen = ({ route }: any) => {
   React.useEffect(() => {
     let getStatus = async () => {
       let res = await getStatusReport(entityId, entityType);
+      
       if (res.data == true) {
         setStatusReport(true);
       }
@@ -176,7 +177,7 @@ const ApprovalDetailScreen = ({ route }: any) => {
         <Text></Text>
       </View>
 
-      {statusReport && status == 2 && (
+      {statusReport && (status == 2 || status == undefined) && (
         <View style={styles.footerApproval}>
           <TouchableOpacity
             onPress={() => navigation.goBack()}
