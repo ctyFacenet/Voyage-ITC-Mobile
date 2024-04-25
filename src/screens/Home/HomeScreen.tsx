@@ -61,7 +61,7 @@ const ShipOnBoard = ({ item }: { item: any }) => {
           paddingBottom: 20,
           borderBottomWidth: 0.5,
           borderBottomColor: "40404199",
-          //   marginTop: 20,
+          //   marginTop
         }}
       >
         <View

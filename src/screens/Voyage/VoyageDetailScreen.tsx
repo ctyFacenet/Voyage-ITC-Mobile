@@ -68,13 +68,30 @@ const ChartExpenseRevenue = ({
 }) => {
   const barData = [
     {
+      value: PrepareCurrencyM(item?.totalRevenue, item?.totalExpense, 1),
+      label: "Lợi nhuận",
+      spacing: 2,
+      labelWidth: scale(60),
+      labelTextStyle: { color: "#615E83" },
+      frontColor: "#35729C",
+    },
+    {
+      value: PrepareCurrencyM(
+        itemActual?.totalRevenue,
+        itemActual?.totalExpense,
+        1
+      ),
+      frontColor: "#5EBEFF",
+    },
+    {
       value:
         item?.totalRevenue === undefined || item?.totalRevenue === null
           ? 0
           : item?.totalRevenue,
       label: "Doanh thu",
+
       spacing: 2,
-      labelWidth: scale(55),
+      labelWidth: scale(60),
       labelTextStyle: { color: "#615E83" },
       frontColor: "#35729C",
     },
@@ -96,22 +113,6 @@ const ChartExpenseRevenue = ({
         itemActual?.totalExpense === undefined ? 0 : itemActual?.totalExpense,
       frontColor: "#5EBEFF",
     },
-    {
-      value: PrepareCurrencyM(item?.totalRevenue, item?.totalExpense, 1),
-      label: "Lợi nhuận",
-      spacing: 2,
-      labelWidth: scale(50),
-      labelTextStyle: { color: "#615E83" },
-      frontColor: "#35729C",
-    },
-    {
-      value: PrepareCurrencyM(
-        itemActual?.totalRevenue,
-        itemActual?.totalExpense,
-        1
-      ),
-      frontColor: "#5EBEFF",
-    },
   ];
 
   console.log(barData);
@@ -122,16 +123,17 @@ const ChartExpenseRevenue = ({
         showYAxisIndices
         barWidth={scale(30)}
         data={barData}
-        width={scale(250)}
-        barBorderRadius={10}
+        width={scale(300)}
+        barBorderRadius={5}
         noOfSections={5}
         frontColor="lightgray"
-        barMarginBottom={1}
-        spacing={scale(20)}
+        barMarginBottom={2}
+        spacing={scale(10)}
         isAnimated
         yAxisTextStyle={{
           color: "gray",
         }}
+        autoShiftLabels
       />
     )
   );
@@ -470,7 +472,7 @@ const StackBarChartCargo = ({ voyageId }: { voyageId: any }) => {
       {dataCargo.length > 0 && lineCargo.length > 0 ? (
         <BarChart
           width={scale(250)}
-          barWidth={scale(25)}
+          barWidth={scale(30)}
           showLine
           lineData={lineCargo}
           lineConfig={{
@@ -613,17 +615,18 @@ const StackChartBunker = ({ voyageId }: { voyageId: any }) => {
           style={{
             flexDirection: "row",
             justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: 10,
           }}
         >
           <Text
             style={{
-              fontSize: moderateScale(20),
-              marginBottom: scale(20),
+              fontSize: moderateScale(16),
               color: "#1E1B39",
               fontWeight: "bold",
             }}
           >
-            Bunker/FW
+            Nhiên liệu/Nước ngọt
           </Text>
           <Dropdown
             labelField="lable"
@@ -650,8 +653,9 @@ const StackChartBunker = ({ voyageId }: { voyageId: any }) => {
               backgroundColor: "#64B5F61A",
               borderRadius: scale(5),
               borderWidth: 1,
-              padding: 10,
+              padding: 5,
             }}
+            maxHeight={200}
             onChange={(item) => {
               changeValueBunker(item.value);
             }}
@@ -660,7 +664,7 @@ const StackChartBunker = ({ voyageId }: { voyageId: any }) => {
         {dataBunker.length > 0 && lineChart.length > 0 ? (
           <BarChart
             width={scale(250)}
-            barWidth={scale(25)}
+            barWidth={scale(30)}
             showLine
             lineData={lineChart}
             lineConfig={{
