@@ -23,6 +23,8 @@ import { getListApproval } from "../../services/ApprovalServices/ApprovalService
 import ModalConfirmPass from "../../components/ModalConfirmPass";
 import NoData from "../../components/Nodata";
 import { useIsFocused } from "@react-navigation/native";
+import { useNotifications } from "../../context/NotificationContext";
+import { getCountNotification } from "../../services/HomeServices/HomeServices";
 const listFilterApproval = [
   {
     id: 2,
@@ -68,7 +70,8 @@ const ApprovalScreen = ({ route }: any) => {
   const [isLoadingMore, setIsLoadingMore] = React.useState(false);
   const [isLoading, setisLoading] = React.useState(true);
   const [refreshing, setRefreshing] = React.useState(false);
-  const [total, setTotal] = React.useState(0)
+  const [total, setTotal] = React.useState(0);
+  const { setCountApproval } = useNotifications();
 
   React.useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
@@ -84,8 +87,11 @@ const ApprovalScreen = ({ route }: any) => {
             sortOrder: "DESC",
           });
 
+          let res = await getCountNotification();
+          setCountApproval(res.data.approval || 0);
+
           setListDataApproval(response.data);
-      setTotal(response.dataCount)
+          setTotal(response.dataCount);
 
           setIsEndOfList(response.data.length < 10);
         } catch (error) {
@@ -103,16 +109,14 @@ const ApprovalScreen = ({ route }: any) => {
   }, [navigation]);
 
   React.useEffect(() => {
-    
     if (route.params) {
       setListFilterCheck(route.params.filterValue);
     }
   }, [route.params]);
 
   React.useEffect(() => {
-    setisLoading(true)
+    setisLoading(true);
     fetchData();
-
   }, [listFilterCheck]);
 
   const handleLayout = (event: any) => {
@@ -121,7 +125,7 @@ const ApprovalScreen = ({ route }: any) => {
   };
 
   const onHandleClearFilter = (id: any) => {
-    setisLoading(true)
+    setisLoading(true);
     let listFilterNew = listFilterCheck.filter((item: any) => item != id);
     setListFilterCheck([...listFilterNew]);
   };
@@ -158,14 +162,14 @@ const ApprovalScreen = ({ route }: any) => {
         sortOrder: "DESC",
       });
       console.log(response);
-      setTotal(response.dataCount)
+      let res = await getCountNotification();
+      setCountApproval(res.data.approval || 0);
 
       setListDataApproval(response.data);
       setIsEndOfList(response.data.length < 10);
     } catch (error) {
       console.error("Error fetching data:", error);
       setisLoading(false);
-
     } finally {
       setisLoading(false);
     }
@@ -185,22 +189,32 @@ const ApprovalScreen = ({ route }: any) => {
         nameScreen="Account"
       ></VoyageHeader>
       <View style={styles.searchContainer}>
-        <View style={{ flex: 1 }}>
-          {/* <SearchInput /> */}
-        </View>
+        <View style={{ flex: 1 }}>{/* <SearchInput /> */}</View>
 
         <TouchableOpacity
-          style={{ marginRight: SPACING.space_4, padding: 4, flexDirection: 'row', alignItems: 'center' }}
+          style={{
+            marginRight: SPACING.space_4,
+            padding: 4,
+            flexDirection: "row",
+            alignItems: "center",
+          }}
           onPress={() =>
             navigation.push("Filter", { listFilterCheck: listFilterCheck })
           }
         >
-          <Text style={{fontSize: FONTSIZE.size_18, color: COLORS.primary}}>Trạng thái</Text>
+          <Text style={{ fontSize: FONTSIZE.size_18, color: COLORS.primary }}>
+            Trạng thái
+          </Text>
           <Icon name="filter" color={COLORS.primary} size={25} />
         </TouchableOpacity>
       </View>
       <View
-        style={{ paddingHorizontal: 10, flexDirection: "row", gap: 10, flexWrap: "wrap" }}
+        style={{
+          paddingHorizontal: 10,
+          flexDirection: "row",
+          gap: 10,
+          flexWrap: "wrap",
+        }}
         onLayout={handleLayout}
       >
         {listFilterCheck.map((item: any, index: number) => (
@@ -237,14 +251,14 @@ const ApprovalScreen = ({ route }: any) => {
           keyExtractor={(item, index) => `approval-${item.id}-${index}`}
           showsHorizontalScrollIndicator={false}
           renderItem={({ item, index }) => <ApprovalItem dataAproval={item} />}
-          style={{ height: scale(610 - containerHeight) }}
+          style={{ height: scale(550 - containerHeight) }}
           onEndReached={loadMoreData}
           onEndReachedThreshold={0.1}
           ListEmptyComponent={<NoData />}
           refreshing={refreshing}
           onRefresh={handleRefresh}
           ListFooterComponent={() =>
-            isLoadingMore  && (
+            isLoadingMore && (
               <ActivityIndicator size="small" color={COLORS.primary} />
             )
           }
@@ -265,8 +279,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     alignItems: "center",
     marginTop: 4,
-    marginRight: 6
-    
+    marginRight: 6,
   },
   containerGap36: {
     gap: SPACING.space_2,
