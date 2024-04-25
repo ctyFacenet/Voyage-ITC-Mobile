@@ -29,6 +29,7 @@ const Notification = () => {
   const [isLoadingMore, setIsLoadingMore] = React.useState(false);
   const [refreshing, setRefreshing] = React.useState(false);
   const [isLoading, setisLoading] = React.useState(true);
+  const [total, setTotal] = React.useState(0)
 
   const { setCountNotification, countNotification } = useNotifications();
 
@@ -133,7 +134,9 @@ const Notification = () => {
         pageSize: 10,
         pageNumber: 0,
       });
-      console.log(response.data.notification);
+      console.log(response.data);
+
+      setTotal(response.data.dataCount)
 
       let res = await getCountNotification();
       setCountNotification(res.data.notification || 0);
@@ -152,6 +155,13 @@ const Notification = () => {
     fetchData();
     setRefreshing(false);
   };
+
+  const handleLoadingMore = () => {
+    if(total > listNotification.length) {
+      setIsLoadingMore(true)
+    }
+    else setIsLoadingMore(false)
+  }
   return (
     <View style={styles.container}>
       <VoyageHeader
@@ -191,7 +201,7 @@ const Notification = () => {
           renderItem={({ item, index }) => <NotificationItem dataItem={item} />}
           keyExtractor={(item, index) => `notification-${item.id}-${index}`}
           style={{ height: scale(540) }}
-          onEndReached={() => setIsLoadingMore(true)}
+          onEndReached={handleLoadingMore}
           onEndReachedThreshold={0.1}
           refreshing={refreshing}
           onRefresh={handleRefresh}

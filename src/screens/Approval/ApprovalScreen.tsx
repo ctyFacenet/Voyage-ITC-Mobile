@@ -68,6 +68,7 @@ const ApprovalScreen = ({ route }: any) => {
   const [isLoadingMore, setIsLoadingMore] = React.useState(false);
   const [isLoading, setisLoading] = React.useState(true);
   const [refreshing, setRefreshing] = React.useState(false);
+  const [total, setTotal] = React.useState(0)
 
   React.useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
@@ -82,9 +83,10 @@ const ApprovalScreen = ({ route }: any) => {
             sortProperty: "createdAt",
             sortOrder: "DESC",
           });
-          console.log(response);
 
           setListDataApproval(response.data);
+      setTotal(response.dataCount)
+
           setIsEndOfList(response.data.length < 10);
         } catch (error) {
           console.error("Error fetching data:", error);
@@ -125,7 +127,7 @@ const ApprovalScreen = ({ route }: any) => {
   };
 
   const loadMoreData = async () => {
-    if (!isEndOfList) {
+    if (!isEndOfList && total > listDataApproval.length) {
       setIsLoadingMore(true);
       try {
         const response = await getListApproval({
@@ -156,11 +158,14 @@ const ApprovalScreen = ({ route }: any) => {
         sortOrder: "DESC",
       });
       // console.log(response);
+      setTotal(response.dataCount)
 
       setListDataApproval(response.data);
       setIsEndOfList(response.data.length < 10);
     } catch (error) {
       console.error("Error fetching data:", error);
+      setisLoading(false);
+
     } finally {
       setisLoading(false);
     }
@@ -239,7 +244,7 @@ const ApprovalScreen = ({ route }: any) => {
           refreshing={refreshing}
           onRefresh={handleRefresh}
           ListFooterComponent={() =>
-            isLoadingMore && (
+            isLoadingMore  && (
               <ActivityIndicator size="small" color={COLORS.primary} />
             )
           }
