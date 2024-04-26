@@ -2,12 +2,14 @@ interface VoyageStatus{
     aprroval: number, //đã duyệt
     processing: number, //đang thực hiện
     completed: number, //hoàn thành
+    end: number //kết thúc
 }
 
 export const voyageStatus: VoyageStatus = {
     aprroval: 5, //đã duyệt
     processing: 7, //đang thực hiện
     completed: 8, //hoàn thành
+    end: 10, //kết thúc
 }
 
 export const FormatCurrency = (currecny: any) => {
