@@ -37,7 +37,7 @@ type VoyageContent = {
   backgroundColor: string;
 };
 
-const targetDateFormatLaycan = 'dd/MM/yyyy';
+const targetDateFormatLaycan = "dd/MM/yyyy";
 
 export const VoyageStatus: React.FC<VoyageContent> = ({
   content,
@@ -51,21 +51,21 @@ export const VoyageStatus: React.FC<VoyageContent> = ({
         style={{
           // height: verticalScale(25),
           backgroundColor: backgroundColor,
-          // width: scale(122),
+          width: scale(110),
           padding: 5,
-          borderRadius: scale(15),
+          borderRadius: scale(10),
           alignItems: "center",
           justifyContent: "center",
         }}
       >
         <Text
           style={{
-            fontSize: FONTSIZE.size_12,
+            fontSize: FONTSIZE.size_10,
             color: "#BFBFBF",
             textAlign: "center",
           }}
         >
-          {content} <Text style={{ fontSize: 16, color: color }}>{status}</Text>
+          {content} <Text style={{ fontSize: 14, color: color }}>{status}</Text>
         </Text>
       </View>
     </>
@@ -103,11 +103,7 @@ export const setVoyageContent = (status: any) => {
   }
 };
 
-const VoyageContent = ({
-  item
-}: {
-  item: any
-}) => {
+const VoyageContent = ({ item }: { item: any }) => {
   // if (status === voyageStatus.aprroval) {
   //   return (
   //     <View
@@ -147,7 +143,7 @@ const VoyageContent = ({
   //           {expectedRevenue === undefined || expectedRevenue === null
   //             ? ""
   //             : FormatCurrency(expectedRevenue) + " USD"}
-              
+
   //         </Text>
   //       </Text>
   //       <Text style={styles.fontColorTiltle}>
@@ -203,17 +199,42 @@ const VoyageContent = ({
   //   );
   // }
 
-  return (<View style={{
-    width: scale(210),
-    paddingRight: scale(10),
-
-}}>
-    <Text style={styles.fontColorTiltle}>Laycan: <Text style={styles.fontColorContent}>{item?.laycan[0] !== null ? format(new Date(item?.laycan[0]), targetDateFormatLaycan) : ''} - {item?.laycan[1] !== null ? format(new Date(item?.laycan[1]), targetDateFormatLaycan) : ''}</Text></Text>
-    <Text style={styles.fontColorTiltle}>Fixture note number: <Text style={styles.fontColorContent}>{item?.fixtureNoteNumber === null ? '-' : item?.fixtureNoteNumber}</Text></Text>
-    <Text style={styles.fontColorTiltle}>Broker's name: {item?.brokerName === null ? '-' : item?.brokerName}</Text>
-    <Text style={styles.fontColorTiltle}>Charter's name: {item?.charterName === null ? '-' : item?.charterName}</Text>
-    <Text style={styles.fontColorTiltle}>Ghi chú: {item?.note === null ? '-' : item?.note}</Text>
-</View>)
+  return (
+    <View
+      style={{
+        width: scale(210),
+        paddingRight: scale(10),
+      }}
+    >
+      <Text style={styles.fontColorTiltle}>
+        Laycan:{" "}
+        <Text style={styles.fontColorContent}>
+          {item?.laycan[0] !== null
+            ? format(new Date(item?.laycan[0]), targetDateFormatLaycan)
+            : ""}{" "}
+          -{" "}
+          {item?.laycan[1] !== null
+            ? format(new Date(item?.laycan[1]), targetDateFormatLaycan)
+            : ""}
+        </Text>
+      </Text>
+      <Text style={styles.fontColorTiltle}>
+        Fixture note number:{" "}
+        <Text style={styles.fontColorContent}>
+          {item?.fixtureNoteNumber === null ? "-" : item?.fixtureNoteNumber}
+        </Text>
+      </Text>
+      <Text style={styles.fontColorTiltle}>
+        Broker's name: {item?.brokerName === null ? "-" : item?.brokerName}
+      </Text>
+      <Text style={styles.fontColorTiltle}>
+        Charter's name: {item?.charterName === null ? "-" : item?.charterName}
+      </Text>
+      <Text style={styles.fontColorTiltle}>
+        Ghi chú: {item?.note === null ? "-" : item?.note}
+      </Text>
+    </View>
+  );
 };
 
 const Voyage = ({ navigation, route }: { navigation?: any; route?: any }) => {
@@ -247,7 +268,7 @@ const Voyage = ({ navigation, route }: { navigation?: any; route?: any }) => {
         voyageStatus.aprroval,
         voyageStatus.processing,
         voyageStatus.completed,
-        voyageStatus.end
+        voyageStatus.end,
       ],
     },
     common: "",
@@ -283,7 +304,7 @@ const Voyage = ({ navigation, route }: { navigation?: any; route?: any }) => {
 
   const getData = async () => {
     try {
-      const responeData = await getListVoyyage('api/voyage/' + shipId, filter);
+      const responeData = await getListVoyyage("api/voyage/" + shipId, filter);
       setListVoyage(responeData.data);
       setCountVoyage(responeData.dataCount);
     } catch (error) {
@@ -487,7 +508,7 @@ const Voyage = ({ navigation, route }: { navigation?: any; route?: any }) => {
                               fontSize: 13,
                               color: "#BFBFBF",
                               textAlignVertical: "bottom",
-                              marginRight: 2
+                              marginRight: 2,
                             }}
                           >
                             {format(
@@ -503,10 +524,8 @@ const Voyage = ({ navigation, route }: { navigation?: any; route?: any }) => {
                             alignItems: "center",
                           }}
                         >
-                          <VoyageContent
-                          item={item}
-                          ></VoyageContent>
-                          <View style={{marginRight: 2}}>
+                          <VoyageContent item={item}></VoyageContent>
+                          <View style={{ marginRight: 2 }}>
                             {setVoyageContent(item?.status)}
                           </View>
                         </View>

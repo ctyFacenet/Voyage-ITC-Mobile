@@ -444,6 +444,17 @@ const StackBarChartCargo = ({ voyageId }: { voyageId: any }) => {
               ? ""
               : cargoDropdown[0]?.itemType
           }
+          renderItem={({ item, index }) => (
+            <View
+              style={{
+                height: 50,
+                justifyContent: "center",
+                paddingHorizontal: 10,
+              }}
+            >
+              <Text style={{ fontSize: 18 }}>123</Text>
+            </View>
+          )}
           placeholderStyle={{
             color: "#1565C0",
           }}
@@ -454,6 +465,8 @@ const StackBarChartCargo = ({ voyageId }: { voyageId: any }) => {
           data={cargoDropdown}
           itemTextStyle={{
             color: "gray",
+            height: 18,
+            margin: 0,
           }}
           style={{
             height: scale(30),
