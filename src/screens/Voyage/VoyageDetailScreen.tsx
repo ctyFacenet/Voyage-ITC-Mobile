@@ -128,7 +128,7 @@ const ChartExpenseRevenue = ({
         noOfSections={5}
         frontColor="lightgray"
         barMarginBottom={2}
-        spacing={scale(10)}
+        spacing={scale(30)}
         isAnimated
         yAxisTextStyle={{
           color: "gray",
@@ -444,17 +444,6 @@ const StackBarChartCargo = ({ voyageId }: { voyageId: any }) => {
               ? ""
               : cargoDropdown[0]?.itemType
           }
-          renderItem={({ item, index }) => (
-            <View
-              style={{
-                height: 50,
-                justifyContent: "center",
-                paddingHorizontal: 10,
-              }}
-            >
-              <Text style={{ fontSize: 18 }}>123</Text>
-            </View>
-          )}
           placeholderStyle={{
             color: "#1565C0",
           }}
