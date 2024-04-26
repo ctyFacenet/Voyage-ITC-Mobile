@@ -37,6 +37,8 @@ type VoyageContent = {
   backgroundColor: string;
 };
 
+const targetDateFormatLaycan = 'dd/MM/yyyy';
+
 export const VoyageStatus: React.FC<VoyageContent> = ({
   content,
   status,
@@ -89,7 +91,7 @@ export const setVoyageContent = (status: any) => {
         backgroundColor="#A2948A33"
       ></VoyageStatus>
     );
-  } else if (status == voyageStatus.completed) {
+  } else if (status == voyageStatus.completed || status == voyageStatus.end) {
     return (
       <VoyageStatus
         content=""
@@ -102,114 +104,116 @@ export const setVoyageContent = (status: any) => {
 };
 
 const VoyageContent = ({
-  status,
-  laycan,
-  revuenue,
-  expectedRevenue,
-  expense,
-  expectedExpense,
+  item
 }: {
-  status?: any;
-  laycan?: any;
-  revuenue?: any;
-  expectedRevenue?: any;
-  expense?: any;
-  expectedExpense?: any;
+  item: any
 }) => {
-  if (status === voyageStatus.aprroval) {
-    return (
-      <View
-        style={{
-          width: scale(210),
-          paddingRight: scale(10),
-        }}
-      >
-        <Text style={styles.fontColorTiltle}>
-          Laycan: <Text style={styles.fontColorContent}>{laycan}</Text>
-        </Text>
-        <Text style={styles.fontColorTiltle}>
-          Doanh thu dự kiến:{" "}
-          <Text style={styles.fontColorContent}>
-            {expectedRevenue === undefined || expectedExpense === null
-              ? ""
-              : FormatCurrency(expectedRevenue) + " USD"}
-          </Text>
-        </Text>
-        <Text style={styles.fontColorTiltle}>Ghi chú: -</Text>
-      </View>
-    );
-  } else if (status === voyageStatus.processing) {
-    return (
-      <View
-        style={{
-          width: scale(210),
-          paddingRight: scale(10),
-        }}
-      >
-        <Text style={styles.fontColorTiltle}>
-          Laycan: <Text style={styles.fontColorContent}>{laycan}</Text>
-        </Text>
-        <Text style={styles.fontColorTiltle}>
-          Doanh thu dự kiến:{" "}
-          <Text style={styles.fontColorContent}>
-            {expectedRevenue === undefined || expectedRevenue === null
-              ? ""
-              : FormatCurrency(expectedRevenue) + " USD"}
+  // if (status === voyageStatus.aprroval) {
+  //   return (
+  //     <View
+  //       style={{
+  //         width: scale(210),
+  //         paddingRight: scale(10),
+  //       }}
+  //     >
+  //       <Text style={styles.fontColorTiltle}>
+  //         Laycan: <Text style={styles.fontColorContent}>{laycan}</Text>
+  //       </Text>
+  //       <Text style={styles.fontColorTiltle}>
+  //         Doanh thu dự kiến:{" "}
+  //         <Text style={styles.fontColorContent}>
+  //           {expectedRevenue === undefined || expectedExpense === null
+  //             ? ""
+  //             : FormatCurrency(expectedRevenue) + " USD"}
+  //         </Text>
+  //       </Text>
+  //       <Text style={styles.fontColorTiltle}>Ghi chú: -</Text>
+  //     </View>
+  //   );
+  // } else if (status === voyageStatus.processing) {
+  //   return (
+  //     <View
+  //       style={{
+  //         width: scale(210),
+  //         paddingRight: scale(10),
+  //       }}
+  //     >
+  //       <Text style={styles.fontColorTiltle}>
+  //         Laycan: <Text style={styles.fontColorContent}>{laycan}</Text>
+  //       </Text>
+  //       <Text style={styles.fontColorTiltle}>
+  //         Doanh thu dự kiến:{" "}
+  //         <Text style={styles.fontColorContent}>
+  //           {expectedRevenue === undefined || expectedRevenue === null
+  //             ? ""
+  //             : FormatCurrency(expectedRevenue) + " USD"}
               
-          </Text>
-        </Text>
-        <Text style={styles.fontColorTiltle}>
-          Chi phí dự kiến:{" "}
-          <Text style={styles.fontColorContent}>
-            {expectedExpense === undefined || expectedExpense === null
-              ? ""
-              : FormatCurrency(expectedExpense) + " USD"}
-          </Text>
-        </Text>
-        <Text style={styles.fontColorTiltle}>
-          Lợi nhuận dự kiến:{" "}
-          <Text style={styles.fontColorContent}>
-            {PrepareCurrency(expectedRevenue, expectedRevenue)}
-          </Text>
-        </Text>
-      </View>
-    );
-  } else if (status === voyageStatus.completed) {
-    return (
-      <View
-        style={{
-          width: scale(210),
-          paddingRight: scale(10),
-        }}
-      >
-        <Text style={styles.fontColorTiltle}>
-          Laycan: <Text style={styles.fontColorContent}>{laycan}</Text>
-        </Text>
-        <Text style={styles.fontColorTiltle}>
-          Doanh thu:{" "}
-          <Text style={styles.fontColorContent}>
-            {revuenue === undefined || revuenue === null
-              ? ""
-              : FormatCurrency(revuenue) + " USD"}
-          </Text>
-        </Text>
-        <Text style={styles.fontColorTiltle}>
-          Chi phí:{" "}
-          <Text style={styles.fontColorContent}>
-            {expense === undefined || expense === null
-              ? ""
-              : FormatCurrency(expense) + " USD"}
-          </Text>
-        </Text>
-        <Text style={styles.fontColorTiltle}>
-          Lợi nhuận:{" "}
-          <Text style={styles.fontColorContent}>
-            {PrepareCurrency(revuenue, expense)}
-          </Text>
-        </Text>
-      </View>
-    );
-  }
+  //         </Text>
+  //       </Text>
+  //       <Text style={styles.fontColorTiltle}>
+  //         Chi phí dự kiến:{" "}
+  //         <Text style={styles.fontColorContent}>
+  //           {expectedExpense === undefined || expectedExpense === null
+  //             ? ""
+  //             : FormatCurrency(expectedExpense) + " USD"}
+  //         </Text>
+  //       </Text>
+  //       <Text style={styles.fontColorTiltle}>
+  //         Lợi nhuận dự kiến:{" "}
+  //         <Text style={styles.fontColorContent}>
+  //           {PrepareCurrency(expectedRevenue, expectedRevenue)}
+  //         </Text>
+  //       </Text>
+  //     </View>
+  //   );
+  // } else if (status === voyageStatus.completed) {
+  //   return (
+  //     <View
+  //       style={{
+  //         width: scale(210),
+  //         paddingRight: scale(10),
+  //       }}
+  //     >
+  //       <Text style={styles.fontColorTiltle}>
+  //         Laycan: <Text style={styles.fontColorContent}>{laycan}</Text>
+  //       </Text>
+  //       <Text style={styles.fontColorTiltle}>
+  //         Doanh thu:{" "}
+  //         <Text style={styles.fontColorContent}>
+  //           {revuenue === undefined || revuenue === null
+  //             ? ""
+  //             : FormatCurrency(revuenue) + " USD"}
+  //         </Text>
+  //       </Text>
+  //       <Text style={styles.fontColorTiltle}>
+  //         Chi phí:{" "}
+  //         <Text style={styles.fontColorContent}>
+  //           {expense === undefined || expense === null
+  //             ? ""
+  //             : FormatCurrency(expense) + " USD"}
+  //         </Text>
+  //       </Text>
+  //       <Text style={styles.fontColorTiltle}>
+  //         Lợi nhuận:{" "}
+  //         <Text style={styles.fontColorContent}>
+  //           {PrepareCurrency(revuenue, expense)}
+  //         </Text>
+  //       </Text>
+  //     </View>
+  //   );
+  // }
+
+  return (<View style={{
+    width: scale(210),
+    paddingRight: scale(10),
+
+}}>
+    <Text style={styles.fontColorTiltle}>Laycan: <Text style={styles.fontColorContent}>{item?.laycan[0] !== null ? format(new Date(item?.laycan[0]), targetDateFormatLaycan) : ''} - {item?.laycan[1] !== null ? format(new Date(item?.laycan[1]), targetDateFormatLaycan) : ''}</Text></Text>
+    <Text style={styles.fontColorTiltle}>Fixture note number: <Text style={styles.fontColorContent}>{item?.fixtureNoteNumber === null ? '-' : item?.fixtureNoteNumber}</Text></Text>
+    <Text style={styles.fontColorTiltle}>Broker's name: {item?.brokerName === null ? '-' : item?.brokerName}</Text>
+    <Text style={styles.fontColorTiltle}>Charter's name: {item?.charterName === null ? '-' : item?.charterName}</Text>
+    <Text style={styles.fontColorTiltle}>Ghi chú: {item?.note === null ? '-' : item?.note}</Text>
+</View>)
 };
 
 const Voyage = ({ navigation, route }: { navigation?: any; route?: any }) => {
@@ -239,10 +243,11 @@ const Voyage = ({ navigation, route }: { navigation?: any; route?: any }) => {
         },
         voyageCode: "",
       },
-      voyageStatus: [
+      listStatus: [
         voyageStatus.aprroval,
         voyageStatus.processing,
         voyageStatus.completed,
+        voyageStatus.end
       ],
     },
     common: "",
@@ -278,8 +283,7 @@ const Voyage = ({ navigation, route }: { navigation?: any; route?: any }) => {
 
   const getData = async () => {
     try {
-      const responeData = await getListVoyyage("api/voyage/mobile", filter);
-      console.log("Giá trị: " + 1);
+      const responeData = await getListVoyyage('api/voyage/' + shipId, filter);
       setListVoyage(responeData.data);
       setCountVoyage(responeData.dataCount);
     } catch (error) {
@@ -451,8 +455,8 @@ const Voyage = ({ navigation, route }: { navigation?: any; route?: any }) => {
                 renderItem={({ item }) => {
                   return (
                     <TouchableOpacity
-                      onPress={() => HandleDetail(item?.voyageName?.id)}
-                      key={item.voyageName.id}
+                      onPress={() => HandleDetail(item?.id)}
+                      key={item.id}
                     >
                       <View
                         style={{
@@ -476,8 +480,7 @@ const Voyage = ({ navigation, route }: { navigation?: any; route?: any }) => {
                               color: "#404041",
                             }}
                           >
-                            {item.voyageName.voyageCode} -{" "}
-                            {item.voyageName.ship.shipName}
+                            {item?.voyageCode}
                           </Text>
                           <Text
                             style={{
@@ -488,7 +491,7 @@ const Voyage = ({ navigation, route }: { navigation?: any; route?: any }) => {
                             }}
                           >
                             {format(
-                              new Date(item.voyageName.createdAt),
+                              new Date(item?.updatedAt),
                               targetDateFormat
                             )}
                           </Text>
@@ -501,22 +504,17 @@ const Voyage = ({ navigation, route }: { navigation?: any; route?: any }) => {
                           }}
                         >
                           <VoyageContent
-                            status={item.voyageName.status}
-                            laycan={item.voyageName.laycan}
-                            revuenue={item.revuenue}
-                            expectedRevenue={item.expectedRevenue}
-                            expense={item.expense}
-                            expectedExpense={item.expectedExpense}
+                          item={item}
                           ></VoyageContent>
                           <View style={{marginRight: 2}}>
-                            {setVoyageContent(item.voyageName.status)}
+                            {setVoyageContent(item?.status)}
                           </View>
                         </View>
                       </View>
                     </TouchableOpacity>
                   );
                 }}
-                keyExtractor={(item) => item.voyageName.id}
+                keyExtractor={(item) => item?.voyage?.id}
               ></FlatList>
             ) : (
               <NoData></NoData>
