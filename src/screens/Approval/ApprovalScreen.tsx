@@ -136,7 +136,6 @@ const ApprovalScreen = ({ route }: any) => {
         sortProperty: "createdAt",
         sortOrder: "DESC",
       });
-      console.log(response);
       let res = await getCountNotification();
       setCountApproval(res.data.approval || 0);
 
