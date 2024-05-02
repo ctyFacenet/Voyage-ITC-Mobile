@@ -213,7 +213,7 @@ const ApprovalDetailScreen = ({ route }: any) => {
         trustAllCerts={false}
         style={{ height: "90%" }}
         source={{
-          uri: `https://dev.apiitc.facenet.vn/assets/approval-requests?entityId=${entityId}&entityType=${entityType}`,
+          uri: `https://apiitc.facenet.vn/assets/approval-requests?entityId=${entityId}&entityType=${entityType}`,
 
           cache: true,
         }}
