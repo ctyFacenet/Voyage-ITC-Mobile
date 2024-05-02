@@ -14,7 +14,7 @@ import VoyageHeader from "../../components/VoyageHeader";
 import SearchInput from "../../components/SearchInput";
 import Icon from "react-native-vector-icons/AntDesign";
 import { COLORS, FONTSIZE, SPACING } from "../../../theme/theme";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import ApprovalItem from "../../components/ApprovalItem";
 import { SafeAreaView } from "react-native-safe-area-context";
 import IconFont from "react-native-vector-icons/FontAwesome";
@@ -22,7 +22,7 @@ import { scale } from "react-native-size-matters";
 import { getListApproval } from "../../services/ApprovalServices/ApprovalServices";
 import ModalConfirmPass from "../../components/ModalConfirmPass";
 import NoData from "../../components/Nodata";
-import { useIsFocused } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
 import { useNotifications } from "../../context/NotificationContext";
 import { getCountNotification } from "../../services/HomeServices/HomeServices";
 const listFilterApproval = [
@@ -60,6 +60,7 @@ const getStatus = (statusValue: number): string => {
 };
 const ApprovalScreen = ({ route }: any) => {
   const navigation: any = useNavigation();
+
   const [listDataApproval, setListDataApproval] = React.useState<any>([]);
 
   const [listFilterCheck, setListFilterCheck] = React.useState(
@@ -73,40 +74,14 @@ const ApprovalScreen = ({ route }: any) => {
   const [total, setTotal] = React.useState(0);
   const { setCountApproval } = useNotifications();
 
+  const isFocused = useIsFocused();
+
   React.useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", () => {
-      const fetchData = async () => {
-        try {
-          const response = await getListApproval({
-            filter: {
-              statusList: listFilterCheck,
-            },
-            pageSize: 10,
-            pageNumber: 0,
-            sortProperty: "createdAt",
-            sortOrder: "DESC",
-          });
-
-          let res = await getCountNotification();
-          setCountApproval(res.data.approval || 0);
-
-          setListDataApproval(response.data);
-          setTotal(response.dataCount);
-
-          setIsEndOfList(response.data.length < 10);
-        } catch (error) {
-          console.error("Error fetching data:", error);
-        } finally {
-          setisLoading(false);
-        }
-      };
-
+    if (isFocused) {
+      // Gọi lại API của bạn
       fetchData();
-    });
-
-    // Return the function to unsubscribe from the event so it gets removed on unmount
-    return unsubscribe;
-  }, [navigation]);
+    }
+  }, [isFocused]);
 
   React.useEffect(() => {
     if (route.params) {

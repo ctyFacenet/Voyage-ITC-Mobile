@@ -56,7 +56,7 @@ const VoyageHeader = ({
             padding: 10,
           }}
         >
-          <TouchableOpacity onPress={HandleScreen} style={{ padding: 2 }}>
+          <TouchableOpacity onPress={HandleScreen} style={{ padding: 4 }}>
             {iconName != "user-circle" && (
               <Icon
                 name={iconName}
@@ -75,7 +75,7 @@ const VoyageHeader = ({
             {content}
           </Text>
           {iconName == "user-circle" && (
-            <TouchableOpacity onPress={HandleScreen} style={{ padding: 2 }}>
+            <TouchableOpacity onPress={HandleScreen} style={{ padding: 4 }}>
               <Icon
                 name={"user-circle"}
                 color={COLORS.White}

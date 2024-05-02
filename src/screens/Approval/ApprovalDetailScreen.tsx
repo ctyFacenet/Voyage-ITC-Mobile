@@ -73,17 +73,11 @@ const ApprovalDetailScreen = ({ route }: any) => {
   const navigation = useNavigation();
   const { countApproval, setCountApproval } = useNotifications();
 
-  console.log(route.params);
-  const { keycloak } = useKeycloak();
-
-  // const [dataPdf, setDataPdf] = React.useState<any>(null)
-
   const { entityId, entityType, status } = route.params.dataAproval;
   console.log(status);
 
   const [statusReport, setStatusReport] = React.useState(false);
 
-  const reportType = getReportType(entityType);
   const [isVisibaleModalPass, setIsVisibaleModalPass] = React.useState(false);
   const [isVisibaleModalApproval, setIsVisibaleModalApproval] =
     React.useState(false);
@@ -123,7 +117,7 @@ const ApprovalDetailScreen = ({ route }: any) => {
   React.useEffect(() => {
     let getStatus = async () => {
       let res = await getStatusReport(entityId, entityType);
-      
+
       if (res.data == true) {
         setStatusReport(true);
       }
