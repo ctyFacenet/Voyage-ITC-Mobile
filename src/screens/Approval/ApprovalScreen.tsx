@@ -9,6 +9,7 @@ import {
   StatusBar,
   ScrollView,
   ActivityIndicator,
+  Dimensions,
 } from "react-native";
 import VoyageHeader from "../../components/VoyageHeader";
 import SearchInput from "../../components/SearchInput";
@@ -58,6 +59,8 @@ const getStatus = (statusValue: number): string => {
       return "Mới";
   }
 };
+// Lấy kích thước chiều dọc của màn hình
+const windowHeight = Dimensions.get("window").height;
 const ApprovalScreen = ({ route }: any) => {
   const navigation: any = useNavigation();
 
@@ -136,10 +139,13 @@ const ApprovalScreen = ({ route }: any) => {
         sortProperty: "createdAt",
         sortOrder: "DESC",
       });
+      console.log("data :", response);
+
       let res = await getCountNotification();
       setCountApproval(res.data.approval || 0);
 
       setListDataApproval(response.data);
+      setTotal(response.dataCount);
       setIsEndOfList(response.data.length < 10);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -225,7 +231,7 @@ const ApprovalScreen = ({ route }: any) => {
           keyExtractor={(item, index) => `approval-${item.id}-${index}`}
           showsHorizontalScrollIndicator={false}
           renderItem={({ item, index }) => <ApprovalItem dataAproval={item} />}
-          style={{ height: scale(550 - containerHeight) }}
+          style={{ height: scale(windowHeight - 190 - containerHeight) }}
           onEndReached={loadMoreData}
           onEndReachedThreshold={0.1}
           ListEmptyComponent={<NoData />}

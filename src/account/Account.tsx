@@ -236,7 +236,7 @@ const Account = () => {
                             fontSize: moderateScale(15),
                           }}
                         >
-                          Bạn có muốn kết thúc phiên đăng xuất này không?
+                          Bạn có muốn kết thúc phiên đăng nhập này không?
                         </Text>
                       </View>
                       <View
