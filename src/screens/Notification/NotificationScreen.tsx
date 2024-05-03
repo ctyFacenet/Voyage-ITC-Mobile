@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ActivityIndicator,
+  Dimensions,
 } from "react-native";
 import VoyageHeader from "../../components/VoyageHeader";
 import Icon from "react-native-vector-icons/AntDesign";
@@ -22,6 +23,8 @@ import { getCountNotification } from "../../services/HomeServices/HomeServices";
 import { useNotifications } from "../../context/NotificationContext";
 import { useNavigation } from "@react-navigation/native";
 
+// Lấy kích thước chiều dọc của màn hình
+const windowHeight = Dimensions.get("window").height;
 const Notification = () => {
   const navigation: any = useNavigation();
   const [listNotification, setListNotification] = React.useState<any>([]);
@@ -29,7 +32,7 @@ const Notification = () => {
   const [isLoadingMore, setIsLoadingMore] = React.useState(false);
   const [refreshing, setRefreshing] = React.useState(false);
   const [isLoading, setisLoading] = React.useState(true);
-  const [total, setTotal] = React.useState(0)
+  const [total, setTotal] = React.useState(0);
 
   const { setCountNotification, countNotification } = useNotifications();
 
@@ -136,7 +139,7 @@ const Notification = () => {
       });
       console.log(response.data);
 
-      setTotal(response.data.dataCount)
+      setTotal(response.data.dataCount);
 
       let res = await getCountNotification();
       setCountNotification(res.data.notification || 0);
@@ -157,11 +160,10 @@ const Notification = () => {
   };
 
   const handleLoadingMore = () => {
-    if(total > listNotification.length) {
-      setIsLoadingMore(true)
-    }
-    else setIsLoadingMore(false)
-  }
+    if (total > listNotification.length) {
+      setIsLoadingMore(true);
+    } else setIsLoadingMore(false);
+  };
   return (
     <View style={styles.container}>
       <VoyageHeader
@@ -200,14 +202,14 @@ const Notification = () => {
           showsHorizontalScrollIndicator={false}
           renderItem={({ item, index }) => <NotificationItem dataItem={item} />}
           keyExtractor={(item, index) => `notification-${item.id}-${index}`}
-          style={{ height: scale(540) }}
+          style={{ height: windowHeight - 190 }}
           onEndReached={handleLoadingMore}
           onEndReachedThreshold={0.1}
           refreshing={refreshing}
           onRefresh={handleRefresh}
           ListEmptyComponent={<NoData />}
           ListFooterComponent={() =>
-            isLoadingMore  && (
+            isLoadingMore && (
               <ActivityIndicator size="small" color={COLORS.primary} />
             )
           }

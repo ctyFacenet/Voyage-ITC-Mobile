@@ -6,6 +6,7 @@ import {
   ScrollView,
   ActivityIndicator,
   RefreshControl,
+  Dimensions,
 } from "react-native";
 import VoyageHeader from "../../components/VoyageHeader";
 import { moderateScale, scale } from "react-native-size-matters";
@@ -26,6 +27,7 @@ import { Dropdown } from "react-native-element-dropdown";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { format } from "date-fns";
 import { setVoyageContent } from "./VoyageScreen";
+const { width } = Dimensions.get("window");
 
 const Payment = ({ content, price }: { content?: any; price?: any }) => {
   return (
@@ -68,7 +70,8 @@ const ChartExpenseRevenue = ({
 }) => {
   const barData = [
     {
-      value: PrepareCurrencyM(item?.totalRevenue, item?.totalExpense, 1),
+      value:
+        PrepareCurrencyM(item?.totalRevenue, item?.totalExpense, 1) / 1000000,
       label: "Lợi nhuận",
       spacing: 2,
       labelWidth: scale(60),
@@ -76,18 +79,19 @@ const ChartExpenseRevenue = ({
       frontColor: "#35729C",
     },
     {
-      value: PrepareCurrencyM(
-        itemActual?.totalRevenue,
-        itemActual?.totalExpense,
-        1
-      ),
+      value:
+        PrepareCurrencyM(
+          itemActual?.totalRevenue,
+          itemActual?.totalExpense,
+          1
+        ) / 1000000,
       frontColor: "#5EBEFF",
     },
     {
       value:
         item?.totalRevenue === undefined || item?.totalRevenue === null
           ? 0
-          : item?.totalRevenue,
+          : item?.totalRevenue / 1000000,
       label: "Doanh thu",
 
       spacing: 2,
@@ -97,11 +101,14 @@ const ChartExpenseRevenue = ({
     },
     {
       value:
-        itemActual?.totalRevenue === undefined ? 0 : itemActual?.totalRevenue,
+        itemActual?.totalRevenue === undefined
+          ? 0
+          : itemActual?.totalRevenue / 1000000,
       frontColor: "#5EBEFF",
     },
     {
-      value: item?.totalExpense === undefined ? 0 : item?.totalExpense,
+      value:
+        item?.totalExpense === undefined ? 0 : item?.totalExpense / 1000000,
       label: "Chi phí",
       spacing: 2,
       labelWidth: scale(50),
@@ -110,7 +117,9 @@ const ChartExpenseRevenue = ({
     },
     {
       value:
-        itemActual?.totalExpense === undefined ? 0 : itemActual?.totalExpense,
+        itemActual?.totalExpense === undefined
+          ? 0
+          : itemActual?.totalExpense / 1000000,
       frontColor: "#5EBEFF",
     },
   ];
@@ -121,19 +130,20 @@ const ChartExpenseRevenue = ({
     barData && (
       <BarChart
         showYAxisIndices
-        barWidth={scale(30)}
+        barWidth={scale(25)}
         data={barData}
-        width={scale(300)}
-        barBorderRadius={5}
+        width={width}
+        barBorderRadius={6}
         noOfSections={5}
         frontColor="lightgray"
         barMarginBottom={2}
-        spacing={scale(30)}
+        spacing={scale(35)}
         isAnimated
         yAxisTextStyle={{
           color: "gray",
         }}
         autoShiftLabels
+        yAxisLabelWidth={50}
       />
     )
   );
@@ -473,7 +483,7 @@ const StackBarChartCargo = ({ voyageId }: { voyageId: any }) => {
       </View>
       {dataCargo.length > 0 && lineCargo.length > 0 ? (
         <BarChart
-          width={scale(250)}
+          width={width}
           barWidth={scale(30)}
           showLine
           lineData={lineCargo}
