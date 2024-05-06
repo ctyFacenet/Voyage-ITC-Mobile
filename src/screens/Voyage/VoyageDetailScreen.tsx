@@ -137,7 +137,7 @@ const ChartExpenseRevenue = ({
         noOfSections={5}
         frontColor="lightgray"
         barMarginBottom={2}
-        spacing={scale(35)}
+        spacing={scale(30)}
         isAnimated
         yAxisTextStyle={{
           color: "gray",
@@ -148,12 +148,6 @@ const ChartExpenseRevenue = ({
     )
   );
 };
-
-const style = StyleSheet.create({
-  test: {
-    textAlign: "center",
-  },
-});
 
 //chart cơ cấu chi phí dự kiến
 const ChartEvualation = ({ itemEvualation }: { itemEvualation?: any }) => {
@@ -469,7 +463,7 @@ const StackBarChartCargo = ({ voyageId }: { voyageId: any }) => {
           }}
           style={{
             height: scale(30),
-            width: scale(150),
+            width: scale(100),
             borderColor: "#64B5F61A",
             backgroundColor: "#64B5F61A",
             borderRadius: scale(5),
@@ -660,7 +654,7 @@ const StackChartBunker = ({ voyageId }: { voyageId: any }) => {
             data={dataDropDown}
             style={{
               height: scale(30),
-              width: scale(150),
+              width: scale(100),
               borderColor: "#64B5F61A",
               backgroundColor: "#64B5F61A",
               borderRadius: scale(5),
@@ -967,7 +961,7 @@ const VoyageDetail = ({
                     color="#35729C"
                     size={moderateScale(15)}
                   />{" "}
-                  Dự kiến
+                  Dự kiến (M)
                 </Text>
                 <Text style={{ color: "#42526D", fontSize: moderateScale(14) }}>
                   <FontAwesome
@@ -975,7 +969,7 @@ const VoyageDetail = ({
                     color="#5EBEFF"
                     size={moderateScale(15)}
                   />{" "}
-                  Thực tế
+                  Thực tế (M)
                 </Text>
               </View>
             </View>

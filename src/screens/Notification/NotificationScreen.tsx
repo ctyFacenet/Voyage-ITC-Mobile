@@ -137,7 +137,6 @@ const Notification = () => {
         pageSize: 10,
         pageNumber: 0,
       });
-      console.log(response.data);
 
       setTotal(response.data.dataCount);
 
