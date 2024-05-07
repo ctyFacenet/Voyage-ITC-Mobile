@@ -201,7 +201,7 @@ const Notification = () => {
           showsHorizontalScrollIndicator={false}
           renderItem={({ item, index }) => <NotificationItem dataItem={item} />}
           keyExtractor={(item, index) => `notification-${item.id}-${index}`}
-          style={{ height: windowHeight - 190 }}
+          style={{ height: windowHeight - 230 }}
           onEndReached={handleLoadingMore}
           onEndReachedThreshold={0.1}
           refreshing={refreshing}

@@ -230,7 +230,7 @@ const ApprovalScreen = ({ route }: any) => {
           keyExtractor={(item, index) => `approval-${item.id}-${index}`}
           showsHorizontalScrollIndicator={false}
           renderItem={({ item, index }) => <ApprovalItem dataAproval={item} />}
-          style={{ height: scale(windowHeight - 190 - containerHeight) }}
+          style={{ height: windowHeight - 220 - containerHeight }}
           onEndReached={loadMoreData}
           onEndReachedThreshold={0.1}
           ListEmptyComponent={<NoData />}
