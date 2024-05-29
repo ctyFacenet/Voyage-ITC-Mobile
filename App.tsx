@@ -44,8 +44,8 @@ import { getFcmToken, registerListenerWithFCM } from "./src/utils/fcmHelper";
 
 // const keycloak = new RNKeycloak({...environment.keycloak})
 const keycloak = new RNKeycloak({
-  // url: "https://sso.facenet.vn/auth/",
-  url: "https://sso.xfactory.vn/auth/",
+  url: "https://sso.facenet.vn/auth/",
+  // url: "https://sso.xfactory.vn/auth/",
 
   realm: "dev",
   clientId: "angular-client",

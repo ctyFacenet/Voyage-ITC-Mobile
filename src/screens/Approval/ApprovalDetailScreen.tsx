@@ -17,15 +17,17 @@ import {
   getApprovalDetail,
   putApprovalReport,
   getStatusReport,
+  getListApproval,
+  getListUserAproving,
 } from "../../services/ApprovalServices/ApprovalServices";
 import PDFView from "react-native-pdf";
 
-import PDFExample from "../../components/Pdf";
 import ModalConfirmPass from "../../components/ModalConfirmPass";
 import ModalApproval from "../../components/ModalApproval";
 import { useKeycloak } from "@react-keycloak/native";
 import { useNotifications } from "../../context/NotificationContext";
 import { SafeAreaView } from "react-native-safe-area-context";
+import ListUserApproving from "./ListUserApproval";
 
 const getReportType = (statusReportValue: number): any => {
   switch (statusReportValue) {
@@ -70,13 +72,13 @@ const getReportType = (statusReportValue: number): any => {
   }
 };
 const ApprovalDetailScreen = ({ route }: any) => {
-  const navigation = useNavigation();
+  const navigation: any = useNavigation();
   const { countApproval, setCountApproval } = useNotifications();
 
   const { entityId, entityType, status } = route.params.dataAproval;
-  console.log(status);
 
   const [statusReport, setStatusReport] = React.useState(false);
+  const [listUserApproving, setListUserApproving] = React.useState([]);
 
   const [isVisibaleModalPass, setIsVisibaleModalPass] = React.useState(false);
   const [isVisibaleModalApproval, setIsVisibaleModalApproval] =
@@ -102,18 +104,6 @@ const ApprovalDetailScreen = ({ route }: any) => {
     setIsVisibaleModalApproval(true);
   };
 
-  // const getReportType = (entityType: any): string => {
-  //   switch (entityType) {
-  //     case 31:
-  //       return "payments";
-  //     case 32:
-  //       return "payments";
-
-  //     default:
-  //       return "payments";
-  //   }
-  // };
-
   React.useEffect(() => {
     let getStatus = async () => {
       let res = await getStatusReport(entityId, entityType);
@@ -124,6 +114,16 @@ const ApprovalDetailScreen = ({ route }: any) => {
     };
 
     getStatus();
+  }, []);
+
+  React.useEffect(() => {
+    let getListUserApproval = async () => {
+      let res = await getListUserAproving(entityId);
+      if (res.data) {
+        setListUserApproving(res.data.approval);
+      }
+    };
+    getListUserApproval();
   }, []);
 
   const onHandleConfirmApprove = async () => {
@@ -205,11 +205,10 @@ const ApprovalDetailScreen = ({ route }: any) => {
       )}
       <PDFView
         trustAllCerts={false}
-        style={{ height: "90%" }}
+        style={{ height: "60%" }}
         source={{
           // uri: `https://apiitc.facenet.vn/assets/approval-requests?entityId=${entityId}&entityType=${entityType}`,
-          uri: `https://dev.apiitc.xfactory.vn/assets/approval-requests?entityId=${entityId}&entityType=${entityType}`,
-
+          uri: `https://dev.apiitc.facenet.vn/vms/assets/approval-requests?entityId=${entityId}&entityType=${entityType}`,
 
           cache: true,
         }}
@@ -226,6 +225,7 @@ const ApprovalDetailScreen = ({ route }: any) => {
           console.log(`Link pressed: ${uri}`);
         }}
       />
+      <ListUserApproving listUserApproving={listUserApproving} />
 
       <ModalConfirmPass
         isVisibaleModalPass={isVisibaleModalPass}

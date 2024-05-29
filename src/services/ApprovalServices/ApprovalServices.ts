@@ -51,6 +51,11 @@ export async function getStatusReport(entityId: any, entityType: any) {
   );
 }
 
+// Lấy danh sách người đang phê duyệt chi phí
+export async function getListUserAproving(id: any) {
+  return getData(`api/approval-requests/payments/${id}`);
+}
+
 export async function deleteAny(id: any) {
   return deleteData(`api/${id}`);
 }

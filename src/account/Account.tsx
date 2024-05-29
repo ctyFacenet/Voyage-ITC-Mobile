@@ -17,7 +17,7 @@ import { getDataHome } from "../services/HomeServices/HomeServices";
 
 const Account = () => {
   const { keycloak } = useKeycloak();
-  const navigation = useNavigation();
+  const navigation: any = useNavigation();
   const [isVisible, setIsVisibile] = useState(false);
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);

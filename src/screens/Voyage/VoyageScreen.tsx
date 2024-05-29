@@ -103,7 +103,7 @@ export const setVoyageContent = (status: any) => {
   }
 };
 
-const VoyageContent = ({ item }: { item: any }) => {
+export const VoyageContent = ({ item }: { item: any }) => {
   // if (status === voyageStatus.aprroval) {
   //   return (
   //     <View

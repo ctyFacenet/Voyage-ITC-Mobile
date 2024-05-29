@@ -9,7 +9,7 @@ import { scale } from "react-native-size-matters";
 import { useNavigation } from "@react-navigation/native";
 
 const ApprovalItem = ({ dataAproval }: any) => {
-  const navigation = useNavigation();
+  const navigation: any = useNavigation();
   const getStatus = (statusValue: number): string => {
     switch (statusValue) {
       case 2:
